@@ -39,6 +39,13 @@
     /* === PAGE HERO === */
     .page-hero {
       background: var(--c-surface);
+      background-image: repeating-radial-gradient(
+        circle at 108% 115%,
+        transparent 0px,
+        transparent 28px,
+        rgba(28,24,20,0.04) 28px,
+        rgba(28,24,20,0.04) 30px
+      );
       border-bottom: 1px solid var(--c-border);
       padding: 130px 0 var(--space-16);
     }
@@ -68,6 +75,12 @@
       font-size: clamp(52px, 9vw, 104px);
       line-height: 0.92;
       color: var(--c-text);
+    }
+    .page-hero-sub {
+      margin-top: var(--space-4);
+      font-size: var(--text-lg);
+      color: var(--c-text-2);
+      font-weight: 600;
     }
     .hero-contact-info {
       display: flex;
@@ -351,6 +364,50 @@
     .form-submit:active { opacity: 1; transform: translateY(0); }
     .form-submit:focus-visible { outline: 2px solid #1C1814; outline-offset: 3px; }
 
+    /* Form tabs */
+    .form-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--form-border);
+      margin-bottom: var(--space-6);
+      gap: 0;
+    }
+    .form-tab {
+      padding: var(--space-3) var(--space-5);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--form-placeholder);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .form-tab:hover { color: var(--form-text); }
+    .form-tab.is-active {
+      color: var(--c-accent);
+      border-bottom-color: var(--c-accent);
+    }
+    .form-tab:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; border-radius: 2px; }
+    .form-panel { display: none; }
+    .form-panel.is-active { display: flex; flex-direction: column; gap: var(--space-4); }
+    .form-resume-note {
+      margin-top: var(--space-4);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--form-border);
+      font-size: var(--text-base);
+      color: var(--form-text);
+      line-height: 1.6;
+      font-weight: 600;
+    }
+    .form-resume-note a {
+      color: var(--c-accent);
+      font-weight: 700;
+    }
+    .form-resume-note a:hover { opacity: 0.8; }
+
     /* Bottom strip */
     #contact-strip {
       padding: var(--space-12) 0;
@@ -494,24 +551,7 @@
           <div>
             <p class="page-hero-eyebrow">The Vinyl Room &nbsp;·&nbsp; Beacon, NY</p>
             <h1 class="page-hero-title">Get in<br>Touch.</h1>
-          </div>
-          <div class="hero-contact-info" aria-label="Key contact details">
-            <div class="hero-info-item">
-              <p class="hero-info-label">Address</p>
-              <p class="hero-info-value">
-                <a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" target="_blank" rel="noopener" aria-label="Get directions — 396 Main St, Beacon NY">396 Main St, Beacon NY</a>
-              </p>
-            </div>
-            <div class="hero-info-item">
-              <p class="hero-info-label">Phone</p>
-              <p class="hero-info-value">
-                <a href="tel:+18452973344">(845) 297-3344</a>
-              </p>
-            </div>
-            <div class="hero-info-item">
-              <p class="hero-info-label">Hours</p>
-              <p class="hero-info-value">Open 7 Days</p>
-            </div>
+            <p class="page-hero-sub">We'd love to hear from you.</p>
           </div>
         </div>
       </div>
@@ -579,37 +619,89 @@
             </div>
           </div>
 
-          <!-- Right column: Contact form -->
+          <!-- Right column: Tabbed form -->
           <div class="form-card reveal reveal-d1">
-            <h2 class="form-title">Send Us a Message</h2>
-            <p class="form-subtitle">Reservations, private events, record shop questions, or just saying hi — we'll get back to you.</p>
-            <form class="form-fields" action="#" method="post" novalidate aria-label="Contact form">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label" for="field-name">Name</label>
-                  <input class="form-input" type="text" id="field-name" name="name" autocomplete="name" placeholder="Your name" required>
+
+            <!-- Tabs -->
+            <div class="form-tabs" role="tablist" aria-label="Contact options">
+              <button class="form-tab is-active" role="tab" aria-selected="true" aria-controls="panel-contact" id="tab-contact">Get in Touch</button>
+              <button class="form-tab" role="tab" aria-selected="false" aria-controls="panel-jobs" id="tab-jobs">Join the Team</button>
+            </div>
+
+            <!-- Panel 1: Contact -->
+            <div class="form-panel is-active" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact">
+              <h2 class="form-title">Send Us a Message</h2>
+              <p class="form-subtitle">Reservations, private events, record shop questions, or just saying hi — we'll get back to you.</p>
+              <form class="form-fields" action="#" method="post" novalidate aria-label="Contact form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="field-name">Name</label>
+                    <input class="form-input" type="text" id="field-name" name="name" autocomplete="name" placeholder="Your name" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="field-email">Email</label>
+                    <input class="form-input" type="email" id="field-email" name="email" autocomplete="email" placeholder="your@email.com" required>
+                  </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="field-email">Email</label>
-                  <input class="form-input" type="email" id="field-email" name="email" autocomplete="email" placeholder="your@email.com" required>
+                  <label class="form-label" for="field-reason">Reason for Contact</label>
+                  <select class="form-select" id="field-reason" name="reason">
+                    <option value="">Select one...</option>
+                    <option value="reservation">Reservation</option>
+                    <option value="private-event">Private Event</option>
+                    <option value="record-shop">Record Shop</option>
+                    <option value="general">General Inquiry</option>
+                  </select>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="field-reason">Reason for Contact</label>
-                <select class="form-select" id="field-reason" name="reason">
-                  <option value="">Select one...</option>
-                  <option value="reservation">Reservation</option>
-                  <option value="private-event">Private Event</option>
-                  <option value="record-shop">Record Shop</option>
-                  <option value="general">General Inquiry</option>
-                </select>
-              </div>
-              <div class="form-group form-group--stretch">
-                <label class="form-label" for="field-message">Message</label>
-                <textarea class="form-textarea" id="field-message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
-              </div>
-              <button type="submit" class="form-submit">Send Message</button>
-            </form>
+                <div class="form-group form-group--stretch">
+                  <label class="form-label" for="field-message">Message</label>
+                  <textarea class="form-textarea" id="field-message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+                </div>
+                <button type="submit" class="form-submit">Send Message</button>
+              </form>
+            </div>
+
+            <!-- Panel 2: Jobs -->
+            <div class="form-panel" id="panel-jobs" role="tabpanel" aria-labelledby="tab-jobs">
+              <h2 class="form-title">Work With Us</h2>
+              <p class="form-subtitle">We're always looking for people who love music, hospitality, and good vibes. Tell us about yourself.</p>
+              <form class="form-fields" action="#" method="post" novalidate aria-label="Job application form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="job-name">Name</label>
+                    <input class="form-input" type="text" id="job-name" name="name" autocomplete="name" placeholder="Your name" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="job-email">Email</label>
+                    <input class="form-input" type="email" id="job-email" name="email" autocomplete="email" placeholder="your@email.com" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="job-phone">Phone</label>
+                    <input class="form-input" type="tel" id="job-phone" name="phone" autocomplete="tel" placeholder="(555) 000-0000">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="job-position">Position</label>
+                    <select class="form-select" id="job-position" name="position">
+                      <option value="">Select one...</option>
+                      <option value="bartender">Bartender</option>
+                      <option value="server">Server</option>
+                      <option value="host">Host</option>
+                      <option value="kitchen">Kitchen Staff</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group form-group--stretch">
+                  <label class="form-label" for="job-message">Why TVR?</label>
+                  <textarea class="form-textarea" id="job-message" name="message" placeholder="Tell us a little about yourself and why you'd be a great fit..." required></textarea>
+                </div>
+                <button type="submit" class="form-submit">Submit Application</button>
+              </form>
+              <p class="form-resume-note">After submitting, email your resume to <a href="mailto:thevinylroomny@gmail.com">thevinylroomny@gmail.com</a>.</p>
+            </div>
+
           </div>
 
         </div>
@@ -688,6 +780,17 @@
 
   <script src="main.js"></script>
   <script>
+    // Form tabs
+    document.querySelectorAll('.form-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.form-tab').forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+        document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById(tab.getAttribute('aria-controls')).classList.add('is-active');
+      });
+    });
+
     // Today's hours highlight
     const dayMap = ['row-sun','row-mon','row-tue','row-wed','row-thu','row-fri','row-sat'];
     const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];

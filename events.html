@@ -133,6 +133,9 @@
     @media (min-width: 768px) {
       .programming-grid { grid-template-columns: 1fr 1fr; }
     }
+    @media (min-width: 1024px) {
+      .programming-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
     .night-card {
       background: var(--c-bg);
       border: 1px solid var(--c-border);
@@ -522,7 +525,26 @@
 
           <article class="night-card reveal reveal-d1">
             <div class="night-card-header">
+              <p class="night-day" style="color: var(--c-accent-2);">Wed</p>
+              <div class="night-time-block">
+                <p class="night-time" style="color: var(--c-accent-2);">7pm</p>
+                <p class="night-recurring">Every Wednesday</p>
+              </div>
+            </div>
+            <div class="night-card-body">
+              <h3 class="night-title">Chess &amp; Jazz Night</h3>
+              <p class="night-desc">Hosted with the Beacon Chess Club. Set up a board, pour a drink, and let a curated jazz playlist do the rest. Casual, social, and open to all — no chess experience required.</p>
+              <div class="night-tags">
+                <span class="tag tag--teal">Beacon Chess Club</span>
+                <span class="tag tag--navy">Jazz Playlist</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="night-card reveal reveal-d2">
+            <div class="night-card-header">
               <p class="night-day" style="color: var(--c-accent);">Fri</p>
+
               <div class="night-time-block">
                 <p class="night-time" style="color: var(--c-accent);">9pm – Close</p>
                 <p class="night-recurring">Every Friday</p>
@@ -539,7 +561,7 @@
             </div>
           </article>
 
-          <article class="night-card reveal reveal-d2">
+          <article class="night-card reveal reveal-d3">
             <div class="night-card-header">
               <p class="night-day" style="color: var(--c-gold);">Sat</p>
               <div class="night-time-block">
