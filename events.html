@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events — The Vinyl Room, Beacon NY</title>
+  <meta name="description" content="DJ nights every Friday and Saturday at The Vinyl Room in Beacon, NY. Vinyl only — no laptops. Private events and party bookings available.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* PAGE-SPECIFIC STYLES ONLY */
+
+    /* Dark default palette — no :root changes needed */
+
+    /* === PAGE HERO === */
+    .page-hero {
+      position: relative;
+      padding: 0;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--c-bg);
+      text-align: center;
+    }
+    /* Diagonal stripe texture — big energy */
+    .hero-stripes {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(232, 107, 71, 0.025) 40px,
+        rgba(232, 107, 71, 0.025) 41px
+      );
+      pointer-events: none;
+    }
+    .hero-glow-coral {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 900px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,107,71,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* Large ghost watermark — poster DNA */
+    .hero-watermark {
+      position: absolute;
+      bottom: -0.1em;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(100px, 22vw, 320px);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232, 107, 71, 0.18);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      z-index: 0;
+    }
+    /* Horizontal accent rule at top */
+    .hero-rule {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--c-accent) 0%, var(--c-gold) 50%, var(--c-accent-2) 100%);
+    }
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 140px var(--space-8) var(--space-20);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .page-hero-eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: var(--space-3);
+      max-width: none;
+    }
+    .page-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(80px, 16vw, 180px);
+      line-height: 0.88;
+      color: var(--c-text);
+      margin-bottom: var(--space-8);
+    }
+    .page-hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      justify-content: center;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 32px;
+      padding: 0 var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+    }
+    .hero-tag--coral { background: rgba(232,107,71,0.12); color: var(--c-accent); border: 1px solid rgba(232,107,71,0.25); }
+    .hero-tag--teal  { background: rgba(77,184,150,0.10); color: var(--c-accent-2); border: 1px solid rgba(77,184,150,0.22); }
+    .hero-tag--gold  { background: rgba(201,168,76,0.10); color: var(--c-gold); border: 1px solid rgba(201,168,76,0.22); }
+
+    /* Weekly programming */
+    #programming {
+      padding: var(--space-20) 0;
+      background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .programming-grid {
+      display: grid;
+      gap: var(--space-6);
+      margin-top: var(--space-12);
+    }
+    @media (min-width: 768px) {
+      .programming-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .night-card {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .night-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 56px rgba(0,0,0,0.5), 0 0 0 1px var(--c-border-2);
+    }
+    .night-card-header {
+      padding: var(--space-8) var(--space-8) var(--space-6);
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+    .night-day {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-7xl);
+      line-height: 1;
+      color: var(--c-text);
+    }
+    .night-time-block {
+      text-align: right;
+    }
+    .night-time {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      line-height: 1;
+    }
+    .night-recurring {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      margin-top: var(--space-1);
+      max-width: none;
+    }
+    .night-card-body {
+      padding: var(--space-6) var(--space-8) var(--space-8);
+    }
+    .night-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: var(--c-text);
+      margin-bottom: var(--space-3);
+    }
+    .night-desc { font-size: var(--text-base); color: var(--c-text-2); line-height: 1.65; max-width: none; }
+    .night-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-5);
+    }
+    /* Tag sizing override for events page — taller, different padding */
+    .tag {
+      height: 28px;
+      padding: 0 var(--space-3);
+      font-size: 0.75rem;
+    }
+    .tag--gold  { background: rgba(201,168,76,0.10); color: var(--c-gold); }
+    .tag--navy  { background: rgba(27,77,112,0.18); color: #5BA3CC; }
+
+    /* Special events */
+    #specials {
+      padding: var(--space-20) 0;
+    }
+    .specials-inner {
+      display: grid;
+      gap: var(--space-12);
+      align-items: center;
+    }
+    @media (min-width: 1024px) {
+      .specials-inner { grid-template-columns: 1fr 1fr; gap: var(--space-24); }
+    }
+    .specials-img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--c-border);
+      object-fit: cover;
+      aspect-ratio: 4 / 3;
+    }
+    .specials-img-wrap { position: relative; }
+    .specials-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(to top, rgba(232,107,71,0.12) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .specials-body { color: var(--c-text-2); margin-bottom: var(--space-6); }
+    .specials-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    .specials-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--text-base);
+      color: var(--c-text-2);
+    }
+    .specials-item::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--c-accent);
+      flex-shrink: 0;
+    }
+
+    /* Private events */
+    #private-events {
+      padding: var(--space-20) 0;
+      background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .private-inner {
+      display: grid;
+      gap: var(--space-12);
+    }
+    @media (min-width: 1024px) {
+      .private-inner { grid-template-columns: 1fr 1fr; gap: var(--space-20); align-items: center; }
+    }
+    .private-features {
+      display: grid;
+      gap: var(--space-4);
+    }
+    @media (min-width: 640px) {
+      .private-features { grid-template-columns: 1fr 1fr; }
+    }
+    .feature-card {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-6);
+    }
+    .feature-card-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      margin-bottom: var(--space-2);
+      max-width: none;
+    }
+    .feature-card-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: var(--c-text);
+      line-height: 1.1;
+    }
+    .private-body { color: var(--c-text-2); margin-bottom: var(--space-6); }
+
+    /* Wedding Entertainment — light section */
+    #wedding-entertainment {
+      padding: var(--space-20) 0;
+      background: #F2E8D5;
+      border-top: 1px solid rgba(28,24,20,0.1);
+      border-bottom: 1px solid rgba(28,24,20,0.1);
+    }
+    #wedding-entertainment .section-label {
+      color: rgba(28,24,20,0.5);
+    }
+    #wedding-entertainment .section-heading {
+      color: #1C1814;
+    }
+    .wedding-intro {
+      font-size: var(--text-lg);
+      color: rgba(28,24,20,0.65);
+      max-width: 60ch;
+      line-height: 1.7;
+      margin-top: var(--space-6);
+    }
+    .wedding-grid {
+      display: grid;
+      gap: var(--space-6);
+      margin-top: var(--space-12);
+    }
+    @media (min-width: 768px) {
+      .wedding-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .wedding-card {
+      background: #fff;
+      border: 1px solid rgba(28,24,20,0.1);
+      border-radius: var(--radius-md);
+      padding: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .wedding-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 56px rgba(28,24,20,0.12), 0 0 0 1px rgba(28,24,20,0.15);
+    }
+    .wedding-card-swatch {
+      width: 40px;
+      height: 4px;
+      border-radius: 2px;
+      margin-bottom: var(--space-5);
+    }
+    .wedding-card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: #1C1814;
+      margin-bottom: var(--space-3);
+    }
+    .wedding-card-body {
+      font-size: var(--text-base);
+      color: rgba(28,24,20,0.65);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: var(--space-6);
+      max-width: none;
+    }
+    .wedding-card-link {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      transition: opacity 0.2s ease;
+    }
+    .wedding-card-link:hover { opacity: 0.7; }
+    .wedding-card-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; border-radius: 2px; }
+    .wedding-partner {
+      margin-top: var(--space-12);
+      padding-top: var(--space-8);
+      border-top: 1px solid rgba(28,24,20,0.12);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-6);
+      justify-content: space-between;
+    }
+    .wedding-partner-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(28,24,20,0.45);
+      margin-bottom: var(--space-1);
+      max-width: none;
+    }
+    .wedding-partner-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: #1C1814;
+      line-height: 1;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 767px) {
+      .page-hero { min-height: auto; }
+      .page-hero-content { padding: 110px var(--space-6) var(--space-16); }
+      .hero-watermark { font-size: clamp(80px, 28vw, 160px); }
+      .night-day { font-size: var(--text-5xl); }
+    }
+
+  </style>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="512x512" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Vinyl Room">
+  <meta property="og:title" content="Events — The Vinyl Room | Beacon, NY">
+  <meta property="og:description" content="DJs every Friday and Saturday. Live music, themed nights, and private events at The Vinyl Room in Beacon, NY.">
+  <meta property="og:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://thevinylroomny.netlify.app/events.html">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Events — The Vinyl Room | Beacon, NY">
+  <meta name="twitter:description" content="DJs every Friday and Saturday. Live music, themed nights, and private events at The Vinyl Room in Beacon, NY.">
+  <meta name="twitter:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="The Vinyl Room — home">
+      <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="record-shop.html">Record Shop</a></li>
+      <li><a href="arcade.html">Speakeasy</a></li>
+      <li><a href="events.html" class="is-active" aria-current="page">Events</a></li>
+      <li><a href="contact.html">Visit</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:+18452973344" class="nav-cta">Call Us</a>
+      <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-overlay">
+        <svg class="nav-record-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.40)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="2" stroke-opacity="0.95"/>
+          <path d="M 14 34 A 40 40 0 0 1 34 14" fill="none" stroke="rgba(255,255,255,0.60)" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="2.5" fill="rgba(232,107,71,1)"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav overlay — Needle Drop -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" hidden>
+    <div class="nav-scan-line" aria-hidden="true"></div>
+    <ul class="nav-overlay-links" role="list">
+      <li><a href="index.html" class="nav-overlay-link">Home</a></li>
+      <li><a href="menu.html" class="nav-overlay-link">Menu</a></li>
+      <li><a href="record-shop.html" class="nav-overlay-link">Record Shop</a></li>
+      <li><a href="arcade.html" class="nav-overlay-link">Speakeasy</a></li>
+      <li><a href="events.html" class="nav-overlay-link">Events</a></li>
+      <li><a href="contact.html" class="nav-overlay-link">Visit</a></li>
+    </ul>
+    <div class="nav-overlay-record" aria-hidden="true">
+      <svg class="nav-overlay-record-disc" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+        <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.24)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.17)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.12)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.08)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+        <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="1.2" stroke-opacity="0.75"/>
+        <path d="M 17 31 A 38 38 0 0 1 31 17" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="2" fill="rgba(232,107,71,0.9)"/>
+      </svg>
+      <img class="nav-overlay-record-logo" src="brand_assets/tvr_logo.png" alt="">
+    </div>
+  </div>
+
+  <main>
+
+    <!-- PAGE HERO -->
+    <header class="page-hero" aria-label="Events at The Vinyl Room">
+      <div class="hero-rule" aria-hidden="true"></div>
+      <div class="hero-stripes" aria-hidden="true"></div>
+      <div class="hero-glow-coral" aria-hidden="true"></div>
+      <div class="hero-watermark" aria-hidden="true">FRI &middot; SAT</div>
+      <div class="container" style="width: 100%;">
+        <div class="page-hero-content reveal">
+          <p class="page-hero-eyebrow">Every Week &nbsp;·&nbsp; Beacon, NY</p>
+          <h1 class="page-hero-title">What's<br>On.</h1>
+          <div class="page-hero-tags">
+            <span class="hero-tag hero-tag--coral">DJ Nights Fri &amp; Sat</span>
+            <span class="hero-tag hero-tag--teal">Vinyl Only</span>
+            <span class="hero-tag hero-tag--gold">Private Events</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- WEEKLY PROGRAMMING -->
+    <section id="programming" aria-labelledby="programming-heading">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">Every Week</p>
+          <h2 id="programming-heading" class="section-heading">Regular<br>Programming.</h2>
+        </div>
+        <div class="programming-grid">
+
+          <article class="night-card reveal reveal-d1">
+            <div class="night-card-header">
+              <p class="night-day" style="color: var(--c-accent);">Fri</p>
+              <div class="night-time-block">
+                <p class="night-time" style="color: var(--c-accent);">9pm – Close</p>
+                <p class="night-recurring">Every Friday</p>
+              </div>
+            </div>
+            <div class="night-card-body">
+              <h3 class="night-title">Friday Night DJ Set</h3>
+              <p class="night-desc">Hudson Valley's top selectors take over the basement speakeasy. Vinyl only — no laptops, no Serato. Deep cuts, floor-fillers, and the kind of sets you talk about the next day.</p>
+              <div class="night-tags">
+                <span class="tag tag--coral">Vinyl Only</span>
+                <span class="tag tag--teal">Arcade Open</span>
+                <span class="tag tag--navy">Speakeasy</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="night-card reveal reveal-d2">
+            <div class="night-card-header">
+              <p class="night-day" style="color: var(--c-gold);">Sat</p>
+              <div class="night-time-block">
+                <p class="night-time" style="color: var(--c-gold);">9pm – Close</p>
+                <p class="night-recurring">Every Saturday</p>
+              </div>
+            </div>
+            <div class="night-card-body">
+              <h3 class="night-title">Saturday Night DJ Set</h3>
+              <p class="night-desc">The biggest night of the week. The room fills up, the records come out, and Beacon's best night out does exactly what it's supposed to do. Get here early.</p>
+              <div class="night-tags">
+                <span class="tag tag--gold">Peak Night</span>
+                <span class="tag tag--coral">Vinyl Only</span>
+                <span class="tag tag--teal">Arcade Open</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SPECIAL EVENTS -->
+    <section id="specials" aria-labelledby="specials-heading">
+      <div class="container">
+        <div class="specials-inner">
+          <div class="reveal">
+            <p class="section-label">Beyond the Weekends</p>
+            <h2 id="specials-heading" class="section-heading">Special<br>Nights.</h2>
+            <p class="specials-body">Throughout the year we host themed events, guest DJs from outside the Hudson Valley, vinyl swap meets, release parties, and more. Follow us on Instagram to catch them first — some go fast.</p>
+            <ul class="specials-list" aria-label="Types of special events">
+              <li class="specials-item">Themed DJ nights &amp; genre takeovers</li>
+              <li class="specials-item">Guest DJs &amp; touring selectors</li>
+              <li class="specials-item">Vinyl swap meets &amp; record fairs</li>
+              <li class="specials-item">Album release parties</li>
+              <li class="specials-item">Holiday &amp; seasonal events</li>
+            </ul>
+            <a href="https://www.instagram.com/tvr_beacon/" class="btn-secondary" target="_blank" rel="noopener">Follow on Instagram</a>
+          </div>
+          <div class="specials-img-wrap reveal reveal-d2">
+            <img
+              src="images/event_party_night.webp"
+              alt="A packed night at The Vinyl Room with DJ and energetic crowd"
+              class="specials-img"
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVATE EVENTS -->
+    <section id="private-events" aria-labelledby="private-heading">
+      <div class="container">
+        <div class="private-inner">
+          <div class="reveal">
+            <p class="section-label">Book the Room</p>
+            <h2 id="private-heading" class="section-heading">Private<br>Events.</h2>
+            <p class="private-body">Birthdays. Welcome drinks. Wedding after-parties. Corporate events. Full buyouts or partial. The Vinyl Room books private events on both floors — full bar, kitchen, record shop backdrop, and a DJ if you want one. No generic banquet rooms. Just a genuinely good space run by people who care.</p>
+            <p class="private-body" style="margin-top: var(--space-4);">Call us to start the conversation. We'll work with your headcount, your budget, and your vibe.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-8);">
+              <a href="contact.html" class="btn-primary">Inquire About Events</a>
+              <a href="tel:+18452973344" class="btn-secondary">Call (845) 297-3344</a>
+            </div>
+          </div>
+          <div class="private-features reveal reveal-d2">
+            <div class="feature-card">
+              <p class="feature-card-label">Space</p>
+              <p class="feature-card-value">Two Full Floors</p>
+            </div>
+            <div class="feature-card">
+              <p class="feature-card-label">Bar</p>
+              <p class="feature-card-value">Full Craft Bar</p>
+            </div>
+            <div class="feature-card">
+              <p class="feature-card-label">Kitchen</p>
+              <p class="feature-card-value">Full Food Menu</p>
+            </div>
+            <div class="feature-card">
+              <p class="feature-card-label">Music</p>
+              <p class="feature-card-value">Vinyl DJ Available</p>
+            </div>
+            <div class="feature-card">
+              <p class="feature-card-label">Buyout</p>
+              <p class="feature-card-value">Full or Partial</p>
+            </div>
+            <div class="feature-card">
+              <p class="feature-card-label">Occasions</p>
+              <p class="feature-card-value">Any. All. No minimums.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEDDING ENTERTAINMENT -->
+    <section id="wedding-entertainment" aria-labelledby="wedding-heading">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">Wedding Entertainment</p>
+          <h2 id="wedding-heading" class="section-heading">Your Wedding.<br>Perfectly Sound.</h2>
+          <p class="wedding-intro">We've partnered with Music Speaks Volumes (MSV) to bring full wedding entertainment services to The Vinyl Room and beyond — DJ packages, cinematography, and photo booths from a team that knows how to keep the floor full and the night memorable.</p>
+        </div>
+        <div class="wedding-grid">
+          <div class="wedding-card reveal reveal-d1">
+            <div class="wedding-card-swatch" style="background: var(--c-accent);"></div>
+            <h3 class="wedding-card-title">DJ Packages</h3>
+            <p class="wedding-card-body">High-energy performances designed to keep the dance floor full all night. From full productions to streamlined sets — every package is built around your timeline and your music.</p>
+            <a href="https://www.musicspeaksvolumes.com/djpackages" class="wedding-card-link" target="_blank" rel="noopener">View DJ Packages &rarr;</a>
+          </div>
+          <div class="wedding-card reveal reveal-d2">
+            <div class="wedding-card-swatch" style="background: var(--c-gold);"></div>
+            <h3 class="wedding-card-title">Cinematography</h3>
+            <p class="wedding-card-body">Full-day coverage with Hudson Valley filmmakers, aerial drone options, and a 5-minute social reel alongside a full-length version for the family. No cheesy wedding videos.</p>
+            <a href="https://www.musicspeaksvolumes.com/cinematography" class="wedding-card-link" target="_blank" rel="noopener">View Film Packages &rarr;</a>
+          </div>
+          <div class="wedding-card reveal reveal-d3">
+            <div class="wedding-card-swatch" style="background: var(--c-accent-2);"></div>
+            <h3 class="wedding-card-title">Photo Booth</h3>
+            <p class="wedding-card-body">State-of-the-art booths with personal attendants, unlimited photo prints, and prop selections. Your guests will rave about it.</p>
+            <a href="https://www.musicspeaksvolumes.com/photo-booth" class="wedding-card-link" target="_blank" rel="noopener">View Photo Booth &rarr;</a>
+          </div>
+        </div>
+        <div class="wedding-partner reveal">
+          <div>
+            <p class="wedding-partner-label">Entertainment Partner</p>
+            <p class="wedding-partner-name">Music Speaks Volumes</p>
+          </div>
+          <a href="contact.html" class="btn-primary">Book a Consultation</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+          </div>
+          <p class="footer-tagline">Cocktails. Records. Speakeasy. Arcade.<br>Beacon's most singular night out.</p>
+        </div>
+        <div>
+          <p class="footer-col-title">Visit</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" target="_blank" rel="noopener">396 Main St, Beacon NY</a></li>
+            <li><a href="tel:+18452973344">(845) 297-3344</a></li>
+            <li><a href="contact.html">Hours &amp; Reservations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Explore</p>
+          <ul class="footer-links" role="list">
+            <li><a href="menu.html#food">Food Menu</a></li>
+            <li><a href="menu.html#drinks">Drinks Menu</a></li>
+            <li><a href="record-shop.html">Record Shop</a></li>
+            <li><a href="events.html">Private Events</a></li>
+            <li><a href="https://order.toasttab.com/egiftcards/vinyl-room-2-396-main-street" target="_blank" rel="noopener">Gift Cards</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Follow</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://www.instagram.com/tvr_beacon/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.facebook.com/thevinylroomny/" target="_blank" rel="noopener">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Vinyl Room. All rights reserved.</p>
+        <p>396 Main St &nbsp;·&nbsp; Beacon, NY 12508</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+
+</body>
+</html>

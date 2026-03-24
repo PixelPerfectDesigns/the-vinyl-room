@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Record Shop — The Vinyl Room, Beacon NY</title>
+  <meta name="description" content="Browse, buy, and sell vinyl at The Vinyl Room record shop in Beacon, NY. An in-house collection spanning genres and decades — open 7 days a week.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* PAGE-SPECIFIC STYLES ONLY */
+
+    /* Gold accent override */
+    :root {
+      --c-accent:    #C9A84C;
+      --c-accent-2:  #E86B47;
+      --c-accent-fg: #1C1814;
+    }
+
+    /* === PAGE HERO === */
+    .page-hero {
+      position: relative;
+      padding: 160px 0 var(--space-20);
+      overflow: hidden;
+      background: var(--c-bg);
+    }
+    .page-hero-groove {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-radial-gradient(
+        ellipse at 70% 50%,
+        transparent 0,
+        transparent 28px,
+        rgba(232, 107, 71, 0.03) 28px,
+        rgba(232, 107, 71, 0.03) 29px
+      );
+      pointer-events: none;
+    }
+    .page-hero-bar {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--c-gold) 0%, var(--c-accent) 50%, var(--c-accent-2) 100%);
+    }
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+      padding-left: var(--space-8);
+    }
+    @media (min-width: 1024px) {
+      .page-hero-content { padding-left: var(--space-16); }
+    }
+    .page-hero-eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      margin-bottom: var(--space-3);
+      max-width: none;
+    }
+    .page-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 10vw, 112px);
+      line-height: 0.92;
+      color: var(--c-text);
+      margin-bottom: var(--space-6);
+    }
+    .page-hero-sub {
+      font-size: var(--text-lg);
+      color: var(--c-text-2);
+      max-width: 52ch;
+      line-height: 1.7;
+    }
+    /* btn-ghost on record-shop uses gold (same as --c-accent on this page) */
+    .btn-ghost:hover { border-color: var(--c-gold); color: var(--c-text); }
+
+    /* Intro section */
+    #shop-intro {
+      padding: var(--space-20) 0;
+      background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .shop-intro-inner {
+      display: grid;
+      gap: var(--space-12);
+      align-items: center;
+    }
+    @media (min-width: 1024px) {
+      .shop-intro-inner { grid-template-columns: 1fr 1fr; gap: var(--space-24); }
+    }
+    .shop-intro-img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--c-border);
+      object-fit: cover;
+      aspect-ratio: 4 / 3;
+    }
+    .shop-intro-img-wrap {
+      position: relative;
+      order: -1;
+    }
+    @media (min-width: 1024px) {
+      .shop-intro-img-wrap { order: 0; }
+    }
+    .shop-intro-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(to top, rgba(201, 168, 76, 0.14) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .shop-intro-body {
+      color: var(--c-text-2);
+      margin-bottom: var(--space-8);
+    }
+    .shop-stats {
+      display: flex;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+      margin-top: var(--space-8);
+    }
+    .shop-stat strong {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-5xl);
+      color: var(--c-gold);
+      line-height: 1;
+    }
+    .shop-stat span {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+    }
+
+    /* Genre grid */
+    #genres {
+      padding: var(--space-20) 0;
+    }
+    .genre-grid {
+      display: grid;
+      gap: var(--space-4);
+      margin-top: var(--space-12);
+    }
+    @media (min-width: 640px) {
+      .genre-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 1024px) {
+      .genre-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .genre-card {
+      position: relative;
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-8) var(--space-6);
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.25s ease;
+    }
+    .genre-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 56px rgba(0,0,0,0.5), 0 0 0 1px var(--c-border-2);
+      border-color: var(--c-border-2);
+    }
+    .genre-card:focus-within { outline: 2px solid var(--c-accent); outline-offset: 3px; border-radius: var(--radius-md); }
+    .genre-swatch {
+      width: 40px;
+      height: 4px;
+      border-radius: 2px;
+      margin-bottom: var(--space-5);
+    }
+    .genre-number {
+      position: absolute;
+      top: var(--space-5);
+      right: var(--space-6);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-7xl);
+      color: var(--c-border);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .genre-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: var(--c-text);
+      line-height: 1;
+      margin-bottom: var(--space-3);
+      position: relative;
+    }
+    .genre-desc {
+      font-size: var(--text-base);
+      color: var(--c-text-2);
+      line-height: 1.6;
+      max-width: 32ch;
+    }
+
+    /* Buy & Sell */
+    #buy-sell {
+      padding: var(--space-20) 0;
+      background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .buy-sell-grid {
+      display: grid;
+      gap: var(--space-6);
+      margin-top: var(--space-12);
+    }
+    @media (min-width: 768px) {
+      .buy-sell-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .process-card {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-8);
+    }
+    .process-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-6xl);
+      line-height: 1;
+      margin-bottom: var(--space-4);
+    }
+    .process-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: var(--c-text);
+      margin-bottom: var(--space-3);
+    }
+    .process-body {
+      font-size: var(--text-base);
+      color: var(--c-text-2);
+      line-height: 1.7;
+      max-width: none;
+    }
+
+    /* CTA Strip */
+    #shop-cta {
+      padding: var(--space-20) 0;
+    }
+    .cta-inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+      align-items: flex-start;
+    }
+    @media (min-width: 768px) {
+      .cta-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+    }
+    .cta-text h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 64px);
+      color: var(--c-text);
+      line-height: 1;
+      margin-bottom: var(--space-3);
+    }
+    .cta-text p {
+      color: var(--c-text-2);
+      font-size: var(--text-lg);
+    }
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      flex-shrink: 0;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 767px) {
+      .page-hero { padding-top: 120px; padding-bottom: var(--space-16); }
+      .page-hero-content { padding-left: var(--space-6); }
+    }
+
+  </style>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="512x512" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Vinyl Room">
+  <meta property="og:title" content="Record Shop — The Vinyl Room | Beacon, NY">
+  <meta property="og:description" content="Browse hundreds of vinyl records across every genre. Buy, sell, or trade at The Vinyl Room record shop on Main Street in Beacon, NY.">
+  <meta property="og:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://thevinylroomny.netlify.app/record-shop.html">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Record Shop — The Vinyl Room | Beacon, NY">
+  <meta name="twitter:description" content="Browse hundreds of vinyl records across every genre. Buy, sell, or trade at The Vinyl Room record shop on Main Street in Beacon, NY.">
+  <meta name="twitter:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="The Vinyl Room — home">
+      <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="record-shop.html" class="is-active" aria-current="page">Record Shop</a></li>
+      <li><a href="arcade.html">Speakeasy</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="contact.html">Visit</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:+18452973344" class="nav-cta">Call Us</a>
+      <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-overlay">
+        <svg class="nav-record-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.40)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="2" stroke-opacity="0.95"/>
+          <path d="M 14 34 A 40 40 0 0 1 34 14" fill="none" stroke="rgba(255,255,255,0.60)" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="2.5" fill="rgba(232,107,71,1)"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav overlay — Needle Drop -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" hidden>
+    <div class="nav-scan-line" aria-hidden="true"></div>
+    <ul class="nav-overlay-links" role="list">
+      <li><a href="index.html" class="nav-overlay-link">Home</a></li>
+      <li><a href="menu.html" class="nav-overlay-link">Menu</a></li>
+      <li><a href="record-shop.html" class="nav-overlay-link">Record Shop</a></li>
+      <li><a href="arcade.html" class="nav-overlay-link">Speakeasy</a></li>
+      <li><a href="events.html" class="nav-overlay-link">Events</a></li>
+      <li><a href="contact.html" class="nav-overlay-link">Visit</a></li>
+    </ul>
+    <div class="nav-overlay-record" aria-hidden="true">
+      <svg class="nav-overlay-record-disc" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+        <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.24)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.17)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.12)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.08)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+        <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="1.2" stroke-opacity="0.75"/>
+        <path d="M 17 31 A 38 38 0 0 1 31 17" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="2" fill="rgba(232,107,71,0.9)"/>
+      </svg>
+      <img class="nav-overlay-record-logo" src="brand_assets/tvr_logo.png" alt="">
+    </div>
+  </div>
+
+  <main>
+
+    <!-- PAGE HERO -->
+    <header class="page-hero" aria-label="Record Shop">
+      <div class="page-hero-groove" aria-hidden="true"></div>
+      <div class="page-hero-bar" aria-hidden="true"></div>
+      <div class="container">
+        <div class="page-hero-content reveal">
+          <p class="page-hero-eyebrow">The Vinyl Room &nbsp;·&nbsp; Beacon, NY</p>
+          <h1 class="page-hero-title">The Record<br>Shop.</h1>
+          <p class="page-hero-sub">Browse and buy vinyl while you drink — and if you've got records at home collecting dust, we buy those too. We pay cash on the spot.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- INTRO -->
+    <section id="shop-intro" aria-labelledby="intro-heading">
+      <div class="container">
+        <div class="shop-intro-inner">
+          <div class="reveal">
+            <p class="section-label">About the Shop</p>
+            <h2 id="intro-heading" class="section-heading">No Two Visits<br>Sound the Same.</h2>
+            <p class="shop-intro-body">The record shop lives inside the bar — because that's how it should be. Pull a sleeve off the shelf, order a cocktail, and stay a while. The collection spans jazz, soul, rock, hip-hop, reggae, Latin, funk, blues, and the psychedelic and strange.</p>
+            <p class="shop-intro-body" style="margin-top: var(--space-4);">No collection is too large or too small. If you've got records sitting idle, we buy. Smaller collections? Walk in. Larger? We'll come to you.</p>
+            <div class="shop-stats">
+              <div class="shop-stat">
+                <strong>Cash</strong>
+                <span>Paid on the spot</span>
+              </div>
+              <div class="shop-stat">
+                <strong>7</strong>
+                <span>Days a week</span>
+              </div>
+              <div class="shop-stat">
+                <strong>Beacon</strong>
+                <span>Hudson Valley original</span>
+              </div>
+            </div>
+          </div>
+          <div class="shop-intro-img-wrap reveal reveal-d2">
+            <img
+              src="images/record_shop.webp"
+              alt="Vinyl records on shelves at The Vinyl Room record shop"
+              class="shop-intro-img"
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GENRE GRID -->
+    <section id="genres" aria-labelledby="genres-heading">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">What We Carry</p>
+          <h2 id="genres-heading" class="section-heading">We Buy All Sorts.</h2>
+        </div>
+        <div class="genre-grid">
+          <div class="genre-card reveal reveal-d1">
+            <span class="genre-number" aria-hidden="true">01</span>
+            <div class="genre-swatch" style="background: var(--c-accent);"></div>
+            <h3 class="genre-name">Jazz & Soul</h3>
+            <p class="genre-desc">The backbone of the collection. Blue Note, Prestige, Stax — originals and reissues.</p>
+          </div>
+          <div class="genre-card reveal reveal-d2">
+            <span class="genre-number" aria-hidden="true">02</span>
+            <div class="genre-swatch" style="background: var(--c-gold);"></div>
+            <h3 class="genre-name">Rock</h3>
+            <p class="genre-desc">Classic and deep. Crowd-pleasers and obscurities. We take it all.</p>
+          </div>
+          <div class="genre-card reveal reveal-d3">
+            <span class="genre-number" aria-hidden="true">03</span>
+            <div class="genre-swatch" style="background: var(--c-accent-2);"></div>
+            <h3 class="genre-name">Hip-Hop & R&B</h3>
+            <p class="genre-desc">Golden era through the 2000s. Sample sources, classics, and slept-on gems.</p>
+          </div>
+          <div class="genre-card reveal reveal-d1">
+            <span class="genre-number" aria-hidden="true">04</span>
+            <div class="genre-swatch" style="background: var(--c-navy);"></div>
+            <h3 class="genre-name">Reggae & Latin</h3>
+            <p class="genre-desc">Roots, dub, salsa, cumbia. The grooves that travel.</p>
+          </div>
+          <div class="genre-card reveal reveal-d2">
+            <span class="genre-number" aria-hidden="true">05</span>
+            <div class="genre-swatch" style="background: var(--c-border-2);"></div>
+            <h3 class="genre-name">Funk & Blues</h3>
+            <p class="genre-desc">The originals. The stuff that made everything else possible.</p>
+          </div>
+          <div class="genre-card reveal reveal-d3">
+            <span class="genre-number" aria-hidden="true">06</span>
+            <div class="genre-swatch" style="background: var(--c-accent);"></div>
+            <h3 class="genre-name">Psychedelic & Strange</h3>
+            <p class="genre-desc">The weird stuff. Stuff we've never seen before. If it's interesting, we want it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUY & SELL -->
+    <section id="buy-sell" aria-labelledby="buy-sell-heading">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-label">Selling Your Collection</p>
+          <h2 id="buy-sell-heading" class="section-heading">We Buy.<br>You Get Cash.</h2>
+        </div>
+        <div class="buy-sell-grid">
+          <div class="process-card reveal reveal-d1">
+            <p class="process-num" style="color: var(--c-accent);">01</p>
+            <h3 class="process-title">Smaller Collection?</h3>
+            <p class="process-body">Just bring them in. Walk up with your collection, we'll take a look on the spot and make you an offer in cash. No appointment needed.</p>
+          </div>
+          <div class="process-card reveal reveal-d2">
+            <p class="process-num" style="color: var(--c-gold);">02</p>
+            <h3 class="process-title">Got More? We'll Come to You.</h3>
+            <p class="process-body">We're located in Beacon and will travel within a reasonable distance to view larger collections. Reach out and we'll set it up.</p>
+          </div>
+          <div class="process-card reveal reveal-d3">
+            <p class="process-num" style="color: var(--c-accent-2);">03</p>
+            <h3 class="process-title">Fair Price, Cash on the Spot</h3>
+            <p class="process-body">We believe in paying fair prices. No consignment, no waiting — you walk out with cash in hand.</p>
+          </div>
+          <div class="process-card reveal reveal-d4">
+            <p class="process-num" style="color: var(--c-navy);">04</p>
+            <h3 class="process-title">What We Don't Buy</h3>
+            <p class="process-body">We're not purchasing classical, show tunes, big band, country, or anything pre-1960 generally. Not sure? Use the form below or give us a call.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="shop-cta" aria-label="Visit the record shop">
+      <div class="container">
+        <div class="cta-inner reveal">
+          <div class="cta-text">
+            <h2>Come Browse.<br>Bring Records.</h2>
+            <p>396 Main St, Beacon NY — open 7 days a week. Smaller collection? Walk in. Larger? Let us know and we'll come to you.</p>
+          </div>
+          <div class="cta-actions">
+            <a href="contact.html" class="btn-primary">Hours & Directions</a>
+            <a href="mailto:thevinylroomny@gmail.com" class="btn-ghost">Email Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+          </div>
+          <p class="footer-tagline">Cocktails. Records. Speakeasy. Arcade.<br>Beacon's most singular night out.</p>
+        </div>
+        <div>
+          <p class="footer-col-title">Visit</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" target="_blank" rel="noopener">396 Main St, Beacon NY</a></li>
+            <li><a href="tel:+18452973344">(845) 297-3344</a></li>
+            <li><a href="contact.html">Hours &amp; Reservations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Explore</p>
+          <ul class="footer-links" role="list">
+            <li><a href="menu.html#food">Food Menu</a></li>
+            <li><a href="menu.html#drinks">Drinks Menu</a></li>
+            <li><a href="record-shop.html">Record Shop</a></li>
+            <li><a href="events.html">Private Events</a></li>
+            <li><a href="https://order.toasttab.com/egiftcards/vinyl-room-2-396-main-street" target="_blank" rel="noopener">Gift Cards</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Follow</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://www.instagram.com/tvr_beacon/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.facebook.com/thevinylroomny/" target="_blank" rel="noopener">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Vinyl Room. All rights reserved.</p>
+        <p>396 Main St &nbsp;·&nbsp; Beacon, NY 12508</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+
+</body>
+</html>

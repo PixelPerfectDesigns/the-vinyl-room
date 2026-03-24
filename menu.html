@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu — The Vinyl Room, Beacon NY</title>
+  <meta name="description" content="The Vinyl Room menu — craft cocktails, culinary tapas, wine, and mocktails. Happy hour Mon–Fri 3–6pm. 396 Main St, Beacon NY.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* PAGE-SPECIFIC STYLES ONLY */
+
+    html { background-color: #F2E8D5; }
+    /* Light palette override */
+    :root {
+      --c-bg:         #F2E8D5;
+      --c-surface:    #E8D9BC;
+      --c-surface-2:  #DCCBA8;
+      --c-border:     #D0BA96;
+      --c-border-2:   #B89E78;
+      --c-text:       #1C1814;
+      --c-text-2:     #4A3828;
+      --c-text-3:     #8A7060;
+      --c-accent:     #E86B47;
+      --c-accent-2:   #4DB896;
+      --c-dark:       #1C1814;
+      --c-accent-fg:  #F2E8D5;
+    }
+
+    /* Menu nav: starts semi-dark, gains shadow on scroll */
+    nav {
+      background: rgba(28, 24, 20, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    nav.is-scrolled {
+      background: rgba(28, 24, 20, 0.97);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .nav-links a { color: rgba(242, 232, 213, 0.6); }
+    .nav-links a:hover, .nav-links a.is-active { color: #F2E8D5; }
+
+    /* === PAGE HEADER === */
+    .menu-page-header {
+      padding-top: calc(72px + var(--space-16));
+      padding-bottom: var(--space-12);
+      border-bottom: 2px solid var(--c-text);
+    }
+    .menu-page-header .container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    @media (min-width: 768px) {
+      .menu-page-header .container {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+    }
+    .menu-page-eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: var(--space-2);
+    }
+    .menu-page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 12vw, 8rem);
+      line-height: 0.9;
+      letter-spacing: 0.01em;
+      color: var(--c-text);
+    }
+    .menu-page-meta {
+      text-align: left;
+      flex-shrink: 0;
+    }
+    @media (min-width: 768px) { .menu-page-meta { text-align: right; } }
+    .menu-page-meta p {
+      font-size: var(--text-sm);
+      color: var(--c-text-2);
+      line-height: 1.6;
+      max-width: none;
+    }
+    .menu-page-meta strong { color: var(--c-text); }
+
+    /* === 7. HAPPY HOUR BANNER === */
+    .hh-banner {
+      background: var(--c-dark);
+      padding: var(--space-12) 0;
+    }
+    .hh-inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-10);
+    }
+    @media (min-width: 768px) {
+      .hh-inner { flex-direction: row; align-items: flex-start; gap: var(--space-16); }
+    }
+    .hh-label {
+      flex-shrink: 0;
+    }
+    .hh-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-6xl);
+      line-height: 0.9;
+      color: var(--c-accent-fg);
+      letter-spacing: 0.02em;
+    }
+    .hh-time {
+      font-size: var(--text-base);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-top: var(--space-3);
+    }
+    .hh-specials {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5) var(--space-8);
+      flex: 1;
+    }
+    @media (min-width: 1024px) {
+      .hh-specials { grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .hh-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .hh-item-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-5xl);
+      line-height: 1;
+      color: var(--c-accent);
+    }
+    .hh-item-name {
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: rgba(242, 232, 213, 0.85);
+      line-height: 1.4;
+    }
+
+    /* === 8. MENU SECTIONS === */
+    .menu-section {
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    /* Category header — full-bleed colored band */
+    .menu-cat-header {
+      padding: var(--space-8) 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-6);
+    }
+    .menu-cat-header--coral  { background: var(--c-accent); }
+    .menu-cat-header--navy   { background: var(--c-navy); }
+    .menu-cat-header--teal   { background: var(--c-accent-2); }
+    .menu-cat-header--gold   { background: var(--c-gold); }
+    .menu-cat-header--dark   { background: var(--c-dark); }
+
+    .menu-cat-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-6xl);
+      line-height: 0.9;
+      color: var(--c-accent-fg);
+      letter-spacing: 0.02em;
+    }
+    .menu-cat-header--gold .menu-cat-title,
+    .menu-cat-header--teal .menu-cat-title { color: var(--c-dark); }
+
+    .menu-cat-header-inner {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-start;
+      gap: var(--space-6);
+      width: 100%;
+    }
+    .menu-cat-note {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .menu-cat-header--coral .menu-cat-note,
+    .menu-cat-header--navy .menu-cat-note,
+    .menu-cat-header--dark .menu-cat-note { color: rgba(242, 232, 213, 0.6); }
+    .menu-cat-header--gold .menu-cat-note,
+    .menu-cat-header--teal .menu-cat-note { color: rgba(28, 24, 20, 0.55); }
+
+    /* Menu items grid */
+    .menu-items {
+      padding: var(--space-8) 0 var(--space-12);
+      display: grid;
+      gap: 0;
+    }
+    .menu-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-6);
+      padding: var(--space-5) 0;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item-main { flex: 1; }
+    .menu-item-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--c-text);
+      margin-bottom: var(--space-1);
+    }
+    .menu-item-desc {
+      font-size: var(--text-base);
+      color: var(--c-text-2);
+      line-height: 1.55;
+      max-width: 60ch;
+      font-weight: 400;
+    }
+    .menu-item-tags {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-top: var(--space-2);
+    }
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 2px;
+      border: 1px solid currentColor;
+    }
+    .tag--gf { color: var(--c-accent-2); }
+    .tag--v  { color: var(--c-navy); }
+    .menu-item-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: var(--c-accent);
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    /* 2-column layout for food on desktop */
+    @media (min-width: 1024px) {
+      .menu-items--2col {
+        grid-template-columns: 1fr 1fr;
+        column-gap: var(--space-16);
+      }
+    }
+
+    /* Cocktail items — name gets star treatment */
+    .menu-item--cocktail .menu-item-name {
+      font-size: var(--text-4xl);
+    }
+
+    /* Sub-section label (e.g. within wine) */
+    .menu-subsection {
+      padding: var(--space-6) 0 var(--space-2);
+      margin-top: var(--space-4);
+      border-top: 1px solid var(--c-border);
+    }
+    .menu-subsection:first-child { border-top: none; margin-top: 0; }
+    .menu-subsection-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      color: var(--c-text-3);
+      letter-spacing: 0.06em;
+    }
+
+    /* Wine rows — inline price, compact */
+    .menu-item--wine .menu-item-name { font-size: var(--text-xl); }
+    .menu-item--wine .menu-item-price { font-size: var(--text-xl); color: var(--c-navy); }
+
+    /* Food section name styling (their quirky section titles) */
+    .menu-section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      letter-spacing: 0.04em;
+      color: var(--c-text-3);
+      padding: var(--space-8) 0 0;
+      text-transform: uppercase;
+    }
+
+    /* Sides note */
+    .menu-note {
+      font-size: var(--text-sm);
+      color: var(--c-text-3);
+      font-style: italic;
+      padding: var(--space-4) 0 0;
+    }
+
+    /* Photo strip — auto-scrolling ticker */
+    .photo-strip-outer {
+      overflow: hidden;
+      width: 100%;
+      pointer-events: none;
+    }
+    .photo-strip-track {
+      display: flex;
+      gap: 3px;
+      width: max-content;
+      animation: photo-scroll 40s linear infinite;
+    }
+    @keyframes photo-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .photo-strip-item {
+      width: 200px;
+      height: 200px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .photo-strip-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .photo-strip-track { animation: none; }
+    }
+
+    /* CTA split strip — dark */
+    #gift-cards {
+      padding: 0;
+      background: #1C1814;
+    }
+    .cta-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .cta-split-half {
+      padding: var(--space-12) var(--space-10);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .cta-split-half + .cta-split-half {
+      border-left: 1px solid #3A3025;
+    }
+    .cta-split-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+    }
+    .cta-split-label--gold { color: #C9A84C; }
+    .cta-split-label--accent { color: #E86B47; }
+    .cta-split-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(26px, 3.5vw, 42px);
+      color: #F0EBE0;
+      line-height: 1.05;
+    }
+    .doordash-logo {
+      width: 140px;
+      height: auto;
+      margin-bottom: var(--space-3);
+      filter: invert(1) brightness(8) contrast(2);
+      opacity: 0.8;
+    }
+    @media (max-width: 640px) {
+      .cta-split { grid-template-columns: 1fr; }
+      .cta-split-half + .cta-split-half {
+        border-left: none;
+        border-top: 1px solid #3A3025;
+      }
+      .cta-split-half { padding: var(--space-8) var(--space-6); }
+    }
+
+    .price-navy { color: var(--c-navy); }
+    .price-gold { color: var(--c-gold); }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 767px) {
+      .menu-cat-title { font-size: var(--text-4xl); }
+      .menu-cat-header-inner { flex-wrap: wrap; row-gap: var(--space-2); }
+      .menu-cat-note { flex-shrink: 1; text-align: left; }
+      .menu-item-name { font-size: var(--text-2xl); }
+      .menu-item--cocktail .menu-item-name { font-size: var(--text-3xl); }
+      .menu-item-price { font-size: var(--text-2xl); }
+      .menu-item { gap: var(--space-4); }
+      .hh-specials { grid-template-columns: 1fr 1fr; }
+    }
+
+  </style>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="512x512" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Vinyl Room">
+  <meta property="og:title" content="Menu — The Vinyl Room | Beacon, NY">
+  <meta property="og:description" content="Craft cocktails, curated wines, local beers, and a full food menu. Happy hour daily. Order online via DoorDash for pickup or delivery.">
+  <meta property="og:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://thevinylroomny.netlify.app/menu.html">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Menu — The Vinyl Room | Beacon, NY">
+  <meta name="twitter:description" content="Craft cocktails, curated wines, local beers, and a full food menu. Happy hour daily. Order online via DoorDash for pickup or delivery.">
+  <meta name="twitter:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="The Vinyl Room — home">
+      <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html" class="is-active" aria-current="page">Menu</a></li>
+      <li><a href="record-shop.html">Record Shop</a></li>
+      <li><a href="arcade.html">Speakeasy</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="contact.html">Visit</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="tel:+18452973344" class="nav-cta">Call Us</a>
+      <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-overlay">
+        <svg class="nav-record-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.40)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="2" stroke-opacity="0.95"/>
+          <path d="M 14 34 A 40 40 0 0 1 34 14" fill="none" stroke="rgba(255,255,255,0.60)" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="2.5" fill="rgba(232,107,71,1)"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav overlay — Needle Drop -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" hidden>
+    <div class="nav-scan-line" aria-hidden="true"></div>
+    <ul class="nav-overlay-links" role="list">
+      <li><a href="index.html" class="nav-overlay-link">Home</a></li>
+      <li><a href="menu.html" class="nav-overlay-link">Menu</a></li>
+      <li><a href="record-shop.html" class="nav-overlay-link">Record Shop</a></li>
+      <li><a href="arcade.html" class="nav-overlay-link">Speakeasy</a></li>
+      <li><a href="events.html" class="nav-overlay-link">Events</a></li>
+      <li><a href="contact.html" class="nav-overlay-link">Visit</a></li>
+    </ul>
+    <div class="nav-overlay-record" aria-hidden="true">
+      <svg class="nav-overlay-record-disc" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+        <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.24)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.17)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.12)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.08)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+        <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="1.2" stroke-opacity="0.75"/>
+        <path d="M 17 31 A 38 38 0 0 1 31 17" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="2" fill="rgba(232,107,71,0.9)"/>
+      </svg>
+      <img class="nav-overlay-record-logo" src="brand_assets/tvr_logo.png" alt="">
+    </div>
+  </div>
+
+  <main>
+
+    <!-- PAGE HEADER -->
+    <header class="menu-page-header">
+      <div class="container">
+        <div>
+          <p class="menu-page-eyebrow">The Vinyl Room · Beacon, NY</p>
+          <h1 class="menu-page-title">The<br>Menu.</h1>
+        </div>
+        <div class="menu-page-meta">
+          <p><strong>396 Main Street</strong><br>Beacon, NY 12508</p>
+          <p style="margin-top: var(--space-3);">Mon – Thu &nbsp;4pm – 12am<br>Fri &nbsp;4pm – 2am<br>Sat &nbsp;12pm – 2am<br>Sun &nbsp;12pm – 10pm</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- HAPPY HOUR -->
+    <section id="happy-hour" aria-labelledby="hh-heading">
+      <div class="hh-banner">
+        <div class="container">
+          <div class="hh-inner">
+            <div class="hh-label">
+              <h2 id="hh-heading" class="hh-title">Happy<br>Hour</h2>
+              <p class="hh-time">Mon – Fri &nbsp;·&nbsp; 3 – 6pm</p>
+            </div>
+            <div class="hh-specials">
+              <div class="hh-item">
+                <span class="hh-item-price">$1</span>
+                <span class="hh-item-name">Wings (min. 6)</span>
+              </div>
+              <div class="hh-item">
+                <span class="hh-item-price">$3</span>
+                <span class="hh-item-name">Tacos (1 per order)</span>
+              </div>
+              <div class="hh-item">
+                <span class="hh-item-price">$7</span>
+                <span class="hh-item-name">Pretzel Bites</span>
+              </div>
+              <div class="hh-item">
+                <span class="hh-item-price">$8</span>
+                <span class="hh-item-name">Old Fashioned</span>
+              </div>
+              <div class="hh-item">
+                <span class="hh-item-price">$8</span>
+                <span class="hh-item-name">Cosmopolitan</span>
+              </div>
+              <div class="hh-item">
+                <span class="hh-item-price">$8</span>
+                <span class="hh-item-name">Margarita</span>
+              </div>
+              <div class="hh-item">
+                <span class="hh-item-price">$6</span>
+                <span class="hh-item-name">Glasses of Wine</span>
+              </div>
+              <div class="hh-item">
+                <span class="hh-item-price">$7</span>
+                <span class="hh-item-name">Draft Beer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DRINKS -->
+    <div id="drinks">
+
+      <!-- COCKTAILS -->
+      <section class="menu-section" aria-labelledby="cocktails-heading">
+        <div class="menu-cat-header menu-cat-header--coral">
+          <div class="container menu-cat-header-inner">
+            <h2 id="cocktails-heading" class="menu-cat-title">Cocktails.</h2>
+            <span class="menu-cat-note">House crafted · $16 each</span>
+          </div>
+        </div>
+        <div class="container">
+          <div class="menu-items menu-items--2col reveal">
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Emotionally Unavailable</h3>
+                <p class="menu-item-desc">Hazelnut fat washed vodka, espresso, borghetti, hazelnut cream</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Summer Winds</h3>
+                <p class="menu-item-desc">Midsummer spiced fruit spritz, prosecco, soda water</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Vodka With Boundaries</h3>
+                <p class="menu-item-desc">Vodka, sparkling yuzu, spiced pomegranate, lemon</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Sour Candy</h3>
+                <p class="menu-item-desc">Tequila, raspberry, pineapple, lemon, agave</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Take Me To Another Place</h3>
+                <p class="menu-item-desc">Mezcal, pear, cinnamon, lemon</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Purple Rain</h3>
+                <p class="menu-item-desc">Gin, lavender, luxardo, lemon, orange bitters</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Vibe Shift</h3>
+                <p class="menu-item-desc">Gin, carrot, ginger, apple, salted honey, lime</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Surprise Me</h3>
+                <p class="menu-item-desc">White rum, dark rum, banana, caramelized pineapple, lime</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Enjoy The Ride</h3>
+                <p class="menu-item-desc">Bourbon, Japanese sparkling ringo, spiced pomegranate, lemon</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Treat You Better</h3>
+                <p class="menu-item-desc">Bourbon, local maple, black walnut</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- MOCKTAILS -->
+      <section class="menu-section" aria-labelledby="mocktails-heading">
+        <div class="menu-cat-header menu-cat-header--teal">
+          <div class="container menu-cat-header-inner">
+            <h2 id="mocktails-heading" class="menu-cat-title">Mocktails.</h2>
+            <span class="menu-cat-note">Zero proof · $12 each</span>
+          </div>
+        </div>
+        <div class="container">
+          <div class="menu-items menu-items--2col reveal">
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Take My Hand</h3>
+                <p class="menu-item-desc">Spiced pomegranate, grapefruit soda, lemon, mint</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Surrender</h3>
+                <p class="menu-item-desc">Mango chili tepache, pear, lime</p>
+              </div>
+            </div>
+
+            <div class="menu-item menu-item--cocktail">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Make Me Feel</h3>
+                <p class="menu-item-desc">Carrot, ginger, Japanese sparkling ringo, lemon, honey</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- WINE -->
+      <section class="menu-section" aria-labelledby="wine-heading">
+        <div class="menu-cat-header menu-cat-header--navy">
+          <div class="container menu-cat-header-inner">
+            <h2 id="wine-heading" class="menu-cat-title">Wine.</h2>
+            <span class="menu-cat-note">Glass · Bottle</span>
+          </div>
+        </div>
+        <div class="container">
+          <div class="menu-items reveal">
+
+            <div class="menu-subsection">
+              <p class="menu-subsection-title">Sparkling</p>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Prosecco Tullia</h3>
+              </div>
+              <span class="menu-item-price price-navy">$13 / $52</span>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Sparkling Rosé Tullia</h3>
+              </div>
+              <span class="menu-item-price price-navy">$13 / $52</span>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Lambrusco Villa Nicchia</h3>
+              </div>
+              <span class="menu-item-price price-navy">$13 / $52</span>
+            </div>
+
+            <div class="menu-subsection">
+              <p class="menu-subsection-title">White &amp; Rosé</p>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Chenin Blanc Topette</h3>
+              </div>
+              <span class="menu-item-price price-navy">$13 / $52</span>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Pinot Grigio Zuani</h3>
+              </div>
+              <span class="menu-item-price price-navy">$14 / $54</span>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Sauvignon Blanc Rain</h3>
+              </div>
+              <span class="menu-item-price price-navy">$13 / $52</span>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Rosé Chateau Pigoudet</h3>
+              </div>
+              <span class="menu-item-price price-navy">$14 / $54</span>
+            </div>
+
+            <div class="menu-subsection">
+              <p class="menu-subsection-title">Red</p>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Cabernet Bench</h3>
+              </div>
+              <span class="menu-item-price price-navy">$14 / $52</span>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Rioja Gomez Cruzado</h3>
+              </div>
+              <span class="menu-item-price price-navy">$15 / $56</span>
+            </div>
+            <div class="menu-item menu-item--wine">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Pinot Noir Pas De Probleme</h3>
+              </div>
+              <span class="menu-item-price price-navy">$15 / $56</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- NA BEER + SODAS -->
+      <section class="menu-section" aria-labelledby="beer-heading">
+        <div class="menu-cat-header menu-cat-header--dark">
+          <div class="container menu-cat-header-inner">
+            <h2 id="beer-heading" class="menu-cat-title">Beer &amp; Soda.</h2>
+            <span class="menu-cat-note">Draft selection rotates — ask your server</span>
+          </div>
+        </div>
+        <div class="container">
+          <div class="menu-items menu-items--2col reveal">
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Draft Beer</h3>
+                <p class="menu-item-desc">Rotating selection of local and craft pours</p>
+              </div>
+              <span class="menu-item-price">Mkt</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Athletic Run Wild IPA</h3>
+                <p class="menu-item-desc">Non-alcoholic · can</p>
+              </div>
+              <span class="menu-item-price">$8</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Athletic Upside Dawn</h3>
+                <p class="menu-item-desc">Golden ale · non-alcoholic · can</p>
+              </div>
+              <span class="menu-item-price">$8</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Sodas</h3>
+                <p class="menu-item-desc">Pepsi, Diet Pepsi, Sprite, Ginger Ale</p>
+              </div>
+              <span class="menu-item-price">$5</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- PHOTO STRIP -->
+    <div class="photo-strip-outer" aria-hidden="true">
+      <div class="photo-strip-track">
+        <div class="photo-strip-item"><img src="images/smoked_buffalo_wings.webp" alt="Smoked buffalo wings at The Vinyl Room, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/cocktail_happy_hour.webp" alt="Craft cocktails during happy hour at The Vinyl Room bar"></div>
+        <div class="photo-strip-item"><img src="images/tvr_wagyu_sliders.webp" alt="Wagyu sliders from The Vinyl Room kitchen, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/craft_brew_beer.webp" alt="Craft beer selection at The Vinyl Room, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/crispy_pickle_chips.webp" alt="Crispy pickle chips appetizer at The Vinyl Room"></div>
+        <div class="photo-strip-item"><img src="images/wines_cocktails_drinks.webp" alt="Wine and cocktail selection at The Vinyl Room, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/chicken_pot_stickers.webp" alt="Chicken potstickers appetizer at The Vinyl Room"></div>
+        <div class="photo-strip-item"><img src="images/tvr_drink_sampler.webp" alt="Cocktail drink sampler at The Vinyl Room bar, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/tvr_queso_fondito.webp" alt="Queso fondito appetizer at The Vinyl Room, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/drink_draft_growler.webp" alt="Draft beer and growler at The Vinyl Room, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/tvr_mac_cheese.webp" alt="Mac and cheese at The Vinyl Room kitchen, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/specialty_brews_drinks.webp" alt="Specialty craft brews at The Vinyl Room bar"></div>
+        <div class="photo-strip-item"><img src="images/ranch_crunch_burger.webp" alt="Ranch crunch burger at The Vinyl Room, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/happy_hour_cocktails.webp" alt="Happy hour cocktails at The Vinyl Room cocktail bar"></div>
+        <div class="photo-strip-item"><img src="images/honey_chicken_sandwich.webp" alt="Honey chicken sandwich at The Vinyl Room kitchen"></div>
+        <div class="photo-strip-item"><img src="images/tvr_branded_cup.webp" alt="The Vinyl Room signature branded cocktail cup, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/pear_salad_tvr.webp" alt="Pear salad at The Vinyl Room, Beacon NY"></div>
+        <div class="photo-strip-item"><img src="images/avovado_toast_tvr.webp" alt="Avocado toast at The Vinyl Room kitchen, Beacon NY"></div>
+        <!-- Duplicate for seamless loop -->
+        <div class="photo-strip-item"><img src="images/smoked_buffalo_wings.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/cocktail_happy_hour.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/tvr_wagyu_sliders.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/craft_brew_beer.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/crispy_pickle_chips.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/wines_cocktails_drinks.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/chicken_pot_stickers.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/tvr_drink_sampler.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/tvr_queso_fondito.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/drink_draft_growler.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/tvr_mac_cheese.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/specialty_brews_drinks.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/ranch_crunch_burger.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/happy_hour_cocktails.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/honey_chicken_sandwich.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/tvr_branded_cup.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/pear_salad_tvr.webp" alt=""></div>
+        <div class="photo-strip-item"><img src="images/avovado_toast_tvr.webp" alt=""></div>
+      </div>
+    </div>
+
+    <!-- FOOD -->
+    <div id="food">
+
+      <!-- STARTERS -->
+      <section class="menu-section" aria-labelledby="starters-heading">
+        <div class="menu-cat-header menu-cat-header--gold">
+          <div class="container menu-cat-header-inner">
+            <h2 id="starters-heading" class="menu-cat-title">Starters.</h2>
+            <span class="menu-cat-note">Small plates · Big flavor</span>
+          </div>
+        </div>
+        <div class="container">
+          <div class="menu-items menu-items--2col reveal">
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Chicken Wings</h3>
+                <p class="menu-item-desc">TVR smoked buffalo, nashville hot, applewood smoked bbq, garlicky parmesan, or mango habanero</p>
+                <div class="menu-item-tags"><span class="tag tag--gf">GF</span></div>
+              </div>
+              <span class="menu-item-price price-gold">$16</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Korean Nachos</h3>
+                <p class="menu-item-desc">Shaved ribeye, kimchee, sriracha, pickled red onions, hoisin bbq</p>
+              </div>
+              <span class="menu-item-price price-gold">$18</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Wagyu Smash Burgers (3)</h3>
+                <p class="menu-item-desc">House pickles, American cheese, fancy sauce, cabbage slaw, potato buns</p>
+              </div>
+              <span class="menu-item-price price-gold">$19</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Ginger Chicken Pot Stickers</h3>
+                <p class="menu-item-desc">Sweet &amp; spicy soy glaze, scallion</p>
+              </div>
+              <span class="menu-item-price price-gold">$16</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Carnitas Tacos (3)</h3>
+                <p class="menu-item-desc">Corn tortillas, cilantro, onions, salsa verde, salsa roja — chicken or pork</p>
+              </div>
+              <span class="menu-item-price price-gold">$15</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Quesadilla</h3>
+                <p class="menu-item-desc">Roasted chicken, pico de gallo, charred corn, salsa verde, creamy garlic sauce, cilantro</p>
+              </div>
+              <span class="menu-item-price price-gold">$16</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Punch Out Brussels</h3>
+                <p class="menu-item-desc">Crispy brussels, sweet &amp; spicy chili glaze, crushed peanuts, toasted sesame, scallion</p>
+              </div>
+              <span class="menu-item-price price-gold">$16</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Tallow Fries</h3>
+                <p class="menu-item-desc">House fries in dry aged beef tallow, TVR spice, roasted garlic dipping sauce</p>
+              </div>
+              <span class="menu-item-price price-gold">$12</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Crispy Pickle Chips</h3>
+                <p class="menu-item-desc">Chipotle buttermilk ranch dip</p>
+              </div>
+              <span class="menu-item-price price-gold">$12</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Burrata Meatball Sliders (3)</h3>
+                <p class="menu-item-desc">Melted burrata, tomato basil sauce, garlic brioche</p>
+              </div>
+              <span class="menu-item-price price-gold">$18</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Everything Pretzel Bites</h3>
+                <p class="menu-item-desc">Honey dijon dipping sauce</p>
+              </div>
+              <span class="menu-item-price price-gold">$12</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SALADS -->
+      <section class="menu-section" aria-labelledby="salads-heading">
+        <div class="menu-cat-header menu-cat-header--teal">
+          <div class="container menu-cat-header-inner">
+            <h2 id="salads-heading" class="menu-cat-title">Salads.</h2>
+            <span class="menu-cat-note">Add chicken to any · +$6</span>
+          </div>
+        </div>
+        <div class="container">
+          <div class="menu-items reveal">
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Honey Buffalo Salad</h3>
+                <p class="menu-item-desc">Romaine, crispy buffalo chicken, smoked bacon, cucumber, tomatoes, red onions, bleu cheese dressing</p>
+                <div class="menu-item-tags"><span class="tag tag--gf">GF</span></div>
+              </div>
+              <span class="menu-item-price" style="color:var(--c-accent-2);">$19</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Vinyl House</h3>
+                <p class="menu-item-desc">Field greens, dried cranberries, crumbled goat cheese, apples, brown sugar balsamic</p>
+                <div class="menu-item-tags"><span class="tag tag--gf">GF</span><span class="tag tag--v">VGO</span></div>
+              </div>
+              <span class="menu-item-price" style="color:var(--c-accent-2);">$15</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- MAINS / SANDWICHES -->
+      <section class="menu-section" aria-labelledby="mains-heading">
+        <div class="menu-cat-header menu-cat-header--coral">
+          <div class="container menu-cat-header-inner">
+            <h2 id="mains-heading" class="menu-cat-title">Mains.</h2>
+            <span class="menu-cat-note">Sandwiches include TVR fries</span>
+          </div>
+        </div>
+        <div class="container">
+          <p class="menu-note">Truffle parmesan or sweet fries +$3</p>
+          <div class="menu-items menu-items--2col reveal">
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Perfect BLT Panini</h3>
+                <p class="menu-item-desc">Thick cut bacon, heirloom tomatoes, arugula, dukes mayo, herb focaccia</p>
+              </div>
+              <span class="menu-item-price">$17</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">TVR Burger</h3>
+                <p class="menu-item-desc">Short rib &amp; brisket blend, Tillamook white cheddar, house bacon jam, crispy onion, roasted garlic aioli, brioche bun</p>
+              </div>
+              <span class="menu-item-price">$18</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Korean Fried Chicken Sandwich</h3>
+                <p class="menu-item-desc">Buttermilk fried chicken, chili garlic crunch, jalapeno cabbage slaw, roasted garlic aioli, house pickles, brioche bun</p>
+              </div>
+              <span class="menu-item-price">$18</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Triple Smash Burger</h3>
+                <p class="menu-item-desc">Wagyu patties, pepperjack cheese, caramelized onions, shaved romaine, bbq ranch, brioche bun</p>
+              </div>
+              <span class="menu-item-price">$22</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">"Chopped Cheese"</h3>
+                <p class="menu-item-desc">Shaved ribeye, slow roasted onions, American cheese, iceberg, tomato, bodega sauce, wedge bread</p>
+              </div>
+              <span class="menu-item-price">$19</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Return of The Mac</h3>
+                <p class="menu-item-desc">Smoked gouda, Vermont cheddar cream, buttery breadcrumbs</p>
+              </div>
+              <span class="menu-item-price">$18</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Chicken Bacon Ranch Flatbread</h3>
+                <p class="menu-item-desc">Pulled chicken, smoked bacon, spicy ranch, mozzarella, pickled onions</p>
+                <div class="menu-item-tags"><span class="tag tag--gf">GFO</span></div>
+              </div>
+              <span class="menu-item-price">$17</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Fig &amp; Prosciutto Flatbread</h3>
+                <p class="menu-item-desc">Brie, fig jam, mozzarella, arugula, goat cheese, balsamic</p>
+                <div class="menu-item-tags"><span class="tag tag--gf">GFO</span></div>
+              </div>
+              <span class="menu-item-price">$17</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- BOWLS -->
+      <section class="menu-section" aria-labelledby="bowls-heading">
+        <div class="menu-cat-header menu-cat-header--navy">
+          <div class="container menu-cat-header-inner">
+            <h2 id="bowls-heading" class="menu-cat-title">Bowls.</h2>
+          </div>
+        </div>
+        <div class="container">
+          <div class="menu-items reveal">
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Vegan Rice Bowl</h3>
+                <p class="menu-item-desc">Sushi rice, marinated tofu, kimchee, edamame, avocado, cucumber, cilantro sauce</p>
+                <div class="menu-item-tags"><span class="tag tag--gf">GF</span><span class="tag tag--v">V</span></div>
+              </div>
+              <span class="menu-item-price price-navy">$15</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Crunchy Chicken Bowl</h3>
+                <p class="menu-item-desc">Sushi rice, pickled onions, avocado, arugula, charred corn, chili garlic crunch, creamy garlic sauce</p>
+              </div>
+              <span class="menu-item-price price-navy">$18</span>
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-item-main">
+                <h3 class="menu-item-name">Ramen Bowl</h3>
+                <p class="menu-item-desc">Edamame, shaved cabbage, roasted pork, scallion, sunny egg, sweet &amp; spicy soy broth</p>
+              </div>
+              <span class="menu-item-price price-navy">$21</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- CTA SPLIT: GIFT CARDS + DOORDASH -->
+    <section id="gift-cards" aria-label="Order and gift cards">
+      <div class="cta-split">
+
+        <div class="cta-split-half reveal">
+          <div>
+            <p class="cta-split-label cta-split-label--gold">Give the Gift</p>
+            <p class="cta-split-heading">A Night Out at The Vinyl Room.</p>
+          </div>
+          <a href="https://order.toasttab.com/egiftcards/vinyl-room-2-396-main-street" target="_blank" rel="noopener" class="btn-primary">Buy a Gift Card</a>
+        </div>
+
+        <div class="cta-split-half reveal reveal-d1">
+          <div>
+            <img src="images/doordash_logo.png" alt="DoorDash" class="doordash-logo">
+            <p class="cta-split-heading">Pickup &amp; Delivery Available.</p>
+          </div>
+          <a href="https://www.doordash.com/store/the-vinyl-room-beacon-27654209/?utm_campaign=gpa" target="_blank" rel="noopener" class="btn-primary">Order on DoorDash</a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+          </div>
+          <p class="footer-tagline">Cocktails. Records. Speakeasy. Arcade.<br>Beacon's most singular night out.</p>
+        </div>
+        <div>
+          <p class="footer-col-title">Visit</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" target="_blank" rel="noopener">396 Main St, Beacon NY</a></li>
+            <li><a href="tel:+18452973344">(845) 297-3344</a></li>
+            <li><a href="contact.html">Hours &amp; Reservations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Explore</p>
+          <ul class="footer-links" role="list">
+            <li><a href="menu.html#food">Food Menu</a></li>
+            <li><a href="menu.html#drinks">Drinks Menu</a></li>
+            <li><a href="record-shop.html">Record Shop</a></li>
+            <li><a href="events.html">Private Events</a></li>
+            <li><a href="https://order.toasttab.com/egiftcards/vinyl-room-2-396-main-street" target="_blank" rel="noopener">Gift Cards</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Follow</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://www.instagram.com/tvr_beacon/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.facebook.com/thevinylroomny/" target="_blank" rel="noopener">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Vinyl Room. All rights reserved.</p>
+        <p>396 Main St &nbsp;·&nbsp; Beacon, NY 12508</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+
+</body>
+</html>

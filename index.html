@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Vinyl Room — Beacon, NY</title>
+  <meta name="description" content="Cocktail bar, record shop, speakeasy, and vintage arcade on Main Street in Beacon, NY. DJs every Friday & Saturday. Open 7 days a week.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* PAGE-SPECIFIC STYLES ONLY */
+
+    /* === HERO === */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background-color: var(--c-bg);
+      padding-bottom: var(--space-20);
+    }
+    .hero-groove {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-radial-gradient(
+          ellipse at 65% 50%,
+          transparent 0,
+          transparent 24px,
+          rgba(232, 107, 71, 0.03) 24px,
+          rgba(232, 107, 71, 0.03) 25px
+        );
+      pointer-events: none;
+    }
+    .hero-glow {
+      position: absolute;
+      top: 20%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,107,71,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-accent-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--c-accent) 0%, var(--c-accent-2) 60%, var(--c-navy) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding-left: var(--space-8);
+    }
+    @media (min-width: 1024px) {
+      .hero-content { padding-left: var(--space-16); }
+    }
+    .hero-eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: var(--space-3);
+      max-width: none;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(76px, 15vw, 144px);
+      line-height: 0.9;
+      letter-spacing: 0.01em;
+      color: var(--c-text);
+      margin-bottom: var(--space-8);
+    }
+    .hero-title span { display: block; }
+    .hero-title .word-vinyl { color: var(--c-accent); }
+    .hero-tagline {
+      font-size: var(--text-base);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-text-2);
+      margin-bottom: var(--space-10);
+      max-width: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+    }
+    .hero-tagline .sep {
+      color: var(--c-border-2);
+      margin: 0 var(--space-2);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      align-items: center;
+    }
+    .hero-badge {
+      position: absolute;
+      bottom: var(--space-20);
+      right: var(--space-8);
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 1px solid var(--c-border-2);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 2px;
+    }
+    @media (min-width: 768px) { .hero-badge { display: flex; } }
+    .hero-badge strong {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: var(--c-accent);
+      line-height: 1;
+    }
+    .hero-badge span {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+    }
+
+    /* btn-ghost on index uses accent-2 for hover */
+    .btn-ghost:hover { border-color: var(--c-accent-2); color: var(--c-text); }
+
+    /* === SECTIONS === */
+
+    /* Proof bar */
+    #proof {
+      background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+      padding: var(--space-6) 0;
+    }
+    .proof-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-6) var(--space-10);
+      align-items: center;
+      justify-content: center;
+    }
+    .proof-item { text-align: center; }
+    .proof-item strong {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: var(--c-accent);
+      line-height: 1;
+    }
+    .proof-item span {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+    }
+    .proof-divider {
+      width: 1px;
+      height: 36px;
+      background: var(--c-border);
+      display: none;
+    }
+    @media (min-width: 640px) { .proof-divider { display: block; } }
+
+    /* About */
+    #about {
+      padding: var(--space-20) 0;
+    }
+    .about-inner {
+      display: grid;
+      gap: var(--space-12);
+      align-items: stretch;
+    }
+    @media (min-width: 1024px) {
+      .about-inner { grid-template-columns: 1fr 1fr; gap: var(--space-24); }
+    }
+    .about-body {
+      color: var(--c-text-2);
+      margin-bottom: var(--space-8);
+    }
+    .about-quote {
+      border-left: 3px solid var(--c-accent-2);
+      padding-left: var(--space-6);
+      font-size: var(--text-lg);
+      font-weight: 600;
+      font-style: italic;
+      color: var(--c-text);
+      line-height: 1.6;
+    }
+    .about-quote cite {
+      margin-top: var(--space-3);
+      font-style: normal;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+    }
+    .about-img {
+      width: 100%;
+      height: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--c-border);
+      object-fit: cover;
+      display: block;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(to top, rgba(232,107,71,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Experience — record sleeve cards */
+    #experience {
+      padding: var(--space-20) 0;
+      background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .exp-header {
+      margin-bottom: var(--space-12);
+    }
+    .sleeve-grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+    @media (min-width: 768px) {
+      .sleeve-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .sleeve-card {
+      display: flex;
+      position: relative;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      min-height: 180px;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .sleeve-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 16px 48px rgba(0,0,0,0.5),
+        0 0 0 1px var(--c-border-2);
+    }
+    .sleeve-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .sleeve-card:hover .sleeve-bg-img { transform: scale(1.03); }
+    .sleeve-overlay {
+      position: absolute;
+      inset: 0;
+    }
+    .sleeve-overlay--coral { background: rgba(22, 7, 2, 0.84); }
+    .sleeve-overlay--teal  { background: rgba(2, 14, 10, 0.84); }
+    .sleeve-overlay--navy  { background: rgba(2, 7, 14, 0.84); }
+    .sleeve-overlay--gold  { background: rgba(18, 12, 2, 0.84); }
+    .sleeve-strip {
+      position: relative;
+      z-index: 2;
+      width: 7px;
+      flex-shrink: 0;
+    }
+    .sleeve-strip--coral  { background: var(--c-accent); }
+    .sleeve-strip--teal   { background: var(--c-accent-2); }
+    .sleeve-strip--navy   { background: var(--c-navy); }
+    .sleeve-strip--gold   { background: var(--c-gold); }
+    .sleeve-body {
+      position: relative;
+      z-index: 2;
+      padding: var(--space-6) var(--space-8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .sleeve-icon {
+      margin-bottom: var(--space-3);
+      color: var(--c-text-2);
+      display: flex;
+    }
+    .sleeve-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: var(--c-text);
+      line-height: 1;
+      margin-bottom: var(--space-2);
+    }
+    .sleeve-desc {
+      font-size: var(--text-base);
+      color: var(--c-text-2);
+      line-height: 1.6;
+      max-width: 52ch;
+    }
+
+    /* Menu teaser */
+    #menu {
+      padding: var(--space-20) 0;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-12);
+    }
+    @media (min-width: 768px) {
+      .menu-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .menu-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+    .menu-card:hover {
+      border-color: var(--c-border-2);
+      transform: translateY(-2px);
+    }
+    .menu-card-img-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .menu-card-thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+    }
+    .menu-card-img-wrap .badge {
+      position: absolute;
+      top: var(--space-3);
+      left: var(--space-3);
+    }
+    .menu-card-body {
+      flex: 1;
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .menu-card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      color: var(--c-text);
+      line-height: 1;
+      margin-bottom: var(--space-1);
+    }
+    .menu-card-desc {
+      font-size: var(--text-base);
+      color: var(--c-text-2);
+      line-height: 1.5;
+      max-width: none;
+    }
+    .menu-footer {
+      margin-top: var(--space-10);
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    /* Events */
+    #events {
+      padding: var(--space-20) 0;
+      background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .events-grid {
+      display: grid;
+      gap: var(--space-6);
+      margin-top: var(--space-12);
+    }
+    @media (min-width: 1024px) {
+      .events-grid { grid-template-columns: 3fr 2fr; }
+    }
+    .event-card {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-8);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s ease;
+    }
+    .event-card:hover { border-color: var(--c-border-2); }
+    .event-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .event-card--dj::before     { background: var(--c-accent); }
+    .event-card--private::before { background: var(--c-accent-2); }
+    .event-eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: var(--space-3);
+      max-width: none;
+    }
+    .event-card--private .event-eyebrow { color: var(--c-accent-2); }
+    .event-title {
+      font-size: clamp(32px, 4vw, 52px);
+      color: var(--c-text);
+      margin-bottom: var(--space-4);
+    }
+    .event-desc {
+      color: var(--c-text-2);
+      margin-bottom: var(--space-6);
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    /* Visit */
+    #visit {
+      padding: var(--space-20) 0;
+    }
+    .visit-inner {
+      display: grid;
+      gap: var(--space-12);
+      margin-top: var(--space-12);
+    }
+    @media (min-width: 1024px) {
+      .visit-inner { grid-template-columns: 1fr 1fr; gap: var(--space-20); align-items: start; }
+    }
+    .hours-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      color: var(--c-text-2);
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-5);
+    }
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .hours-table tr {
+      border-bottom: 1px solid var(--c-border);
+    }
+    .hours-table tr:last-child { border-bottom: none; }
+    .hours-table td {
+      padding: var(--space-3) 0;
+      font-size: var(--text-base);
+    }
+    .hours-table td:first-child {
+      color: var(--c-text-2);
+      font-weight: 600;
+      width: 130px;
+    }
+    .hours-table td:last-child { color: var(--c-text); }
+    .hours-table tr.is-today td {
+      color: var(--c-accent);
+      font-weight: 700;
+    }
+    .hours-note {
+      margin-top: var(--space-4);
+      font-size: var(--text-sm);
+      color: var(--c-text-3);
+      max-width: none;
+    }
+    .location-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-8);
+    }
+    .location-address {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: var(--c-text);
+      line-height: 1.1;
+      font-style: normal;
+      margin-bottom: var(--space-8);
+    }
+    .location-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    .location-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 44px;
+      padding: 0 var(--space-4);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-text-2);
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .location-link:hover { border-color: var(--c-accent); color: var(--c-text); }
+    .location-link:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
+
+    /* Reviews */
+    #reviews {
+      padding: var(--space-20) 0;
+      background: var(--c-surface);
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .reviews-grid {
+      display: grid;
+      gap: var(--space-5);
+      margin-top: var(--space-12);
+    }
+    @media (min-width: 768px) {
+      .reviews-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .review-card {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      transition: border-color 0.25s ease;
+    }
+    .review-card:hover { border-color: var(--c-border-2); }
+    .review-stars {
+      color: var(--c-accent);
+      font-size: var(--text-lg);
+      letter-spacing: 3px;
+    }
+    .review-text {
+      font-size: var(--text-lg);
+      color: var(--c-text);
+      font-style: italic;
+      line-height: 1.65;
+      max-width: none;
+    }
+    .review-meta {
+      border-top: 1px solid var(--c-border);
+      padding-top: var(--space-4);
+    }
+    .review-author {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      max-width: none;
+    }
+    .review-source {
+      font-size: var(--text-sm);
+      color: var(--c-text-3);
+      max-width: none;
+    }
+
+    /* Gift card strip — light theme */
+    #gift-cards {
+      padding: var(--space-12) 0;
+      background: #F0EBE0;
+    }
+    .gift-card-inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+      align-items: flex-start;
+    }
+    @media (min-width: 768px) {
+      .gift-card-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .gift-card-text p:first-child {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8B6914;
+      margin-bottom: var(--space-2);
+    }
+    .gift-card-text p:last-child {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(28px, 4vw, 44px);
+      color: #1C1814;
+      line-height: 1;
+    }
+    #gift-cards .btn-primary {
+      background: #1C1814;
+      color: #F0EBE0;
+      border-color: #1C1814;
+    }
+    #gift-cards .btn-primary:hover {
+      background: #C9A84C;
+      border-color: #C9A84C;
+      color: #1C1814;
+    }
+
+    /* === MOBILE FIXES === */
+
+    /* Hero: center content on mobile instead of pushing to bottom */
+    @media (max-width: 767px) {
+      #hero {
+        align-items: center;
+        padding-top: 100px;
+        padding-bottom: var(--space-12);
+      }
+      .hero-content {
+        padding-left: var(--space-6);
+      }
+      /* Tagline: wrap and shrink on mobile */
+      .hero-tagline {
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        white-space: normal;
+      }
+      /* Menu card titles: smaller on mobile to prevent bad wraps */
+      .menu-card-name {
+        font-size: var(--text-xl);
+      }
+      /* Sleeve cards: tighten padding on mobile */
+      .sleeve-body {
+        padding: var(--space-5) var(--space-6);
+      }
+      /* Experience cards tighter on mobile */
+      .sleeve-title {
+        font-size: var(--text-3xl);
+      }
+      /* Section padding reduced on mobile */
+      #about .container,
+      #experience .container,
+      #menu .container,
+      #events .container,
+      #visit .container,
+      #reviews .container {
+        padding-top: var(--space-16) !important;
+        padding-bottom: var(--space-16) !important;
+      }
+    }
+
+  </style>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="512x512" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Vinyl Room">
+  <meta property="og:title" content="The Vinyl Room — Cocktails, Records, Speakeasy & Arcade | Beacon, NY">
+  <meta property="og:description" content="More than a bar. Craft cocktails, vinyl records, a speakeasy lounge, and a vintage arcade — all under one roof on Main Street in Beacon, NY.">
+  <meta property="og:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://thevinylroomny.netlify.app/">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Vinyl Room — Cocktails, Records, Speakeasy & Arcade | Beacon, NY">
+  <meta name="twitter:description" content="More than a bar. Craft cocktails, vinyl records, a speakeasy lounge, and a vintage arcade — all under one roof on Main Street in Beacon, NY.">
+  <meta name="twitter:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="The Vinyl Room — home">
+      <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="is-active" aria-current="page">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="record-shop.html">Record Shop</a></li>
+      <li><a href="arcade.html">Speakeasy</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="contact.html">Visit</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="tel:+18452973344" class="nav-cta">Call Us</a>
+      <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-overlay">
+        <svg class="nav-record-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.40)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="2" stroke-opacity="0.95"/>
+          <path d="M 14 34 A 40 40 0 0 1 34 14" fill="none" stroke="rgba(255,255,255,0.60)" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="2.5" fill="rgba(232,107,71,1)"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav overlay — Needle Drop -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" hidden>
+    <div class="nav-scan-line" aria-hidden="true"></div>
+    <ul class="nav-overlay-links" role="list">
+      <li><a href="index.html" class="nav-overlay-link">Home</a></li>
+      <li><a href="menu.html" class="nav-overlay-link">Menu</a></li>
+      <li><a href="record-shop.html" class="nav-overlay-link">Record Shop</a></li>
+      <li><a href="arcade.html" class="nav-overlay-link">Speakeasy</a></li>
+      <li><a href="events.html" class="nav-overlay-link">Events</a></li>
+      <li><a href="contact.html" class="nav-overlay-link">Visit</a></li>
+    </ul>
+    <div class="nav-overlay-record" aria-hidden="true">
+      <svg class="nav-overlay-record-disc" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+        <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.24)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.17)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.12)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.08)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+        <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="1.2" stroke-opacity="0.75"/>
+        <path d="M 17 31 A 38 38 0 0 1 31 17" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="2" fill="rgba(232,107,71,0.9)"/>
+      </svg>
+      <img class="nav-overlay-record-logo" src="brand_assets/tvr_logo.png" alt="">
+    </div>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero" aria-label="Welcome to The Vinyl Room">
+      <div class="hero-groove" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-accent-bar" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="hero-content">
+          <p class="hero-eyebrow">Beacon, NY &nbsp;·&nbsp; Est. 2017</p>
+          <h1 class="hero-title">
+            <span>The</span>
+            <span class="word-vinyl">Vinyl</span>
+            <span>Room</span>
+          </h1>
+          <p class="hero-tagline">
+            <span>Cocktails</span><span class="sep">·</span><span>Records</span><span class="sep">·</span><span>Speakeasy</span><span class="sep">·</span><span>Arcade</span>
+          </p>
+          <div class="hero-actions">
+            <a href="contact.html" class="btn-primary">Reserve a Table</a>
+            <a href="menu.html" class="btn-secondary">View Menu</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-badge" aria-label="Open 7 days a week">
+        <strong>7</strong>
+        <span>Days<br>a Week</span>
+      </div>
+    </section>
+
+    <!-- PROOF BAR -->
+    <section id="proof" aria-label="At a glance">
+      <div class="container">
+        <div class="proof-grid">
+          <div class="proof-item">
+            <strong>4.5★</strong>
+            <span>440+ Google Reviews</span>
+          </div>
+          <div class="proof-divider" aria-hidden="true"></div>
+          <div class="proof-item">
+            <strong>Est. 2017</strong>
+            <span>Hudson Valley Original</span>
+          </div>
+          <div class="proof-divider" aria-hidden="true"></div>
+          <div class="proof-item">
+            <strong>396</strong>
+            <span>Main St · Beacon, NY</span>
+          </div>
+          <div class="proof-divider" aria-hidden="true"></div>
+          <div class="proof-item">
+            <strong>Fri & Sat</strong>
+            <span>Live Vinyl DJ Nights</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="about-inner">
+
+          <div class="reveal">
+            <p class="section-label">Our Story</p>
+            <h2 id="about-heading" class="section-heading">More Than<br>a Bar.</h2>
+            <p class="about-body">
+              The Vinyl Room started with a simple idea: bring people together through music, food, and good vibes. What began in Wappingers Falls in 2017 has grown into Beacon's most singular night out — a two-floor destination where the cocktails are craft, the records are real, and everyone is welcome.
+            </p>
+            <blockquote class="about-quote">
+              "We're about positivity — a place where everyone feels welcome. Leave it at the door."
+              <cite>— TVR Team</cite>
+            </blockquote>
+          </div>
+
+          <div class="reveal reveal-d2 about-img-wrap">
+            <img
+              src="images/tvr_storefront_day.webp"
+              alt="The Vinyl Room storefront on Main Street, Beacon NY"
+              style="object-position: center 80%;"
+              class="about-img"
+            >
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE — record sleeve cards -->
+    <section id="experience" aria-labelledby="experience-heading">
+      <div class="container">
+        <div class="exp-header">
+          <p class="section-label reveal">What We Are</p>
+          <h2 id="experience-heading" class="section-heading reveal reveal-d1">Four Experiences.<br>One Address.</h2>
+        </div>
+        <div class="sleeve-grid">
+
+          <article class="sleeve-card reveal reveal-d1">
+            <img src="images/drinks.webp" alt="" class="sleeve-bg-img" aria-hidden="true" style="object-position: center 90%;">
+            <div class="sleeve-overlay sleeve-overlay--coral" aria-hidden="true"></div>
+            <div class="sleeve-strip sleeve-strip--coral" aria-hidden="true"></div>
+            <div class="sleeve-body">
+              <div class="sleeve-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l7 9 7-9H5z"/><line x1="12" y1="12" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+              </div>
+              <h3 class="sleeve-title">Craft Cocktails</h3>
+              <p class="sleeve-desc">Meticulously built drinks from a bar that takes the pour seriously. Rotating seasonal list, craft beer, and a wine selection that surprises.</p>
+            </div>
+          </article>
+
+          <article class="sleeve-card reveal reveal-d2">
+            <img src="images/korean_nachos_tvr.webp" alt="" class="sleeve-bg-img" aria-hidden="true">
+            <div class="sleeve-overlay sleeve-overlay--teal" aria-hidden="true"></div>
+            <div class="sleeve-strip sleeve-strip--teal" aria-hidden="true"></div>
+            <div class="sleeve-body">
+              <div class="sleeve-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>
+              </div>
+              <h3 class="sleeve-title">Culinary Tapas</h3>
+              <p class="sleeve-desc">Chef-driven small plates built for sharing. Korean nachos, beef tallow fries, crispy wings — food that earns its own reputation.</p>
+            </div>
+          </article>
+
+          <article class="sleeve-card reveal reveal-d3">
+            <img src="images/vinyl_record_shop.webp" alt="" class="sleeve-bg-img" aria-hidden="true" style="object-position: center 25%;">
+            <div class="sleeve-overlay sleeve-overlay--navy" aria-hidden="true"></div>
+            <div class="sleeve-strip sleeve-strip--navy" aria-hidden="true"></div>
+            <div class="sleeve-body">
+              <div class="sleeve-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+              </div>
+              <h3 class="sleeve-title">Record Shop</h3>
+              <p class="sleeve-desc">Browse, buy, and sell vinyl while you drink. An in-house collection spanning genres and decades — no two visits sound the same.</p>
+            </div>
+          </article>
+
+          <article class="sleeve-card reveal reveal-d4">
+            <img src="images/velvet_room_view.webp" alt="" class="sleeve-bg-img" aria-hidden="true">
+            <div class="sleeve-overlay sleeve-overlay--gold" aria-hidden="true"></div>
+            <div class="sleeve-strip sleeve-strip--gold" aria-hidden="true"></div>
+            <div class="sleeve-body">
+              <div class="sleeve-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="12" rx="3"/><path d="M6 13h4M8 11v4"/><circle cx="16" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="18" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
+              </div>
+              <h3 class="sleeve-title">Speakeasy + Arcade</h3>
+              <p class="sleeve-desc">Head downstairs. A basement speakeasy with vintage arcade games open Friday and Saturday nights. Vinyl only on the decks — no laptops.</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU TEASER -->
+    <section id="menu" aria-labelledby="menu-heading">
+      <div class="container">
+        <p class="section-label reveal">From the Kitchen</p>
+        <h2 id="menu-heading" class="section-heading reveal reveal-d1">What People Come<br>Back For.</h2>
+        <div class="menu-grid">
+
+          <div class="menu-card reveal reveal-d1">
+            <div class="menu-card-img-wrap">
+              <img src="images/korean_chicken_sandwich.webp" alt="Korean Fried Chicken Sandwich" class="menu-card-thumb">
+              <span class="badge badge--coral">Fan Fave</span>
+            </div>
+            <div class="menu-card-body">
+              <h3 class="menu-card-name">Korean Fried Chicken Sandwich</h3>
+              <p class="menu-card-desc">Chili garlic crunch, jalapeño cabbage slaw, roasted garlic aioli, house pickles.</p>
+            </div>
+          </div>
+
+          <div class="menu-card reveal reveal-d2">
+            <div class="menu-card-img-wrap">
+              <img src="images/carnitas_tacos.webp" alt="Carnitas Tacos" class="menu-card-thumb">
+            </div>
+            <div class="menu-card-body">
+              <h3 class="menu-card-name">Carnitas Tacos</h3>
+              <p class="menu-card-desc">Corn tortillas, cilantro, onions, salsa verde, salsa roja.</p>
+            </div>
+          </div>
+
+          <div class="menu-card reveal reveal-d3">
+            <div class="menu-card-img-wrap">
+              <img src="images/crunchy_chocken_bowl.webp" alt="Crunchy Chicken Bowl" class="menu-card-thumb">
+            </div>
+            <div class="menu-card-body">
+              <h3 class="menu-card-name">Crunchy Chicken Bowl</h3>
+              <p class="menu-card-desc">Sushi rice, avocado, charred corn, chili garlic crunch, creamy garlic sauce.</p>
+            </div>
+          </div>
+
+          <div class="menu-card reveal reveal-d4">
+            <div class="menu-card-img-wrap">
+              <img src="images/the_tvr_burger.webp" alt="TVR Burger" class="menu-card-thumb">
+              <span class="badge badge--teal">Chef Pick</span>
+            </div>
+            <div class="menu-card-body">
+              <h3 class="menu-card-name">TVR Burger</h3>
+              <p class="menu-card-desc">Short rib & brisket blend, Tillamook white cheddar, house bacon jam, brioche bun.</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="menu-footer reveal">
+          <a href="menu.html#food" class="btn-primary">Full Food Menu</a>
+          <a href="menu.html#happy-hour" class="btn-ghost">Drinks Menu</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="events" aria-labelledby="events-heading">
+      <div class="container">
+        <p class="section-label reveal">What's On</p>
+        <h2 id="events-heading" class="section-heading reveal reveal-d1">The Night<br>Starts Here.</h2>
+        <div class="events-grid">
+
+          <article class="event-card event-card--dj reveal reveal-d1">
+            <p class="event-eyebrow">Every Friday &amp; Saturday · 9pm – 1am</p>
+            <h3 class="event-title">DJ Nights</h3>
+            <p class="event-desc">Hudson Valley's top DJs spinning downstairs in the speakeasy. Vinyl only — no laptops, no Serato. The way music was meant to move a room.</p>
+            <div class="tags">
+              <span class="tag tag--coral">Vinyl Only</span>
+              <span class="tag tag--teal">Speakeasy</span>
+              <span class="tag tag--teal">Arcade Open</span>
+            </div>
+          </article>
+
+          <article class="event-card event-card--private reveal reveal-d2">
+            <p class="event-eyebrow">Private Events</p>
+            <h3 class="event-title">Make It Yours</h3>
+            <p class="event-desc">Parties, welcome drinks, wedding after-parties, corporate events. Two floors, full bar, and a record shop as your backdrop.</p>
+            <a href="events.html#private-events" class="btn-ghost" style="margin-top: var(--space-2);">Inquire About Events</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT -->
+    <section id="visit" aria-labelledby="visit-heading">
+      <div class="container">
+        <p class="section-label reveal">Find Us</p>
+        <h2 id="visit-heading" class="section-heading reveal reveal-d1">Open Every Day.</h2>
+        <div class="visit-inner">
+
+          <div class="reveal reveal-d1">
+            <p class="hours-heading">Hours</p>
+            <table class="hours-table" aria-label="Weekly hours of operation">
+              <tbody>
+                <tr id="row-mon"><td>Monday</td><td>4pm – 12am</td></tr>
+                <tr id="row-tue"><td>Tuesday</td><td>4pm – 12am</td></tr>
+                <tr id="row-wed"><td>Wednesday</td><td>4pm – 12am</td></tr>
+                <tr id="row-thu"><td>Thursday</td><td>4pm – 1am</td></tr>
+                <tr id="row-fri"><td>Friday</td><td>4pm – 2am</td></tr>
+                <tr id="row-sat"><td>Saturday</td><td>12pm – 2am</td></tr>
+                <tr id="row-sun"><td>Sunday</td><td>12pm – 10pm</td></tr>
+              </tbody>
+            </table>
+            <p class="hours-note">Hours subject to change. Call ahead for holiday hours.</p>
+          </div>
+
+          <div class="reveal reveal-d2">
+            <div class="location-card">
+              <address class="location-address">
+                396 Main Street<br>Beacon, NY 12508
+              </address>
+              <div class="location-actions">
+                <a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" class="location-link" target="_blank" rel="noopener" aria-label="Get directions in Google Maps">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  </svg>
+                  Get Directions
+                </a>
+                <a href="tel:+18452973344" class="location-link" aria-label="Call (845) 297-3344">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                  </svg>
+                  (845) 297-3344
+                </a>
+                <a href="https://www.instagram.com/tvr_beacon/" class="location-link" target="_blank" rel="noopener" aria-label="Follow @tvr_beacon on Instagram">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                  </svg>
+                  @tvr_beacon
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews" aria-labelledby="reviews-heading">
+      <div class="container">
+        <p class="section-label reveal">What People Say</p>
+        <h2 id="reviews-heading" class="section-heading reveal reveal-d1">Don't Take<br>Our Word For It.</h2>
+        <div class="reviews-grid">
+
+          <article class="review-card reveal reveal-d1">
+            <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="review-text">"It's like stepping into a pop museum filled with local treasures. The vibe is unmatched anywhere in the Hudson Valley."</p>
+            <div class="review-meta">
+              <p class="review-author">Google Review</p>
+              <p class="review-source">Beacon, NY</p>
+            </div>
+          </article>
+
+          <article class="review-card reveal reveal-d2">
+            <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="review-text">"The cleanest bar I have ever been in. The Korean nachos are incredible — they alone are worth the trip from the city."</p>
+            <div class="review-meta">
+              <p class="review-author">Verified Guest</p>
+              <p class="review-source">Google Review</p>
+            </div>
+          </article>
+
+          <article class="review-card reveal reveal-d3">
+            <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="review-text">"Drinks were on point, the music was great, and the bartenders actually care. This place has become our go-to every weekend."</p>
+            <div class="review-meta">
+              <p class="review-author">Regular Guest</p>
+              <p class="review-source">Yelp</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- GIFT CARDS -->
+    <section id="gift-cards" aria-label="Gift cards">
+      <div class="container">
+        <div class="gift-card-inner reveal">
+          <div class="gift-card-text">
+            <p>Give the Gift</p>
+            <p>A Night Out at The Vinyl Room.</p>
+          </div>
+          <a href="https://order.toasttab.com/egiftcards/vinyl-room-2-396-main-street" target="_blank" rel="noopener" class="btn-primary">Buy a Gift Card</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div>
+          <div class="footer-logo">
+            <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+          </div>
+          <p class="footer-tagline">Cocktails. Records. Speakeasy. Arcade.<br>Beacon's most singular night out.</p>
+        </div>
+
+        <div>
+          <p class="footer-col-title">Visit</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" target="_blank" rel="noopener">396 Main St, Beacon NY</a></li>
+            <li><a href="tel:+18452973344">(845) 297-3344</a></li>
+            <li><a href="contact.html">Hours &amp; Reservations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-col-title">Explore</p>
+          <ul class="footer-links" role="list">
+            <li><a href="menu.html#food">Food Menu</a></li>
+            <li><a href="menu.html#drinks">Drinks Menu</a></li>
+            <li><a href="record-shop.html">Record Shop</a></li>
+            <li><a href="events.html">Private Events</a></li>
+            <li><a href="https://order.toasttab.com/egiftcards/vinyl-room-2-396-main-street" target="_blank" rel="noopener">Gift Cards</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-col-title">Follow</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://www.instagram.com/tvr_beacon/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.facebook.com/thevinylroomny/" target="_blank" rel="noopener">Facebook</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Vinyl Room. All rights reserved.</p>
+        <p>396 Main St &nbsp;·&nbsp; Beacon, NY 12508</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    // Today's hours highlight
+    const dayRows = ['row-sun','row-mon','row-tue','row-wed','row-thu','row-fri','row-sat'];
+    const todayRow = document.getElementById(dayRows[new Date().getDay()]);
+    if (todayRow) todayRow.classList.add('is-today');
+  </script>
+
+</body>
+</html>

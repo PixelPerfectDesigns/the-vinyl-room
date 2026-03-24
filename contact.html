@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get in Touch — The Vinyl Room, Beacon NY</title>
+  <meta name="description" content="Contact The Vinyl Room at 396 Main St, Beacon NY. Hours, directions, reservations, and private event inquiries. Open 7 days a week.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* PAGE-SPECIFIC STYLES ONLY */
+
+    html { background-color: #F2E8D5; }
+    /* Light palette + cream scrolled nav */
+    :root {
+      --c-bg:         #F2E8D5;
+      --c-surface:    #E8D9BC;
+      --c-surface-2:  #DCCBA8;
+      --c-border:     #D0BA96;
+      --c-border-2:   #B89E78;
+      --c-text:       #1C1814;
+      --c-text-2:     #4A3828;
+      --c-text-3:     #8A7060;
+      --c-accent:     #E86B47;
+      --c-accent-2:   #4DB896;
+      --c-dark:       #1C1814;
+      --c-accent-fg:  #F2E8D5;
+      --nav-scrolled-bg: rgba(242, 232, 213, 0.96);
+    }
+
+    /* Contact nav: cream scrolled state + custom call button border */
+    nav.is-scrolled {
+      box-shadow: 0 1px 0 var(--c-border), 0 8px 32px rgba(28,24,20,0.08);
+    }
+    .nav-cta:focus-visible { outline: 2px solid var(--c-dark); outline-offset: 3px; }
+
+    /* === PAGE HERO === */
+    .page-hero {
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      padding: 130px 0 var(--space-16);
+    }
+    .page-hero-inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    @media (min-width: 1024px) {
+      .page-hero-inner {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+    }
+    .page-hero-eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: var(--space-3);
+      max-width: none;
+    }
+    .page-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 9vw, 104px);
+      line-height: 0.92;
+      color: var(--c-text);
+    }
+    .hero-contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      flex-shrink: 0;
+    }
+    .hero-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .hero-info-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      max-width: none;
+    }
+    .hero-info-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      color: var(--c-text);
+      max-width: none;
+    }
+    .hero-info-value a {
+      transition: color 0.2s ease;
+    }
+    .hero-info-value a:hover { color: var(--c-accent); }
+    .hero-info-value a:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; border-radius: 2px; }
+
+    /* Contact section-heading is slightly smaller than the shared default */
+    .section-heading { font-size: clamp(36px, 5vw, 60px); }
+
+    /* Main two-column layout */
+    #contact-main {
+      padding: var(--space-20) 0;
+    }
+    .contact-grid {
+      display: grid;
+      gap: var(--space-12);
+    }
+    @media (min-width: 1024px) {
+      .contact-grid { grid-template-columns: 1fr 1fr; gap: var(--space-16); align-items: stretch; }
+    }
+
+    /* Hours card */
+    .hours-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: var(--space-4);
+    }
+    .hours-card-header {
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hours-card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      color: var(--c-text);
+    }
+    .hours-today-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      max-width: none;
+    }
+    .hours-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) var(--space-6);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row.is-today { background: rgba(232, 107, 71, 0.07); }
+    .hours-row.is-today .hours-day { color: var(--c-accent); font-weight: 700; }
+    .hours-row.is-today .hours-time { color: var(--c-text); font-weight: 700; }
+    .hours-day {
+      font-size: var(--text-base);
+      color: var(--c-text-2);
+    }
+    .hours-time {
+      font-size: var(--text-base);
+      color: var(--c-text-2);
+      text-align: right;
+    }
+    .hours-note-row {
+      padding: var(--space-3) var(--space-6);
+      font-size: var(--text-sm);
+      color: var(--c-text-3);
+      font-style: italic;
+      border-top: 1px solid var(--c-border);
+    }
+
+    /* Location cards */
+    .location-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+    .location-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      transition: border-color 0.2s ease;
+    }
+    .location-card:is(a):hover { border-color: var(--c-accent); }
+    .location-card:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
+    .location-card-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      max-width: none;
+    }
+    .location-card-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      color: var(--c-text);
+      line-height: 1.15;
+    }
+    .location-card-sub {
+      font-size: var(--text-sm);
+      color: var(--c-text-3);
+      max-width: none;
+      margin-top: var(--space-1);
+    }
+    .location-card-arrow {
+      margin-top: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+    }
+
+    /* Contact form */
+    .form-card {
+      background: var(--c-dark);
+      border-radius: var(--radius-lg);
+      padding: var(--space-10);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--c-accent) 0%, var(--c-gold) 50%, var(--c-accent-2) 100%);
+    }
+    .form-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: #F2E8D5;
+      margin-bottom: var(--space-2);
+    }
+    .form-subtitle {
+      font-size: var(--text-base);
+      color: #A89577;
+      margin-bottom: var(--space-8);
+      max-width: none;
+    }
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+      flex: 1;
+    }
+    .form-row {
+      display: grid;
+      gap: var(--space-5);
+    }
+    @media (min-width: 640px) {
+      .form-row { grid-template-columns: 1fr 1fr; }
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    /* Dark form tokens — intentionally fixed dark values on light page */
+    :root {
+      --form-bg:          #242019;
+      --form-border:      #3A3025;
+      --form-text:        #F2E8D5;
+      --form-placeholder: #6B5E4A;
+      --form-label:       #A89577;
+    }
+    .form-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--form-label);
+    }
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      background: var(--form-bg);
+      border: 1px solid var(--form-border);
+      border-radius: var(--radius-sm);
+      color: var(--form-text);
+      font-size: var(--text-base);
+      font-family: 'Nunito', sans-serif;
+      transition: border-color 0.2s ease;
+      min-height: 44px;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--form-placeholder); }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--c-accent);
+    }
+    .form-input:focus-visible,
+    .form-select:focus-visible,
+    .form-textarea:focus-visible {
+      outline: 2px solid var(--c-accent);
+      outline-offset: 2px;
+    }
+    .form-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B5E4A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right var(--space-4) center;
+      padding-right: var(--space-10);
+      cursor: pointer;
+    }
+    .form-select option { background: var(--form-bg); color: var(--form-text); }
+    .form-textarea {
+      resize: vertical;
+      min-height: 140px;
+      flex: 1;
+      line-height: 1.6;
+    }
+    .form-group--stretch {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      padding: 0 var(--space-8);
+      background: var(--c-accent);
+      color: #1C1814;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      letter-spacing: 0.08em;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      margin-top: var(--space-2);
+    }
+    .form-submit:hover { opacity: 0.88; transform: translateY(-2px); }
+    .form-submit:active { opacity: 1; transform: translateY(0); }
+    .form-submit:focus-visible { outline: 2px solid #1C1814; outline-offset: 3px; }
+
+    /* Bottom strip */
+    #contact-strip {
+      padding: var(--space-12) 0;
+      background: var(--c-surface-2);
+      border-top: 1px solid var(--c-border);
+    }
+    .strip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-8) var(--space-12);
+      align-items: flex-start;
+    }
+    .strip-item { flex: 1; min-width: 200px; }
+    .strip-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      margin-bottom: var(--space-1);
+      max-width: none;
+    }
+    .strip-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: var(--c-text);
+      line-height: 1;
+      margin-bottom: var(--space-2);
+      max-width: none;
+    }
+    .strip-sub { font-size: var(--text-base); color: var(--c-text-2); max-width: none; }
+    .strip-sub a { color: var(--c-accent); transition: opacity 0.2s ease; }
+    .strip-sub a:hover { opacity: 0.75; }
+    .strip-sub a:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; border-radius: 2px; }
+    .strip-divider {
+      width: 1px;
+      align-self: stretch;
+      background: var(--c-border);
+      display: none;
+    }
+    @media (min-width: 768px) { .strip-divider { display: block; } }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 767px) {
+      .page-hero { padding-top: 110px; padding-bottom: var(--space-12); }
+      .location-cards { grid-template-columns: 1fr; }
+      .form-card { padding: var(--space-8) var(--space-6); }
+    }
+
+  </style>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="512x512" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Vinyl Room">
+  <meta property="og:title" content="Visit Us — The Vinyl Room | Beacon, NY">
+  <meta property="og:description" content="396 Main Street, Beacon, NY. Open 7 days a week. Reserve a table, order online via DoorDash, or just walk in.">
+  <meta property="og:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://thevinylroomny.netlify.app/contact.html">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Visit Us — The Vinyl Room | Beacon, NY">
+  <meta name="twitter:description" content="396 Main Street, Beacon, NY. Open 7 days a week. Reserve a table, order online via DoorDash, or just walk in.">
+  <meta name="twitter:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="The Vinyl Room — home">
+      <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="record-shop.html">Record Shop</a></li>
+      <li><a href="arcade.html">Speakeasy</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="contact.html" class="is-active" aria-current="page">Visit</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:+18452973344" class="nav-cta">Call Us</a>
+      <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-overlay">
+        <svg class="nav-record-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.40)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" fill="none"/>
+          <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+          <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="2" stroke-opacity="0.95"/>
+          <path d="M 14 34 A 40 40 0 0 1 34 14" fill="none" stroke="rgba(255,255,255,0.60)" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+          <circle cx="50" cy="50" r="2.5" fill="rgba(232,107,71,1)"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav overlay — Needle Drop -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" hidden>
+    <div class="nav-scan-line" aria-hidden="true"></div>
+    <ul class="nav-overlay-links" role="list">
+      <li><a href="index.html" class="nav-overlay-link">Home</a></li>
+      <li><a href="menu.html" class="nav-overlay-link">Menu</a></li>
+      <li><a href="record-shop.html" class="nav-overlay-link">Record Shop</a></li>
+      <li><a href="arcade.html" class="nav-overlay-link">Speakeasy</a></li>
+      <li><a href="events.html" class="nav-overlay-link">Events</a></li>
+      <li><a href="contact.html" class="nav-overlay-link">Visit</a></li>
+    </ul>
+    <div class="nav-overlay-record" aria-hidden="true">
+      <svg class="nav-overlay-record-disc" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+        <circle cx="50" cy="50" r="49" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.24)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="38" stroke="rgba(255,255,255,0.17)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.12)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="26" stroke="rgba(255,255,255,0.08)" stroke-width="1.8" fill="none"/>
+        <circle cx="50" cy="50" r="22" fill="#1C1814"/>
+        <circle cx="50" cy="50" r="20" fill="none" stroke="#E86B47" stroke-width="1.2" stroke-opacity="0.75"/>
+        <path d="M 17 31 A 38 38 0 0 1 31 17" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="4" fill="#0D0B09"/>
+        <circle cx="50" cy="50" r="2" fill="rgba(232,107,71,0.9)"/>
+      </svg>
+      <img class="nav-overlay-record-logo" src="brand_assets/tvr_logo.png" alt="">
+    </div>
+  </div>
+
+  <main>
+
+    <!-- PAGE HERO -->
+    <header class="page-hero" aria-label="Contact The Vinyl Room">
+      <div class="container">
+        <div class="page-hero-inner reveal">
+          <div>
+            <p class="page-hero-eyebrow">The Vinyl Room &nbsp;·&nbsp; Beacon, NY</p>
+            <h1 class="page-hero-title">Get in<br>Touch.</h1>
+          </div>
+          <div class="hero-contact-info" aria-label="Key contact details">
+            <div class="hero-info-item">
+              <p class="hero-info-label">Address</p>
+              <p class="hero-info-value">
+                <a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" target="_blank" rel="noopener" aria-label="Get directions — 396 Main St, Beacon NY">396 Main St, Beacon NY</a>
+              </p>
+            </div>
+            <div class="hero-info-item">
+              <p class="hero-info-label">Phone</p>
+              <p class="hero-info-value">
+                <a href="tel:+18452973344">(845) 297-3344</a>
+              </p>
+            </div>
+            <div class="hero-info-item">
+              <p class="hero-info-label">Hours</p>
+              <p class="hero-info-value">Open 7 Days</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN: HOURS + FORM -->
+    <section id="contact-main" aria-label="Hours, location, and contact form">
+      <div class="container">
+        <div class="contact-grid">
+
+          <!-- Left column: Hours + Location cards -->
+          <div class="reveal">
+            <p class="section-label">Hours</p>
+            <div class="hours-card">
+              <div class="hours-card-header">
+                <p class="hours-card-title">Weekly Hours</p>
+                <p class="hours-today-label" id="today-label" aria-live="polite"></p>
+              </div>
+              <div role="table" aria-label="Hours of operation by day">
+                <div class="hours-row" id="row-mon" role="row">
+                  <span class="hours-day" role="rowheader">Monday</span>
+                  <span class="hours-time" role="cell">3:00 pm – 10:00 pm</span>
+                </div>
+                <div class="hours-row" id="row-tue" role="row">
+                  <span class="hours-day" role="rowheader">Tuesday</span>
+                  <span class="hours-time" role="cell">3:00 pm – 10:00 pm</span>
+                </div>
+                <div class="hours-row" id="row-wed" role="row">
+                  <span class="hours-day" role="rowheader">Wednesday</span>
+                  <span class="hours-time" role="cell">3:00 pm – 10:00 pm</span>
+                </div>
+                <div class="hours-row" id="row-thu" role="row">
+                  <span class="hours-day" role="rowheader">Thursday</span>
+                  <span class="hours-time" role="cell">3:00 pm – 10:00 pm</span>
+                </div>
+                <div class="hours-row" id="row-fri" role="row">
+                  <span class="hours-day" role="rowheader">Friday</span>
+                  <span class="hours-time" role="cell">3:00 pm – 12:00 am</span>
+                </div>
+                <div class="hours-row" id="row-sat" role="row">
+                  <span class="hours-day" role="rowheader">Saturday</span>
+                  <span class="hours-time" role="cell">12:00 pm – 12:00 am</span>
+                </div>
+                <div class="hours-row" id="row-sun" role="row">
+                  <span class="hours-day" role="rowheader">Sunday</span>
+                  <span class="hours-time" role="cell">12:00 pm – 9:00 pm</span>
+                </div>
+                <p class="hours-note-row">Speakeasy &amp; Arcade open downstairs Friday &amp; Saturday nights from 9pm.</p>
+              </div>
+            </div>
+
+            <div class="location-cards" style="margin-top: var(--space-4);">
+              <a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" class="location-card" target="_blank" rel="noopener" aria-label="Get directions">
+                <p class="location-card-label">Address</p>
+                <p class="location-card-value">396 Main St<br>Beacon, NY 12508</p>
+                <p class="location-card-sub">Downtown Beacon — street parking available.</p>
+                <p class="location-card-arrow">Directions →</p>
+              </a>
+              <a href="tel:+18452973344" class="location-card" aria-label="Call (845) 297-3344">
+                <p class="location-card-label">Phone</p>
+                <p class="location-card-value">(845) 297-3344</p>
+                <p class="location-card-sub">Reservations, questions, events.</p>
+                <p class="location-card-arrow">Tap to Call →</p>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right column: Contact form -->
+          <div class="form-card reveal reveal-d1">
+            <h2 class="form-title">Send Us a Message</h2>
+            <p class="form-subtitle">Reservations, private events, record shop questions, or just saying hi — we'll get back to you.</p>
+            <form class="form-fields" action="#" method="post" novalidate aria-label="Contact form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="field-name">Name</label>
+                  <input class="form-input" type="text" id="field-name" name="name" autocomplete="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="field-email">Email</label>
+                  <input class="form-input" type="email" id="field-email" name="email" autocomplete="email" placeholder="your@email.com" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="field-reason">Reason for Contact</label>
+                <select class="form-select" id="field-reason" name="reason">
+                  <option value="">Select one...</option>
+                  <option value="reservation">Reservation</option>
+                  <option value="private-event">Private Event</option>
+                  <option value="record-shop">Record Shop</option>
+                  <option value="general">General Inquiry</option>
+                </select>
+              </div>
+              <div class="form-group form-group--stretch">
+                <label class="form-label" for="field-message">Message</label>
+                <textarea class="form-textarea" id="field-message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+              </div>
+              <button type="submit" class="form-submit">Send Message</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM STRIP -->
+    <section id="contact-strip" aria-label="More options">
+      <div class="container">
+        <div class="strip-grid reveal">
+          <div class="strip-item">
+            <p class="strip-label">Order Online</p>
+            <p class="strip-value"><a href="https://www.doordash.com/store/the-vinyl-room-beacon-27654209/?utm_campaign=gpa" target="_blank" rel="noopener">DoorDash</a></p>
+            <p class="strip-sub">Pickup &amp; delivery available. <a href="menu.html#food">View menu</a> before you order.</p>
+          </div>
+          <div class="strip-divider" aria-hidden="true"></div>
+          <div class="strip-item">
+            <p class="strip-label">Private Events</p>
+            <p class="strip-value">Call Us</p>
+            <p class="strip-sub">Buyouts, parties, after-parties. <a href="events.html#private-events">Learn more</a> or call (845) 297-3344.</p>
+          </div>
+          <div class="strip-divider" aria-hidden="true"></div>
+          <div class="strip-item">
+            <p class="strip-label">Happy Hour</p>
+            <p class="strip-value">Mon – Fri, 3–6pm</p>
+            <p class="strip-sub">Discounted cocktails and bites every weekday afternoon.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
+          </div>
+          <p class="footer-tagline">Cocktails. Records. Speakeasy. Arcade.<br>Beacon's most singular night out.</p>
+        </div>
+        <div>
+          <p class="footer-col-title">Visit</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://maps.google.com/?q=396+Main+St+Beacon+NY+12508" target="_blank" rel="noopener">396 Main St, Beacon NY</a></li>
+            <li><a href="tel:+18452973344">(845) 297-3344</a></li>
+            <li><a href="contact.html">Hours &amp; Reservations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Explore</p>
+          <ul class="footer-links" role="list">
+            <li><a href="menu.html#food">Food Menu</a></li>
+            <li><a href="menu.html#drinks">Drinks Menu</a></li>
+            <li><a href="record-shop.html">Record Shop</a></li>
+            <li><a href="events.html">Private Events</a></li>
+            <li><a href="https://order.toasttab.com/egiftcards/vinyl-room-2-396-main-street" target="_blank" rel="noopener">Gift Cards</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Follow</p>
+          <ul class="footer-links" role="list">
+            <li><a href="https://www.instagram.com/tvr_beacon/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.facebook.com/thevinylroomny/" target="_blank" rel="noopener">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Vinyl Room. All rights reserved.</p>
+        <p>396 Main St &nbsp;·&nbsp; Beacon, NY 12508</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    // Today's hours highlight
+    const dayMap = ['row-sun','row-mon','row-tue','row-wed','row-thu','row-fri','row-sat'];
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const today = new Date().getDay();
+    const todayRow = document.getElementById(dayMap[today]);
+    if (todayRow) todayRow.classList.add('is-today');
+    const todayLabel = document.getElementById('today-label');
+    if (todayLabel) todayLabel.textContent = dayNames[today] + ' \u2190 today';
+  </script>
+
+</body>
+</html>
