@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Vinyl Room — Beacon, NY</title>
-  <meta name="description" content="Cocktail bar, record shop, speakeasy, and vintage arcade on Main Street in Beacon, NY. DJs every Friday & Saturday. Open 7 days a week.">
+  <meta name="description" content="Cocktail bar, record shop, lounge, and vintage arcade on Main Street in Beacon, NY. DJs every Friday & Saturday. Open 7 days a week.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,6 +13,15 @@
     /* PAGE-SPECIFIC STYLES ONLY */
 
     /* === HERO === */
+    #hero-shader {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: 1;
+    }
     #hero {
       position: relative;
       min-height: 100svh;
@@ -685,8 +694,8 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Vinyl Room">
-  <meta property="og:title" content="The Vinyl Room — Cocktails, Records, Speakeasy & Arcade | Beacon, NY">
-  <meta property="og:description" content="More than a bar. Craft cocktails, vinyl records, a speakeasy lounge, and a vintage arcade — all under one roof on Main Street in Beacon, NY.">
+  <meta property="og:title" content="The Vinyl Room — Cocktails, Records, Downstairs | Beacon, NY">
+  <meta property="og:description" content="More than a bar. Craft cocktails, vinyl records, a lounge lounge, and a vintage arcade — all under one roof on Main Street in Beacon, NY.">
   <meta property="og:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -695,8 +704,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Vinyl Room — Cocktails, Records, Speakeasy & Arcade | Beacon, NY">
-  <meta name="twitter:description" content="More than a bar. Craft cocktails, vinyl records, a speakeasy lounge, and a vintage arcade — all under one roof on Main Street in Beacon, NY.">
+  <meta name="twitter:title" content="The Vinyl Room — Cocktails, Records, Downstairs | Beacon, NY">
+  <meta name="twitter:description" content="More than a bar. Craft cocktails, vinyl records, a lounge lounge, and a vintage arcade — all under one roof on Main Street in Beacon, NY.">
   <meta name="twitter:image" content="https://thevinylroomny.netlify.app/images/og-image.png">
 </head>
 <body>
@@ -711,7 +720,7 @@
       <li><a href="index.html" class="is-active" aria-current="page">Home</a></li>
       <li><a href="menu.html">Menu</a></li>
       <li><a href="record-shop.html">Record Shop</a></li>
-      <li><a href="arcade.html">Speakeasy</a></li>
+      <li><a href="arcade.html">Downstairs</a></li>
       <li><a href="events.html">Events</a></li>
       <li><a href="contact.html">Visit</a></li>
     </ul>
@@ -742,7 +751,7 @@
       <li><a href="index.html" class="nav-overlay-link">Home</a></li>
       <li><a href="menu.html" class="nav-overlay-link">Menu</a></li>
       <li><a href="record-shop.html" class="nav-overlay-link">Record Shop</a></li>
-      <li><a href="arcade.html" class="nav-overlay-link">Speakeasy</a></li>
+      <li><a href="arcade.html" class="nav-overlay-link">Downstairs</a></li>
       <li><a href="events.html" class="nav-overlay-link">Events</a></li>
       <li><a href="contact.html" class="nav-overlay-link">Visit</a></li>
     </ul>
@@ -767,6 +776,7 @@
 
     <!-- HERO -->
     <section id="hero" aria-label="Welcome to The Vinyl Room">
+      <canvas id="hero-shader" aria-hidden="true"></canvas>
       <div class="hero-groove" aria-hidden="true"></div>
       <div class="hero-glow" aria-hidden="true"></div>
       <div class="hero-accent-bar" aria-hidden="true"></div>
@@ -780,7 +790,7 @@
             <span>Room</span>
           </h1>
           <p class="hero-tagline">
-            <span>Cocktails</span><span class="sep">·</span><span>Records</span><span class="sep">·</span><span>Speakeasy</span><span class="sep">·</span><span>Arcade</span>
+            <span>Cocktails</span><span class="sep">·</span><span>Records</span><span class="sep">·</span><span>Downstairs</span><span class="sep">·</span><span>Arcade</span>
           </p>
           <div class="hero-actions">
             <a href="contact.html" class="btn-primary">Reserve a Table</a>
@@ -908,8 +918,8 @@
               <div class="sleeve-icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="12" rx="3"/><path d="M6 13h4M8 11v4"/><circle cx="16" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="18" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
               </div>
-              <h3 class="sleeve-title">Speakeasy + Arcade</h3>
-              <p class="sleeve-desc">Head downstairs. A basement speakeasy with vintage arcade games open Friday and Saturday nights. Vinyl only on the decks — no laptops.</p>
+              <h3 class="sleeve-title">Lounge + Arcade</h3>
+              <p class="sleeve-desc">Head downstairs. A basement lounge with vintage arcade games open Friday and Saturday nights. Vinyl only on the decks — no laptops.</p>
             </div>
           </article>
 
@@ -984,10 +994,10 @@
           <article class="event-card event-card--dj reveal reveal-d1">
             <p class="event-eyebrow">Every Friday &amp; Saturday · 9pm – 1am</p>
             <h3 class="event-title">DJ Nights</h3>
-            <p class="event-desc">Hudson Valley's top DJs spinning downstairs in the speakeasy. Vinyl only — no laptops, no Serato. The way music was meant to move a room.</p>
+            <p class="event-desc">Hudson Valley's top DJs spinning downstairs in the lounge. Vinyl only — no laptops, no Serato. The way music was meant to move a room.</p>
             <div class="tags">
               <span class="tag tag--coral">Vinyl Only</span>
-              <span class="tag tag--teal">Speakeasy</span>
+              <span class="tag tag--teal">Downstairs</span>
               <span class="tag tag--teal">Arcade Open</span>
             </div>
           </article>
@@ -1120,7 +1130,7 @@
           <div class="footer-logo">
             <img src="brand_assets/tvr_logo.png" alt="The Vinyl Room">
           </div>
-          <p class="footer-tagline">Cocktails. Records. Speakeasy. Arcade.<br>Beacon's most singular night out.</p>
+          <p class="footer-tagline">Cocktails. Records. Lounge. Arcade.<br>Beacon's most singular night out.</p>
         </div>
 
         <div>
@@ -1161,6 +1171,133 @@
   </footer>
 
   <script src="main.js"></script>
+  <script>
+    /* ── Hero shader ──────────────────────────────────────────────────────── */
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const canvas = document.getElementById('hero-shader');
+      if (!canvas) return;
+      const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false, antialias: false });
+      if (!gl) return;
+
+      const VERT = `#version 300 es
+layout(location=0) in vec2 a_pos;
+void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }`;
+
+      const FRAG = `#version 300 es
+precision highp float;
+out vec4 fragColor;
+uniform vec3  iResolution;
+uniform float iTime;
+uniform vec2  iCenter;
+
+void main(){
+  vec2 r      = iResolution.xy;
+  float t     = iTime * 0.55;
+  vec4 o      = vec4(0.0);
+  vec2 center = r * iCenter;
+  vec2 p      = gl_FragCoord.xy - center;
+
+  for (float i = 1.0; i <= 9.0; i++) {
+    float ring  = (i * i) / 80.0 - length(p) / r.y;
+    float denom = max(ring, -ring * 3.0) + 2.0 / r.y;
+    float ci    = cos(i - t);
+    float a     = atan(p.y, p.x) + ci + i * i;
+    float sm    = smoothstep(ci, 2.0, cos(a));
+    o += 0.03 / denom * sm * (1.2 + sin(a + i + vec4(0.0, 2.0, 4.0, 0.0)));
+  }
+
+  o = tanh(o);
+
+  /* Brand palette tint */
+  vec3 coral = vec3(0.910, 0.420, 0.278);   /* #E86B47 */
+  vec3 teal  = vec3(0.302, 0.722, 0.588);   /* #4DB896 */
+  float lum  = dot(o.rgb, vec3(0.299, 0.587, 0.114));
+  float ang  = atan(gl_FragCoord.y - center.y, gl_FragCoord.x - center.x);
+  float blend = sin(ang * 1.5 + t * 0.3) * 0.5 + 0.5;
+  vec3 col   = lum * mix(coral, teal * 0.72, blend);
+
+  /* Radial fade — stay concentrated near the focal point */
+  float dist = length(p) / (r.y * 0.72);
+  float fade = smoothstep(1.1, 0.04, dist);
+
+  fragColor = vec4(col * fade * 0.48, 1.0);
+}`;
+
+      function makeShader(type, src) {
+        const sh = gl.createShader(type);
+        gl.shaderSource(sh, src);
+        gl.compileShader(sh);
+        if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+          console.warn('[hero-shader] compile:', gl.getShaderInfoLog(sh));
+          gl.deleteShader(sh); return null;
+        }
+        return sh;
+      }
+
+      const vs = makeShader(gl.VERTEX_SHADER, VERT);
+      const fs = makeShader(gl.FRAGMENT_SHADER, FRAG);
+      if (!vs || !fs) return;
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs);
+      gl.linkProgram(prog);
+      gl.deleteShader(vs); gl.deleteShader(fs);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        console.warn('[hero-shader] link:', gl.getProgramInfoLog(prog)); return;
+      }
+
+      /* Full-screen triangle */
+      const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+      const vbo = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+      gl.enableVertexAttribArray(0);
+      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
+      const uRes    = gl.getUniformLocation(prog, 'iResolution');
+      const uTime   = gl.getUniformLocation(prog, 'iTime');
+      const uCenter = gl.getUniformLocation(prog, 'iCenter');
+
+      /* Center: behind the "N" in VINYL — ~26% from left, ~46% from bottom */
+      const CX = 0.26, CY = 0.46;
+
+      let rafId = null, t0 = performance.now();
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = Math.floor(canvas.clientWidth  * dpr);
+        const h = Math.floor(canvas.clientHeight * dpr);
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h);
+        }
+      }
+      new ResizeObserver(resize).observe(canvas);
+      resize();
+
+      function tick(now) {
+        rafId = requestAnimationFrame(tick);
+        gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.useProgram(prog);
+        gl.uniform3f(uRes, canvas.width, canvas.height, 1.0);
+        gl.uniform1f(uTime, (now - t0) / 1000);
+        gl.uniform2f(uCenter, CX, CY);
+        gl.bindVertexArray(vao);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      }
+
+      /* Pause when hero is off-screen */
+      new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          if (!rafId) { t0 = performance.now() - t0; rafId = requestAnimationFrame(tick); }
+        } else {
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        }
+      }, { threshold: 0.01 }).observe(canvas);
+
+      rafId = requestAnimationFrame(tick);
+    })();
+  </script>
   <script>
     // Today's hours highlight
     const dayRows = ['row-sun','row-mon','row-tue','row-wed','row-thu','row-fri','row-sat'];

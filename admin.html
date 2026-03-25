@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — The Vinyl Room</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* === ADMIN LAYOUT === */
+    body {
+      overflow: hidden;
+      animation: none;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .admin-topbar {
+      height: 52px;
+      flex-shrink: 0;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      z-index: 100;
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-5);
+      border-right: 1px solid var(--c-border);
+    }
+    .admin-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-xl);
+      color: var(--c-text);
+      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+    .admin-logo span { color: var(--c-accent); }
+    .topbar-content {
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-6);
+      gap: var(--space-4);
+    }
+    .admin-topbar-label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+    }
+    .admin-status {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.22);
+      padding: var(--space-1) var(--space-3);
+      border-radius: 20px;
+    }
+    .admin-status::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--c-gold);
+      flex-shrink: 0;
+    }
+    .btn-save-all {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-base);
+      letter-spacing: 0.08em;
+      color: var(--c-bg);
+      background: var(--c-accent);
+      border: none;
+      padding: var(--space-2) var(--space-5);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-save-all:hover { opacity: 0.88; }
+    .btn-save-all:active { transform: scale(0.97); }
+    .btn-save-all:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+    .btn-save-all.is-saved {
+      background: #2a6e4e;
+      color: #fff;
+    }
+
+    .admin-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* === SIDEBAR === */
+    .admin-sidebar {
+      position: static; /* override styles.css nav position: fixed */
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--c-surface);
+      border-right: 1px solid var(--c-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: var(--space-6) 0 var(--space-8);
+    }
+    .sidebar-section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      padding: 0 var(--space-5);
+      margin: 0 0 var(--space-2);
+    }
+    .sidebar-section-label + .sidebar-section-label,
+    .sidebar-divider + .sidebar-section-label { margin-top: var(--space-5); }
+    .sidebar-divider {
+      height: 1px;
+      background: var(--c-border);
+      margin: var(--space-4) var(--space-5);
+    }
+    .admin-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-5);
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--c-text-2);
+      background: none;
+      border: none;
+      border-left: 3px solid transparent;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: color 0.15s, background 0.15s;
+    }
+    .admin-nav-btn:hover { color: var(--c-text); background: rgba(255,255,255,0.025); }
+    .admin-nav-btn.is-active {
+      color: var(--c-accent);
+      border-left-color: var(--c-accent);
+      background: rgba(232,107,71,0.06);
+    }
+    .nav-icon { font-size: 0.95rem; opacity: 0.75; }
+
+    /* === MAIN === */
+    .admin-main {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-8) var(--space-10);
+    }
+    .admin-main-inner { max-width: 820px; }
+
+    /* === SUMMARY STRIP === */
+    .admin-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5) var(--space-4);
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+    .summary-item { display: flex; flex-direction: column; gap: 2px; }
+    .summary-item--right { text-align: right; }
+    .summary-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--c-text-3);
+    }
+    .summary-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-2xl);
+      color: var(--c-accent);
+      line-height: 1.1;
+    }
+    .summary-val.is-text {
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-base);
+      font-weight: 700;
+      color: var(--c-text);
+    }
+    .summary-sub { font-size: var(--text-sm); color: var(--c-text-3); }
+    .summary-sub.is-warning { color: var(--c-accent-2); font-weight: 700; }
+    #summary-live { color: var(--c-text); }
+
+    /* === SECTIONS === */
+    .admin-section {
+      padding-top: var(--space-10);
+      margin-top: var(--space-6);
+      border-top: 1px solid var(--c-border);
+    }
+    .admin-section:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .section-header { margin-bottom: var(--space-6); }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: var(--c-text);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: var(--space-1);
+    }
+    .section-sub {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--c-text-3);
+    }
+
+    /* === NOTICE BANNER === */
+    .admin-notice {
+      display: flex;
+      gap: var(--space-4);
+      background: rgba(201,168,76,0.07);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      margin-bottom: var(--space-8);
+      font-size: var(--text-sm);
+      color: var(--c-text-2);
+      line-height: 1.65;
+    }
+    .notice-icon { font-size: 1.1rem; flex-shrink: 0; padding-top: 2px; }
+    .notice-body strong { display: block; color: var(--c-gold); font-weight: 700; margin-bottom: 2px; }
+
+    /* === CARDS === */
+    .admin-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: var(--space-4);
+      margin-bottom: var(--space-5);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .card-title { font-weight: 700; font-size: var(--text-base); color: var(--c-text); }
+    .card-hint { font-size: var(--text-sm); font-weight: 600; color: var(--c-text-3); }
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-3);
+      padding-top: var(--space-5);
+      margin-top: var(--space-5);
+      border-top: 1px solid var(--c-border);
+    }
+
+    /* === FORM === */
+    .admin-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-text-3);
+      margin-bottom: var(--space-2);
+    }
+    .admin-input, .admin-textarea, .admin-select {
+      width: 100%;
+      background: var(--c-surface-2);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      color: var(--c-text);
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-base);
+      font-weight: 600;
+      padding: 10px var(--space-4);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .admin-input:focus, .admin-textarea:focus { border-color: var(--c-accent); }
+    .admin-textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+    .input-hint { margin-top: var(--space-1); font-size: var(--text-sm); color: var(--c-text-3); }
+    .field { margin-bottom: var(--space-5); }
+    .field:last-child { margin-bottom: 0; }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+    .field-row .field { margin-bottom: 0; }
+
+    /* === TOGGLE === */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--c-text-3);
+      cursor: pointer;
+      user-select: none;
+    }
+    .toggle { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
+    .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--c-border-2);
+      border-radius: 11px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--c-text-3);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .toggle input:checked + .toggle-track { background: var(--c-accent-2); }
+    .toggle input:checked + .toggle-track::after { transform: translateX(16px); background: #fff; }
+    .toggle input:focus-visible + .toggle-track { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+    /* === HOURS TABLE === */
+    .hours-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 1fr 90px;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .hours-row:last-of-type { border-bottom: none; }
+    .hours-day {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--c-text-2);
+    }
+
+    /* === MENU TABS === */
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--c-border);
+      margin-bottom: var(--space-6);
+      gap: 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      padding: var(--space-3) var(--space-5);
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--c-text-3);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      margin-bottom: -1px;
+      transition: color 0.15s;
+    }
+    .tab-btn:hover { color: var(--c-text-2); }
+    .tab-btn.is-active { color: var(--c-accent); border-bottom-color: var(--c-accent); }
+    .tab-panel { display: none; }
+    .tab-panel.is-active { display: block; }
+
+    /* === MENU ITEM ROW === */
+    .menu-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr 72px 44px 44px;
+      gap: var(--space-3);
+      align-items: end;
+      padding: var(--space-4) 0;
+      transition: opacity 0.2s;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .menu-row--wine {
+      grid-template-columns: 1fr 2fr 64px 64px 44px 44px;
+    }
+    .menu-row:last-of-type { border-bottom: none; }
+    .price-wrap { position: relative; }
+    .price-wrap::before {
+      content: '$';
+      position: absolute;
+      left: var(--space-3);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--c-text-3);
+      font-weight: 700;
+      font-size: var(--text-base);
+      pointer-events: none;
+    }
+    .price-wrap .admin-input { padding-left: 22px; }
+    .menu-row-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 2px;
+    }
+    .btn-remove {
+      background: none;
+      border: none;
+      color: var(--c-text-3);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: var(--space-2);
+      border-radius: var(--radius-sm);
+      transition: color 0.15s;
+    }
+    .btn-remove:hover { color: var(--c-accent); }
+    .btn-add-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
+      margin-top: var(--space-4);
+      padding: var(--space-3) var(--space-5);
+      background: none;
+      border: 1px dashed var(--c-border-2);
+      border-radius: var(--radius-md);
+      color: var(--c-text-3);
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .btn-add-row:hover { color: var(--c-accent-2); border-color: var(--c-accent-2); }
+
+    /* === BUTTONS === */
+    .btn-save {
+      background: var(--c-accent);
+      color: var(--c-accent-fg);
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 11px var(--space-6);
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      min-height: 44px;
+    }
+    .btn-save:hover { opacity: 0.88; }
+    .btn-save:active { opacity: 0.72; }
+    .btn-outline {
+      background: none;
+      color: var(--c-text-2);
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      padding: 11px var(--space-5);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--c-border);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      min-height: 44px;
+    }
+    .btn-outline:hover { color: var(--c-text); border-color: var(--c-border-2); }
+
+    /* === DASHBOARD === */
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+    .stat-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-text-3);
+      margin-bottom: var(--space-2);
+    }
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: var(--c-accent);
+      line-height: 1;
+    }
+    .stat-value.is-text {
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-xl);
+      font-weight: 700;
+    }
+    .stat-sub { font-size: var(--text-sm); color: var(--c-text-3); margin-top: var(--space-1); }
+    .quick-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+    .quick-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--c-text-2);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      text-align: left;
+      min-height: 56px;
+    }
+    .quick-link:hover {
+      color: var(--c-text);
+      border-color: var(--c-accent);
+      background: rgba(232,107,71,0.04);
+    }
+    .ql-icon { font-size: 1.1rem; opacity: 0.8; }
+
+    /* === DEVELOPER SECTION === */
+    .dev-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .dev-card-top {
+      padding: var(--space-8);
+      background: linear-gradient(135deg, rgba(232,107,71,0.07) 0%, rgba(77,184,150,0.04) 100%);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .dev-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-4xl);
+      color: var(--c-text);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: var(--space-3);
+    }
+    .dev-body { font-size: var(--text-base); color: var(--c-text-2); line-height: 1.7; max-width: 52ch; }
+    .dev-card-content { padding: var(--space-6) var(--space-8); }
+    .dev-list-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-text-3);
+      margin-bottom: var(--space-3);
+    }
+    .dev-list { border-top: 1px solid var(--c-border); }
+    .dev-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--c-border);
+      font-size: var(--text-sm);
+      color: var(--c-text-2);
+      line-height: 1.5;
+    }
+    .dev-arrow { color: var(--c-accent); font-weight: 700; flex-shrink: 0; }
+    .dev-actions { display: flex; gap: var(--space-3); margin-top: var(--space-6); flex-wrap: wrap; }
+
+    /* === MENU ITEM VISIBILITY === */
+    .menu-row.is-hidden { opacity: 0.4; }
+    .menu-col-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 8px;
+    }
+    .menu-vis-toggle { cursor: pointer; display: block; }
+    .tab-count {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--c-text-3);
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 1px 6px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* === CONFIRM MODAL === */
+    .confirm-overlay {
+      border: none;
+      padding: 0;
+      background: transparent;
+      max-width: 100vw;
+      max-height: 100vh;
+      width: 100vw;
+      height: 100vh;
+    }
+    .confirm-overlay[open] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .confirm-overlay::backdrop {
+      background: rgba(0,0,0,0.65);
+    }
+    .confirm-box {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+    .confirm-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: var(--c-text);
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-3);
+    }
+    .confirm-body {
+      font-size: var(--text-sm);
+      color: var(--c-text-2);
+      line-height: 1.65;
+      margin-bottom: var(--space-6);
+    }
+    .confirm-body strong { color: var(--c-accent-2); }
+    .confirm-actions { display: flex; flex-direction: column; gap: var(--space-3); }
+    .btn-toggle-instead {
+      background: rgba(77,184,150,0.1);
+      border: 1px solid rgba(77,184,150,0.3);
+      color: var(--c-accent-2);
+      font-family: 'Nunito', sans-serif;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      padding: 11px var(--space-5);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background 0.15s;
+      min-height: 44px;
+      width: 100%;
+    }
+    .btn-toggle-instead:hover { background: rgba(77,184,150,0.18); }
+    .btn-delete-confirm {
+      background: none;
+      border: none;
+      color: var(--c-text-3);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      padding: var(--space-2);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .btn-delete-confirm:hover { color: #e07070; }
+
+    /* === TOAST === */
+    .admin-toast {
+      position: fixed;
+      bottom: var(--space-8);
+      right: var(--space-8);
+      background: var(--c-surface-2);
+      border: 1px solid var(--c-accent-2);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-5);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--c-text);
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      z-index: 200;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .admin-toast.is-visible { opacity: 1; transform: translateY(0); }
+    .toast-check { color: var(--c-accent-2); }
+
+    /* === LIGHT MODE === */
+    body[data-theme="light"] {
+      --c-bg:        #F7F2EC;
+      --c-surface:   #FFFFFF;
+      --c-surface-2: #EDE8E1;
+      --c-border:    #E0D8CE;
+      --c-border-2:  #CABFB2;
+      --c-text:      #1C1814;
+      --c-text-2:    #5A4D3D;
+      --c-text-3:    #9B8A78;
+      --c-accent-fg: #FFFFFF;
+      --c-gold:      #96710F;
+    }
+    body[data-theme="light"] .admin-topbar {
+      box-shadow: 0 1px 0 var(--c-border);
+    }
+    body[data-theme="light"] .admin-input,
+    body[data-theme="light"] .admin-textarea {
+      background: #F7F2EC;
+    }
+
+    /* === THEME TOGGLE BUTTON === */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--c-border-2);
+      color: var(--c-text-2);
+      font-size: 0.95rem;
+      cursor: pointer;
+      padding: 4px 9px;
+      border-radius: var(--radius-sm);
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.15s, border-color 0.15s;
+      min-height: 30px;
+    }
+    .theme-toggle:hover { color: var(--c-text); border-color: var(--c-text-3); }
+
+    /* === MOBILE === */
+    @media (max-width: 767px) {
+      body { overflow: auto; height: auto; }
+      .admin-layout { overflow: visible; }
+      .admin-topbar {
+        grid-template-columns: 1fr;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .topbar-brand {
+        border-right: none;
+        padding: 0 var(--space-4);
+        justify-content: space-between;
+      }
+      .topbar-content { display: none; }
+      #mobile-status { display: flex !important; }
+      .admin-status {
+        font-size: 0.62rem;
+        padding: 3px 8px;
+        letter-spacing: 0.04em;
+      }
+      .admin-sidebar {
+        position: fixed !important;
+        bottom: 0; left: 0; right: 0; top: auto;
+        width: 100%;
+        height: 60px;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid var(--c-border);
+        padding: 0;
+        overflow: visible;
+        z-index: 90;
+      }
+      .sidebar-section-label, .sidebar-divider { display: none; }
+      .admin-nav-btn {
+        flex: 1;
+        flex-direction: column;
+        gap: 3px;
+        padding: var(--space-1);
+        font-size: 0.58rem;
+        border-left: none;
+        border-top: 2px solid transparent;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 60px;
+        overflow: hidden;
+      }
+      .admin-nav-btn.is-active {
+        border-left-color: transparent;
+        border-top-color: var(--c-accent);
+        color: var(--c-accent);
+      }
+      .nav-icon { font-size: 1.2rem; opacity: 1; }
+      .admin-main {
+        padding: var(--space-5) var(--space-4);
+        padding-bottom: 80px;
+        overflow-y: visible;
+        overflow-x: hidden;
+      }
+      .admin-main-inner { max-width: 100%; overflow-x: hidden; }
+      .panel-title { font-size: var(--text-4xl); }
+      .panel-header { margin-bottom: var(--space-5); }
+      .admin-card { padding: var(--space-4); overflow: hidden; }
+      .dash-stats { grid-template-columns: 1fr; }
+      .quick-links { grid-template-columns: 1fr; }
+      .field-row { grid-template-columns: 1fr; }
+      .dev-card-top { padding: var(--space-5); }
+      .dev-card-content { padding: var(--space-4) var(--space-5); }
+      .card-footer { flex-wrap: wrap; }
+      .btn-save, .btn-outline { flex: 1; text-align: center; justify-content: center; }
+      .admin-summary { gap: var(--space-4); padding: var(--space-4); }
+      .admin-section { padding-top: var(--space-6); margin-top: var(--space-4); }
+      .section-title { font-size: var(--text-3xl); }
+      /* Hours: stack inputs below day label */
+      .hours-row {
+        grid-template-columns: 1fr 1fr auto;
+        grid-template-rows: auto auto;
+        row-gap: var(--space-2);
+      }
+      .hours-day { grid-column: 1 / -1; }
+      /* Menu rows: stack name/desc, then price+toggle+del on one line */
+      .menu-row {
+        grid-template-columns: 1fr 44px 44px;
+        grid-template-areas:
+          "name name name"
+          "desc desc desc"
+          "price toggle del";
+        align-items: end;
+      }
+      .menu-row--wine {
+        grid-template-columns: 1fr 1fr 44px 44px;
+        grid-template-areas:
+          "name name name name"
+          "desc desc desc desc"
+          "glass bottle toggle del";
+      }
+      .menu-col-name  { grid-area: name; }
+      .menu-col-desc  { grid-area: desc; }
+      .menu-col-price { grid-area: price; }
+      .menu-col-price-glass  { grid-area: glass; }
+      .menu-col-price-bottle { grid-area: bottle; }
+      .menu-col-toggle { grid-area: toggle; justify-content: center; }
+      .menu-col-actions { grid-area: del; justify-content: center; }
+      .admin-toast {
+        bottom: 72px;
+        right: var(--space-4);
+        left: var(--space-4);
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="admin-topbar">
+    <div class="topbar-brand">
+      <span class="admin-logo">The <span>Vinyl</span> Room</span>
+      <div style="display:flex;align-items:center;gap:var(--space-3)">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">☀</button>
+        <div class="admin-status" style="display:none" id="mobile-status">Preview</div>
+      </div>
+    </div>
+    <div class="topbar-content">
+      <span class="admin-topbar-label">Site Admin</span>
+      <button class="btn-save-all" id="btn-save-all" aria-label="Save all changes">Save All</button>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <nav class="admin-sidebar" aria-label="Admin sections">
+      <p class="sidebar-section-label">Content</p>
+      <button class="admin-nav-btn is-active" data-scroll="s-hours">
+        <span class="nav-icon">◷</span> Hours
+      </button>
+      <button class="admin-nav-btn" data-scroll="s-menu">
+        <span class="nav-icon">◈</span> Menu
+      </button>
+      <button class="admin-nav-btn" data-scroll="s-contact">
+        <span class="nav-icon">◎</span> Contact
+      </button>
+      <div class="sidebar-divider"></div>
+      <p class="sidebar-section-label">Support</p>
+      <button class="admin-nav-btn" data-scroll="s-developer">
+        <span class="nav-icon">◇</span> Dev
+      </button>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <div class="admin-main-inner">
+
+        <!-- STATUS STRIP -->
+        <div class="admin-summary">
+          <div class="summary-item">
+            <span class="summary-label">Today</span>
+            <span class="summary-val" id="dash-hours-val">Open</span>
+            <span class="summary-sub" id="dash-hours-sub">Loading…</span>
+          </div>
+          <div class="summary-item summary-item--right">
+            <span class="summary-label">Menu Items</span>
+            <span class="summary-val" id="summary-live">—</span>
+            <span class="summary-sub" id="summary-hidden"></span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Phone</span>
+            <span class="summary-val is-text">(845) 297-3344</span>
+          </div>
+          <div class="summary-item summary-item--right">
+            <span class="summary-label">Status</span>
+            <span class="summary-val is-text" style="color:var(--c-gold)">⚑ Preview Only</span>
+            <span class="summary-sub">Not yet live</span>
+          </div>
+        </div>
+
+        <!-- NOTICE BANNER -->
+        <div class="admin-notice" role="status">
+          <span class="notice-icon">⚑</span>
+          <div class="notice-body">
+            <strong>Preview Mode — Changes will not save yet</strong>
+            This panel is ready but not yet connected to your live site. Once deployed to Netlify, edits here will update the site automatically. Contact your developer to complete the setup.
+          </div>
+        </div>
+
+        <!-- ─────── HOURS ─────── -->
+        <section class="admin-section" id="s-hours">
+          <div class="section-header">
+            <h2 class="section-title">Hours</h2>
+            <p class="section-sub">Main bar hours — shown on the homepage and Visit page</p>
+          </div>
+
+          <div class="admin-card">
+            <div class="card-header">
+              <span class="card-title">Weekly Hours</span>
+              <span class="card-hint">Use 12-hour format: 3:00 pm</span>
+            </div>
+
+            <div class="hours-row">
+              <span class="hours-day">Monday</span>
+              <div><input class="admin-input" type="text" value="3:00 pm" aria-label="Monday opens"></div>
+              <div><input class="admin-input" type="text" value="10:00 pm" aria-label="Monday closes"></div>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" checked aria-label="Monday open"><span class="toggle-track"></span></span>
+                Open
+              </label>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Tuesday</span>
+              <div><input class="admin-input" type="text" value="3:00 pm" aria-label="Tuesday opens"></div>
+              <div><input class="admin-input" type="text" value="10:00 pm" aria-label="Tuesday closes"></div>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" checked aria-label="Tuesday open"><span class="toggle-track"></span></span>
+                Open
+              </label>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Wednesday</span>
+              <div><input class="admin-input" type="text" value="3:00 pm"></div>
+              <div><input class="admin-input" type="text" value="10:00 pm"></div>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></span>
+                Open
+              </label>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Thursday</span>
+              <div><input class="admin-input" type="text" value="3:00 pm"></div>
+              <div><input class="admin-input" type="text" value="10:00 pm"></div>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></span>
+                Open
+              </label>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Friday</span>
+              <div><input class="admin-input" type="text" value="3:00 pm"></div>
+              <div><input class="admin-input" type="text" value="12:00 am"></div>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></span>
+                Open
+              </label>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Saturday</span>
+              <div><input class="admin-input" type="text" value="12:00 pm"></div>
+              <div><input class="admin-input" type="text" value="12:00 am"></div>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></span>
+                Open
+              </label>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Sunday</span>
+              <div><input class="admin-input" type="text" value="12:00 pm"></div>
+              <div><input class="admin-input" type="text" value="9:00 pm"></div>
+              <label class="toggle-wrap">
+                <span class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></span>
+                Open
+              </label>
+            </div>
+
+            <div style="padding-top: var(--space-5); margin-top: var(--space-4); border-top: 1px solid var(--c-border);">
+              <div class="field">
+                <label class="admin-label" for="hours-note">Special Hours Note</label>
+                <input class="admin-input" id="hours-note" type="text" value="Lounge &amp; Arcade open downstairs Friday &amp; Saturday nights from 9pm.">
+                <p class="input-hint">Shown below the hours table. Leave blank to hide.</p>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <button class="btn-save" onclick="showToast('Hours saved')">Save Hours</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─────── MENU ─────── -->
+        <section class="admin-section" id="s-menu">
+          <div class="section-header">
+            <h2 class="section-title">Menu</h2>
+            <p class="section-sub">Edit items, prices, and availability by category</p>
+          </div>
+
+          <div class="admin-card">
+            <div class="tab-bar" role="tablist">
+              <button class="tab-btn is-active" role="tab" data-tab="cocktails">Cocktails<span class="tab-count" id="count-cocktails" style="display:none"></span></button>
+              <button class="tab-btn" role="tab" data-tab="mocktails">Mocktails<span class="tab-count" id="count-mocktails" style="display:none"></span></button>
+              <button class="tab-btn" role="tab" data-tab="wine">Wine<span class="tab-count" id="count-wine" style="display:none"></span></button>
+              <button class="tab-btn" role="tab" data-tab="beer">Beer &amp; Soda<span class="tab-count" id="count-beer" style="display:none"></span></button>
+              <button class="tab-btn" role="tab" data-tab="starters">Starters<span class="tab-count" id="count-starters" style="display:none"></span></button>
+              <button class="tab-btn" role="tab" data-tab="salads">Salads<span class="tab-count" id="count-salads" style="display:none"></span></button>
+              <button class="tab-btn" role="tab" data-tab="mains">Mains<span class="tab-count" id="count-mains" style="display:none"></span></button>
+              <button class="tab-btn" role="tab" data-tab="bowls">Bowls<span class="tab-count" id="count-bowls" style="display:none"></span></button>
+            </div>
+
+            <!-- Cocktails -->
+            <div class="tab-panel is-active" id="tab-cocktails">
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Emotionally Unavailable"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Hazelnut fat washed vodka, espresso, borghetti, hazelnut cream"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Summer Winds"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Midsummer spiced fruit spritz, prosecco, soda water"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Vodka With Boundaries"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Vodka, sparkling yuzu, spiced pomegranate, lemon"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Sour Candy"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Tequila, raspberry, pineapple, lemon, agave"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Take Me To Another Place"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Mezcal, pear, cinnamon, lemon"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Purple Rain"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Gin, lavender, luxardo, lemon, orange bitters"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Vibe Shift"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Gin, carrot, ginger, apple, salted honey, lime"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Surprise Me"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="White rum, dark rum, banana, caramelized pineapple, lime"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Enjoy The Ride"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Bourbon, Japanese sparkling ringo, spiced pomegranate, lemon"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Treat You Better"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Bourbon, local maple, black walnut"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <button class="btn-add-row" onclick="addMenuItem('cocktails')">+ Add Item</button>
+            </div>
+
+            <!-- Mocktails -->
+            <div class="tab-panel" id="tab-mocktails">
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Take My Hand"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Spiced pomegranate, grapefruit soda, lemon, mint"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="12"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Surrender"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Mango chili tepache, pear, lime"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="12"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Make Me Feel"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Carrot, ginger, Japanese sparkling ringo, lemon, honey"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="12"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <button class="btn-add-row" onclick="addMenuItem('mocktails')">+ Add Item</button>
+            </div>
+
+            <!-- Wine -->
+            <div class="tab-panel" id="tab-wine">
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Prosecco Tullia"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="Sparkling"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="13"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="52"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Sparkling Rosé Tullia"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="Sparkling"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="13"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="52"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Lambrusco Villa Nicchia"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="Sparkling"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="13"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="52"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Chenin Blanc Topette"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="White &amp; Rosé"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="13"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="52"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Pinot Grigio Zuani"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="White &amp; Rosé"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="14"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="54"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Sauvignon Blanc Rain"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="White &amp; Rosé"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="13"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="52"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Rosé Chateau Pigoudet"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="White &amp; Rosé"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="14"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="54"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Cabernet Bench"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="Red"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="14"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="52"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Rioja Gomez Cruzado"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="Red"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="15"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="56"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row menu-row--wine">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Pinot Noir Pas De Probleme"></div>
+                <div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" value="Red"></div>
+                <div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" value="15"></div>
+                <div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" value="56"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <button class="btn-add-row" onclick="addMenuItem('wine')">+ Add Item</button>
+            </div>
+
+            <!-- Beer & Soda -->
+            <div class="tab-panel" id="tab-beer">
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Draft Beer"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Rotating selection of local and craft pours"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="Mkt"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Athletic Run Wild IPA"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Non-alcoholic · can"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="8"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Athletic Upside Dawn"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Golden ale · non-alcoholic · can"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="8"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Sodas"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Pepsi, Diet Pepsi, Sprite, Ginger Ale"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="5"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <button class="btn-add-row" onclick="addMenuItem('beer')">+ Add Item</button>
+            </div>
+
+            <!-- Starters -->
+            <div class="tab-panel" id="tab-starters">
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Chicken Wings"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="TVR smoked buffalo, nashville hot, applewood smoked bbq, garlicky parmesan, or mango habanero"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Korean Nachos"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Shaved ribeye, kimchee, sriracha, pickled red onions, hoisin bbq"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="18"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Wagyu Smash Burgers (3)"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="House pickles, American cheese, fancy sauce, cabbage slaw, potato buns"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="19"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Ginger Chicken Pot Stickers"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Sweet &amp; spicy soy glaze, scallion"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Carnitas Tacos (3)"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Corn tortillas, cilantro, onions, salsa verde, salsa roja — chicken or pork"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="15"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Quesadilla"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Roasted chicken, pico de gallo, charred corn, salsa verde, creamy garlic sauce, cilantro"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Punch Out Brussels"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Crispy brussels, sweet &amp; spicy chili glaze, crushed peanuts, toasted sesame, scallion"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="16"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Tallow Fries"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="House fries in dry aged beef tallow, TVR spice, roasted garlic dipping sauce"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="12"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Crispy Pickle Chips"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Chipotle buttermilk ranch dip"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="12"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Burrata Meatball Sliders (3)"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Melted burrata, tomato basil sauce, garlic brioche"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="18"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Everything Pretzel Bites"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Honey dijon dipping sauce"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="12"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <button class="btn-add-row" onclick="addMenuItem('starters')">+ Add Item</button>
+            </div>
+
+            <!-- Salads -->
+            <div class="tab-panel" id="tab-salads">
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Honey Buffalo Salad"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Romaine, crispy buffalo chicken, smoked bacon, cucumber, tomatoes, red onions, bleu cheese dressing"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="19"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Vinyl House"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Field greens, dried cranberries, crumbled goat cheese, apples, brown sugar balsamic"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="15"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <button class="btn-add-row" onclick="addMenuItem('salads')">+ Add Item</button>
+            </div>
+
+            <!-- Mains -->
+            <div class="tab-panel" id="tab-mains">
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Perfect BLT Panini"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Thick cut bacon, heirloom tomatoes, arugula, dukes mayo, herb focaccia"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="17"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="TVR Burger"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Short rib &amp; brisket blend, Tillamook white cheddar, house bacon jam, crispy onion, roasted garlic aioli, brioche bun"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="18"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Korean Fried Chicken Sandwich"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Buttermilk fried chicken, chili garlic crunch, jalapeno cabbage slaw, roasted garlic aioli, house pickles, brioche bun"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="18"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Triple Smash Burger"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Wagyu patties, pepperjack cheese, caramelized onions, shaved romaine, bbq ranch, brioche bun"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="22"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="&quot;Chopped Cheese&quot;"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Shaved ribeye, slow roasted onions, American cheese, iceberg, tomato, bodega sauce, wedge bread"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="19"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Return of The Mac"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Smoked gouda, Vermont cheddar cream, buttery breadcrumbs"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="18"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Chicken Bacon Ranch Flatbread"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Pulled chicken, smoked bacon, spicy ranch, mozzarella, pickled onions"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="17"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Fig &amp; Prosciutto Flatbread"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Brie, fig jam, mozzarella, arugula, goat cheese, balsamic"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="17"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <button class="btn-add-row" onclick="addMenuItem('mains')">+ Add Item</button>
+            </div>
+
+            <!-- Bowls -->
+            <div class="tab-panel" id="tab-bowls">
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Vegan Rice Bowl"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Sushi rice, marinated tofu, kimchee, edamame, avocado, cucumber, cilantro sauce"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="15"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Crunchy Chicken Bowl"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Sushi rice, pickled onions, avocado, arugula, charred corn, chili garlic crunch, creamy garlic sauce"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="18"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <div class="menu-row">
+                <div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" value="Ramen Bowl"></div>
+                <div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" value="Edamame, shaved cabbage, roasted pork, scallion, sunny egg, sweet &amp; spicy soy broth"></div>
+                <div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" value="21"></div>
+                <div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>
+                <div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>
+              </div>
+              <button class="btn-add-row" onclick="addMenuItem('bowls')">+ Add Item</button>
+            </div>
+
+            <div class="card-footer">
+              <button class="btn-save" onclick="showToast('Menu saved')">Save Menu</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─────── CONTACT & INFO ─────── -->
+        <section class="admin-section" id="s-contact">
+          <div class="section-header">
+            <h2 class="section-title">Contact & Info</h2>
+            <p class="section-sub">Phone, email, address, and social links</p>
+          </div>
+
+          <div class="admin-card">
+            <div class="card-header">
+              <span class="card-title">Contact Details</span>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label class="admin-label" for="f-phone">Phone Number</label>
+                <input class="admin-input" id="f-phone" type="tel" value="(845) 297-3344">
+                <p class="input-hint">Format: (845) 297-3344</p>
+              </div>
+              <div class="field">
+                <label class="admin-label" for="f-email">Email Address</label>
+                <input class="admin-input" id="f-email" type="email" value="thevinylroomny@gmail.com">
+              </div>
+            </div>
+            <div class="field">
+              <label class="admin-label" for="f-address">Street Address</label>
+              <input class="admin-input" id="f-address" type="text" value="323 Main Street, Beacon, NY 12508">
+            </div>
+            <div class="card-footer">
+              <button class="btn-save" onclick="showToast('Contact info saved')">Save Contact Info</button>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <div class="card-header">
+              <span class="card-title">Social Links</span>
+            </div>
+            <div class="field">
+              <label class="admin-label" for="f-instagram">Instagram Handle</label>
+              <input class="admin-input" id="f-instagram" type="text" value="@thevinylroomny" placeholder="@handle">
+            </div>
+            <div class="field">
+              <label class="admin-label" for="f-facebook">Facebook URL</label>
+              <input class="admin-input" id="f-facebook" type="url" placeholder="https://facebook.com/...">
+            </div>
+            <div class="card-footer">
+              <button class="btn-save" onclick="showToast('Social links saved')">Save Social Links</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─────── DEVELOPER ─────── -->
+        <section class="admin-section" id="s-developer">
+          <div class="section-header">
+            <h2 class="section-title">Developer</h2>
+            <p class="section-sub">For changes beyond this panel</p>
+          </div>
+
+          <div class="dev-card">
+            <div class="dev-card-top">
+              <h2 class="dev-title">Need Something Bigger?</h2>
+              <p class="dev-body">This panel covers day-to-day updates. For structural changes — new pages, layout work, new features, or connecting this panel to your live Netlify site — reach out to your developer.</p>
+            </div>
+            <div class="dev-card-content">
+              <p class="dev-list-title">Things your developer handles</p>
+              <ul class="dev-list" role="list">
+                <li><span class="dev-arrow">→</span> Connecting this admin panel to your live Netlify site</li>
+                <li><span class="dev-arrow">→</span> Adding or removing pages</li>
+                <li><span class="dev-arrow">→</span> Layout, design, or branding changes</li>
+                <li><span class="dev-arrow">→</span> New features — events calendar, online reservations, gift cards</li>
+                <li><span class="dev-arrow">→</span> Domain setup, SSL, and hosting configuration</li>
+                <li><span class="dev-arrow">→</span> Performance, SEO, or accessibility improvements</li>
+              </ul>
+              <div class="dev-actions">
+                <a href="mailto:thevinylroomny@gmail.com" class="btn-save" style="text-decoration:none; display:inline-flex; align-items:center;">
+                  Email Developer
+                </a>
+                <button class="btn-outline" onclick="showToast('Notes copied to clipboard')">Copy Netlify Setup Notes</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /admin-main-inner -->
+    </main>
+  </div>
+
+  <!-- CONFIRM MODAL -->
+  <dialog class="confirm-overlay" id="confirm-overlay" aria-labelledby="confirm-title">
+    <div class="confirm-box">
+      <p class="confirm-title" id="confirm-title">Remove this item?</p>
+      <p class="confirm-body">This permanently deletes the item. If you just want to hide it temporarily, use the <strong>visibility toggle</strong> (◉) instead — you can always bring it back.</p>
+      <div class="confirm-actions">
+        <button class="btn-toggle-instead" id="confirm-toggle-instead">◉ &nbsp;Hide it instead (recommended)</button>
+        <button class="btn-delete-confirm" id="confirm-ok">Remove permanently</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="admin-toast" id="admin-toast" role="status" aria-live="polite">
+    <span class="toast-check">✓</span>
+    <span id="toast-msg">Saved</span>
+  </div>
+
+  <script>
+  // ── Navigation: scroll to section ────────────────────────────────────────
+  function setActiveNav(scrollId) {
+    document.querySelectorAll('.admin-nav-btn').forEach(function(b) {
+      b.classList.toggle('is-active', b.dataset.scroll === scrollId);
+    });
+  }
+  document.querySelectorAll('.admin-nav-btn[data-scroll]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var target = document.getElementById(btn.dataset.scroll);
+      if (!target) return;
+      setActiveNav(btn.dataset.scroll);
+      // On desktop the main area scrolls; on mobile the body scrolls
+      var main = document.querySelector('.admin-main');
+      var isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        var offset = target.getBoundingClientRect().top + window.scrollY - 64;
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+      } else {
+        main.scrollTo({ top: target.offsetTop - 24, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // ── IntersectionObserver: highlight nav on scroll ─────────────────────────
+  var sectionIds = ['s-hours', 's-menu', 's-contact', 's-developer'];
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) setActiveNav(entry.target.id);
+    });
+  }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+  sectionIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+
+  // ── Menu tabs ────────────────────────────────────────────────────────────
+  document.querySelectorAll('.tab-btn').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var id = tab.dataset.tab;
+      var card = tab.closest('.admin-card');
+      card.querySelectorAll('.tab-btn').forEach(function(t) {
+        t.classList.toggle('is-active', t.dataset.tab === id);
+      });
+      card.querySelectorAll('.tab-panel').forEach(function(p) {
+        p.classList.toggle('is-active', p.id === 'tab-' + id);
+      });
+    });
+  });
+
+  // ── Visibility toggle ────────────────────────────────────────────────────
+  function updateHiddenCount(tabId) {
+    var panel = document.getElementById('tab-' + tabId);
+    if (!panel) return;
+    var count = panel.querySelectorAll('.menu-row.is-hidden').length;
+    var badge = document.getElementById('count-' + tabId);
+    if (badge) {
+      badge.textContent = count > 0 ? count + ' hidden' : '';
+      badge.style.display = count > 0 ? 'inline' : 'none';
+    }
+    updateSummary();
+  }
+
+  function updateSummary() {
+    var allRows = document.querySelectorAll('.menu-row');
+    var hiddenRows = document.querySelectorAll('.menu-row.is-hidden');
+    var live = allRows.length - hiddenRows.length;
+    var hidden = hiddenRows.length;
+    var liveEl = document.getElementById('summary-live');
+    var hiddenEl = document.getElementById('summary-hidden');
+    if (liveEl) liveEl.textContent = live + ' live';
+    if (hiddenEl) {
+      hiddenEl.textContent = hidden > 0 ? hidden + ' hidden' : 'All visible';
+      hiddenEl.classList.toggle('is-warning', hidden > 0);
+    }
+  }
+  updateSummary();
+
+  function wireVisibilityToggle(checkbox) {
+    checkbox.addEventListener('change', function() {
+      var row = checkbox.closest('.menu-row');
+      row.classList.toggle('is-hidden', !checkbox.checked);
+      var tabId = row.closest('.tab-panel').id.replace('tab-', '');
+      updateHiddenCount(tabId);
+    });
+  }
+  document.querySelectorAll('.item-visibility').forEach(wireVisibilityToggle);
+
+  // ── Confirm delete ───────────────────────────────────────────────────────
+  var confirmDialog = document.getElementById('confirm-overlay');
+  var pendingRow = null;
+
+  function openConfirm(row) {
+    pendingRow = row;
+    confirmDialog.showModal();
+  }
+  function closeConfirm() {
+    confirmDialog.close();
+    pendingRow = null;
+  }
+
+  document.getElementById('confirm-toggle-instead').addEventListener('click', function() {
+    if (pendingRow) {
+      var checkbox = pendingRow.querySelector('.item-visibility');
+      closeConfirm();
+      if (checkbox && checkbox.checked) checkbox.click();
+      if (checkbox) checkbox.closest('.menu-vis-toggle').focus();
+    } else {
+      closeConfirm();
+    }
+  });
+
+  document.getElementById('confirm-ok').addEventListener('click', function() {
+    if (pendingRow) {
+      var tabId = pendingRow.closest('.tab-panel').id.replace('tab-', '');
+      pendingRow.remove();
+      updateHiddenCount(tabId);
+    }
+    closeConfirm();
+  });
+
+  confirmDialog.addEventListener('click', function(e) {
+    if (e.target === confirmDialog) closeConfirm();
+  });
+
+  // ── Add menu item row ────────────────────────────────────────────────────
+  function addMenuItem(tabId) {
+    var panel = document.getElementById('tab-' + tabId);
+    var addBtn = panel.querySelector('.btn-add-row');
+    var row = document.createElement('div');
+    if (tabId === 'wine') {
+      row.className = 'menu-row menu-row--wine';
+      row.innerHTML =
+        '<div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" placeholder="Wine name"></div>' +
+        '<div class="menu-col-desc"><label class="admin-label">Style</label><input class="admin-input" type="text" placeholder="e.g. Red, White &amp; Rosé, Sparkling"></div>' +
+        '<div class="menu-col-price-glass price-wrap"><label class="admin-label">Glass</label><input class="admin-input" type="text" placeholder="0"></div>' +
+        '<div class="menu-col-price-bottle price-wrap"><label class="admin-label">Bottle</label><input class="admin-input" type="text" placeholder="0"></div>' +
+        '<div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>' +
+        '<div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>';
+    } else {
+      row.className = 'menu-row';
+      row.innerHTML =
+        '<div class="menu-col-name"><label class="admin-label">Item Name</label><input class="admin-input" type="text" placeholder="Item name"></div>' +
+        '<div class="menu-col-desc"><label class="admin-label">Description</label><input class="admin-input" type="text" placeholder="Brief description"></div>' +
+        '<div class="menu-col-price price-wrap"><label class="admin-label">Price</label><input class="admin-input" type="text" placeholder="0"></div>' +
+        '<div class="menu-col-toggle"><label class="toggle menu-vis-toggle" title="Toggle visibility" aria-label="Toggle item visibility"><input type="checkbox" class="item-visibility" checked><span class="toggle-track"></span></label></div>' +
+        '<div class="menu-col-actions menu-row-actions"><button class="btn-remove" aria-label="Remove item">✕</button></div>';
+    }
+    panel.insertBefore(row, addBtn);
+    wireVisibilityToggle(row.querySelector('.item-visibility'));
+    wireRemoveBtn(row.querySelector('.btn-remove'));
+    row.querySelector('input').focus();
+  }
+
+  function wireRemoveBtn(btn) {
+    btn.addEventListener('click', function() { openConfirm(btn.closest('.menu-row')); });
+  }
+  document.querySelectorAll('.btn-remove').forEach(wireRemoveBtn);
+
+  // ── Dashboard hours ──────────────────────────────────────────────────────
+  // ── Today's hours summary ─────────────────────────────────────────────────
+  // Rows are Monday-first (index 0). getDay() is 0=Sun…6=Sat, so map: (getDay()+6)%7
+  function updateTodayStatus() {
+    var rows = document.querySelectorAll('.hours-row');
+    var todayIndex = (new Date().getDay() + 6) % 7;
+    var row = rows[todayIndex];
+    if (!row) return;
+    var checkbox = row.querySelector('input[type="checkbox"]');
+    var inputs = row.querySelectorAll('.admin-input');
+    var valEl = document.getElementById('dash-hours-val');
+    var subEl = document.getElementById('dash-hours-sub');
+    if (checkbox && !checkbox.checked) {
+      valEl.textContent = 'Closed';
+      valEl.style.color = 'var(--c-text-3)';
+      subEl.textContent = 'Closed today';
+    } else {
+      valEl.textContent = 'Open';
+      valEl.style.color = 'var(--c-accent)';
+      if (inputs.length >= 2) {
+        subEl.textContent = inputs[0].value + ' – ' + inputs[1].value;
+      }
+    }
+  }
+
+  // Wire every hours toggle to refresh the summary
+  document.querySelectorAll('.hours-row input[type="checkbox"]').forEach(function(cb) {
+    cb.addEventListener('change', updateTodayStatus);
+  });
+  // Also refresh when open/close time inputs change for today's row
+  (function() {
+    var rows = document.querySelectorAll('.hours-row');
+    var todayIndex = (new Date().getDay() + 6) % 7;
+    var row = rows[todayIndex];
+    if (row) {
+      row.querySelectorAll('.admin-input').forEach(function(input) {
+        input.addEventListener('input', updateTodayStatus);
+      });
+    }
+  })();
+
+  updateTodayStatus();
+
+  // ── Theme toggle ─────────────────────────────────────────────────────────
+  var themeBtn = document.getElementById('theme-toggle');
+  function applyTheme(theme) {
+    document.body.dataset.theme = theme;
+    themeBtn.textContent = theme === 'light' ? '☽' : '☀';
+    themeBtn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+    themeBtn.title = theme === 'light' ? 'Dark mode' : 'Light mode';
+  }
+  applyTheme(localStorage.getItem('admin-theme') || 'dark');
+  themeBtn.addEventListener('click', function() {
+    var next = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+    applyTheme(next);
+    localStorage.setItem('admin-theme', next);
+  });
+
+  // ── Toast ────────────────────────────────────────────────────────────────
+  var toastTimer;
+  function showToast(msg) {
+    var toast = document.getElementById('admin-toast');
+    document.getElementById('toast-msg').textContent = msg || 'Saved';
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { toast.classList.remove('is-visible'); }, 2600);
+  }
+
+  // ── Save All button ───────────────────────────────────────────────────────
+  var saveAllBtn = document.getElementById('btn-save-all');
+  var saveAllTimer;
+  saveAllBtn.addEventListener('click', function() {
+    saveAllBtn.textContent = 'Saved ✓';
+    saveAllBtn.classList.add('is-saved');
+    showToast('All changes saved');
+    clearTimeout(saveAllTimer);
+    saveAllTimer = setTimeout(function() {
+      saveAllBtn.textContent = 'Save All';
+      saveAllBtn.classList.remove('is-saved');
+    }, 2500);
+  });
+  </script>
+</body>
+</html>

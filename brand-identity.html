@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TVR Brand Identity Guide 2025</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #1C1814;
+      --surface: #242019;
+      --surface2:#2E2820;
+      --border:  #3A3025;
+      --border2: #4E4233;
+      --text:    #F2E8D5;
+      --text2:   #A89577;
+      --text3:   #6B5E4A;
+      --coral:   #E86B47;
+      --teal:    #4DB896;
+      --navy:    #1B4D70;
+      --gold:    #C9A84C;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+    html, body { margin: 0; padding: 0; background: #1C1814; font-family: 'Nunito', sans-serif; }
+    .page {
+      width: 1280px; height: 720px;
+      position: relative; overflow: hidden;
+      page-break-after: always;
+      background: var(--bg); color: var(--text);
+    }
+    .page:last-child { page-break-after: avoid; }
+
+    /* ── SHARED ── */
+    .groove {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: repeating-radial-gradient(
+        ellipse at 68% 50%, transparent 0, transparent 24px,
+        rgba(232,107,71,0.028) 24px, rgba(232,107,71,0.028) 25px
+      );
+    }
+    .accent-bar {
+      position: absolute; left: 0; top: 0; bottom: 0; width: 5px; z-index: 10;
+      background: linear-gradient(to bottom, var(--coral) 0%, var(--teal) 55%, var(--navy) 100%);
+    }
+    .top-rule {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to right, var(--coral), var(--gold) 40%, var(--teal) 75%, var(--navy));
+    }
+    .pg-num {
+      position: absolute; bottom: 28px; right: 44px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--text3);
+    }
+    .pg-brand {
+      position: absolute; bottom: 28px; left: 56px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text3);
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--coral); margin-bottom: 10px;
+    }
+
+    /* ══════════════════════════════════════
+       PAGE 1 — COVER
+    ══════════════════════════════════════ */
+    .cover { display: flex; flex-direction: column; justify-content: flex-end; padding: 64px 64px 64px 80px; }
+    .cover-glow-a {
+      position: absolute; top: -120px; right: -80px;
+      width: 640px; height: 640px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,107,71,0.09) 0%, transparent 68%);
+    }
+    .cover-glow-b {
+      position: absolute; bottom: -80px; left: 180px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(77,184,150,0.05) 0%, transparent 65%);
+    }
+    .cover-logo {
+      position: absolute; top: 48px; left: 80px; height: 40px; width: auto;
+    }
+    .cover-corner-label {
+      position: absolute; top: 58px; right: 64px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--text3);
+    }
+    .cover-year {
+      position: absolute; bottom: 64px; right: 64px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 16px;
+      letter-spacing: 0.4em; color: var(--text3);
+    }
+    .cover-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 164px; line-height: 0.85; letter-spacing: 0.005em;
+      position: relative; z-index: 2;
+    }
+    .cover-title .w-the   { display: block; font-size: 72px; color: var(--text2); }
+    .cover-title .w-vinyl { display: block; color: var(--coral); }
+    .cover-title .w-room  { display: block; color: var(--text); }
+    .cover-sub {
+      margin-top: 24px; position: relative; z-index: 2;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.38em;
+      text-transform: uppercase; color: var(--text3);
+      display: flex; align-items: center; gap: 0;
+    }
+    .cover-sub-dash {
+      display: inline-block; width: 28px; height: 2px;
+      background: var(--coral); margin-right: 16px; flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       PAGE 2 — BRAND STORY
+    ══════════════════════════════════════ */
+    .brand-story { display: grid; grid-template-columns: 1fr 1fr; }
+    .bs-left {
+      background: var(--bg);
+      padding: 68px 52px 60px 80px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: center; gap: 28px;
+    }
+    .bs-right {
+      background: var(--surface);
+      padding: 68px 60px 60px 52px;
+      display: flex; flex-direction: column; justify-content: center; gap: 28px;
+    }
+    .big-quote {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 50px; line-height: 1.05; letter-spacing: 0.01em; color: var(--text);
+    }
+    .big-quote em { color: var(--coral); font-style: normal; }
+    .quote-attr {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text3);
+    }
+    .quote-attr span { color: var(--text2); }
+    .three-words { display: flex; align-items: center; gap: 0; }
+    .word-chip {
+      font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.06em;
+      padding-right: 18px; margin-right: 18px;
+      border-right: 1px solid var(--border2);
+    }
+    .word-chip:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+    .word-chip.c1 { color: var(--coral); }
+    .word-chip.c2 { color: var(--teal); }
+    .word-chip.c3 { color: var(--gold); }
+    .words-label { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text3); margin-top: 8px; }
+    .story-body { font-size: 14px; color: var(--text2); line-height: 1.72; max-width: 52ch; }
+    .occasion-list { display: flex; flex-direction: column; gap: 10px; }
+    .occ-row { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 600; color: var(--text2); }
+    .occ-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .d-coral { background: var(--coral); }
+    .d-teal  { background: var(--teal); }
+    .d-gold  { background: var(--gold); }
+    .d-navy  { background: var(--navy); }
+    .review-pull { font-size: 13px; color: var(--text2); font-style: italic; line-height: 1.65; }
+    .review-meta { margin-top: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--text3); text-transform: uppercase; }
+
+    /* ══════════════════════════════════════
+       PAGE 3 — COLOR SYSTEM
+    ══════════════════════════════════════ */
+    .color-page { padding: 60px 80px 56px; }
+    .color-page-title { font-family: 'Bebas Neue', sans-serif; font-size: 64px; line-height: 1; color: var(--text); }
+    .color-note { font-size: 13px; color: var(--text3); margin-top: 6px; max-width: 80ch; }
+    .swatches {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 14px; margin-top: 32px; height: 380px;
+    }
+    .swatch { border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; }
+    .swatch-fill { flex: 1; position: relative; }
+    .swatch-fill-label {
+      position: absolute; bottom: 12px; left: 14px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .swatch-info { padding: 14px 14px 16px; background: var(--surface); }
+    .swatch-name { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.04em; color: var(--text); }
+    .swatch-hex  { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text3); font-family: monospace; margin-top: 2px; }
+    .swatch-role { font-size: 11px; color: var(--text3); margin-top: 5px; line-height: 1.4; }
+
+    /* ══════════════════════════════════════
+       PAGE 4 — TYPOGRAPHY
+    ══════════════════════════════════════ */
+    .type-page { display: grid; grid-template-columns: 1fr 1fr; }
+    .type-left {
+      background: var(--bg); padding: 60px 48px 60px 80px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .type-right {
+      background: var(--surface); padding: 60px 60px 60px 48px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .display-showcase {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 116px; line-height: 0.88; letter-spacing: 0.01em;
+    }
+    .display-showcase .l1 { display: block; color: var(--text); }
+    .display-showcase .l2 { display: block; color: var(--coral); }
+    .font-meta-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.12em; color: var(--text2); }
+    .font-meta-desc { font-size: 12px; color: var(--text3); line-height: 1.6; max-width: 42ch; margin-top: 5px; }
+    .type-scale { display: flex; flex-direction: column; gap: 5px; }
+    .ts-row {
+      display: flex; align-items: baseline; gap: 14px;
+      border-bottom: 1px solid var(--border); padding-bottom: 5px;
+    }
+    .ts-sz { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--text3); width: 36px; flex-shrink: 0; }
+    .ts-sample { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; color: var(--text); }
+    .body-name { font-size: 42px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
+    .body-sample { font-size: 14px; font-weight: 400; color: var(--text2); line-height: 1.75; max-width: 44ch; margin: 10px 0 18px; }
+    .wt-rows { display: flex; flex-direction: column; gap: 7px; }
+    .wt-row { display: flex; align-items: center; gap: 14px; }
+    .wt-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); width: 68px; flex-shrink: 0; }
+    .wt-samp { font-family: 'Nunito', sans-serif; font-size: 15px; color: var(--text); }
+    .pairing-box {
+      padding: 18px 20px; background: var(--bg);
+      border-radius: 4px; border: 1px solid var(--border);
+    }
+    .pb-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+    .pb-head1 { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--coral); line-height: 1; }
+    .pb-head2 { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--text); line-height: 1.1; margin-bottom: 7px; }
+    .pb-body  { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+    /* ══════════════════════════════════════
+       PAGE 5 — VOICE & TONE
+    ══════════════════════════════════════ */
+    .voice-page { display: grid; grid-template-columns: 5fr 7fr; }
+    .vp-left {
+      background: var(--bg); padding: 68px 48px 60px 80px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .vp-right {
+      background: var(--surface); padding: 68px 60px 60px 48px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .voice-title { font-family: 'Bebas Neue', sans-serif; font-size: 56px; line-height: 1.0; color: var(--text); margin-bottom: 24px; }
+    .trait { padding: 13px 0; border-bottom: 1px solid var(--border); }
+    .trait:first-of-type { border-top: 1px solid var(--border); }
+    .trait-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--coral); margin-bottom: 4px; }
+    .trait-txt { font-size: 13px; color: var(--text2); line-height: 1.55; }
+    .copy-ex { display: flex; flex-direction: column; gap: 12px; }
+    .cx { padding: 14px 18px; border-radius: 3px; border-left: 3px solid transparent; }
+    .cx.do   { background: rgba(77,184,150,0.07); border-left-color: var(--teal); }
+    .cx.dont { background: rgba(232,107,71,0.07); border-left-color: var(--coral); }
+    .cx-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 5px; }
+    .cx-lbl.do-lbl   { color: var(--teal); }
+    .cx-lbl.dont-lbl { color: var(--coral); }
+    .cx-txt { font-size: 13px; color: var(--text); line-height: 1.5; font-style: italic; }
+    .cx-txt.cross { text-decoration: line-through; color: var(--text3); }
+    .never-box {
+      padding: 16px 18px; background: rgba(232,107,71,0.06);
+      border-radius: 3px; border: 1px solid rgba(232,107,71,0.14);
+    }
+    .never-label { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; }
+    .never-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ntag {
+      padding: 3px 10px; background: rgba(232,107,71,0.09); border-radius: 2px;
+      font-size: 11px; font-weight: 700; color: var(--text3); text-decoration: line-through; letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════
+       PAGE 6 — SIGNATURE MOMENTS
+    ══════════════════════════════════════ */
+    .sig-page { padding: 56px 80px 60px; }
+    .sig-title { font-family: 'Bebas Neue', sans-serif; font-size: 56px; line-height: 1; color: var(--text); }
+    .sig-note { font-size: 13px; color: var(--text3); margin-top: 4px; max-width: 80ch; }
+    .wow-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 22px; margin-top: 30px; height: 460px;
+    }
+    .wow {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 4px; padding: 26px 28px;
+      display: flex; flex-direction: column; position: relative; overflow: hidden;
+    }
+    .wow::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .wow.c1::before { background: var(--coral); }
+    .wow.c2::before { background: var(--teal); }
+    .wow.c3::before { background: var(--gold); }
+    .wow-n {
+      font-family: 'Bebas Neue', sans-serif; font-size: 72px; line-height: 1; margin-bottom: 8px;
+    }
+    .wow.c1 .wow-n { color: rgba(232,107,71,0.18); }
+    .wow.c2 .wow-n { color: rgba(77,184,150,0.18); }
+    .wow.c3 .wow-n { color: rgba(201,168,76,0.18); }
+    .wow-cat { font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; margin-bottom: 8px; }
+    .wow.c1 .wow-cat { color: var(--coral); }
+    .wow.c2 .wow-cat { color: var(--teal); }
+    .wow.c3 .wow-cat { color: var(--gold); }
+    .wow-name { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 0.02em; color: var(--text); margin-bottom: 12px; line-height: 1.0; }
+    .wow-desc { font-size: 13px; color: var(--text2); line-height: 1.65; flex: 1; }
+
+    /* ══════════════════════════════════════
+       PAGE 7 — FOUR PILLARS
+    ══════════════════════════════════════ */
+    .pillars-page { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .pillar {
+      display: flex; flex-direction: column;
+      border-right: 1px solid var(--border);
+      padding: 52px 32px 52px 40px;
+      position: relative; overflow: hidden;
+    }
+    .pillar:last-child { border-right: none; }
+    .p-strip { position: absolute; top: 0; left: 0; bottom: 0; width: 5px; }
+    .p-strip.coral { background: var(--coral); }
+    .p-strip.gold  { background: var(--gold); }
+    .p-strip.teal  { background: var(--teal); }
+    .p-strip.navy  { background: var(--navy); }
+    .p-num {
+      position: absolute; bottom: 36px; right: 20px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 88px; line-height: 1;
+      color: var(--text); opacity: 0.05; pointer-events: none;
+    }
+    .p-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; margin-bottom: 10px; }
+    .p-lbl.coral { color: var(--coral); }
+    .p-lbl.gold  { color: var(--gold); }
+    .p-lbl.teal  { color: var(--teal); }
+    .p-lbl.navy  { color: #5B9CC0; }
+    .p-name { font-family: 'Bebas Neue', sans-serif; font-size: 34px; line-height: 1.05; letter-spacing: 0.02em; color: var(--text); margin-bottom: 14px; }
+    .p-desc { font-size: 13px; color: var(--text2); line-height: 1.65; flex: 1; }
+    .p-details { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; }
+    .p-detail { font-size: 12px; font-weight: 600; color: var(--text3); display: flex; align-items: center; gap: 8px; }
+    .p-detail::before { content: '—'; color: var(--border2); }
+
+    /* ══════════════════════════════════════
+       PAGE 8 — BACK COVER
+    ══════════════════════════════════════ */
+    .back { display: flex; align-items: center; justify-content: center; }
+    .back-inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .back-logo { height: 72px; width: auto; margin-bottom: 36px; }
+    .back-div { width: 72px; height: 2px; background: linear-gradient(to right, var(--coral), var(--teal)); margin: 0 auto 32px; }
+    .back-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.38em; color: var(--text3); margin-bottom: 36px; text-transform: uppercase; }
+    .back-info { display: flex; gap: 56px; justify-content: center; }
+    .bi { text-align: center; }
+    .bi-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--text3); margin-bottom: 5px; }
+    .bi-val { font-size: 15px; font-weight: 600; color: var(--text2); }
+    .back-address {
+      position: absolute; top: 48px; right: 60px; text-align: right;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--text3); line-height: 1.7; text-transform: uppercase;
+    }
+    .back-foot { position: absolute; bottom: 28px; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); }
+  </style>
+</head>
+<body>
+
+<!-- ████ PAGE 1 — COVER ████ -->
+<div class="page cover">
+  <div class="groove"></div>
+  <div class="accent-bar"></div>
+  <div class="cover-glow-a"></div>
+  <div class="cover-glow-b"></div>
+  <img class="cover-logo" src="/brand_assets/tvr_logo.png" alt="The Vinyl Room">
+  <span class="cover-corner-label">Brand Identity Guide</span>
+  <div class="cover-title" style="position:relative;z-index:2;">
+    <span class="w-the">THE</span>
+    <span class="w-vinyl">VINYL</span>
+    <span class="w-room">ROOM</span>
+  </div>
+  <div class="cover-sub" style="position:relative;z-index:2;">
+    <span class="cover-sub-dash"></span>
+    Beacon, New York &nbsp;·&nbsp; Est. 2023 &nbsp;·&nbsp; Cocktails · Records · Speakeasy · Arcade
+  </div>
+  <span class="cover-year">2025</span>
+</div>
+
+<!-- ████ PAGE 2 — BRAND STORY ████ -->
+<div class="page brand-story">
+  <div class="accent-bar"></div>
+
+  <div class="bs-left">
+    <div>
+      <div class="eyebrow">Brand Story</div>
+      <div class="big-quote">"Leave it at the door.<br><em>Everyone</em> is welcome here."</div>
+      <div class="quote-attr" style="margin-top:14px;">— <span>Kane Licari, Co-Owner</span></div>
+    </div>
+    <div style="width:36px;height:1px;background:var(--border2);"></div>
+    <div>
+      <div class="three-words">
+        <span class="word-chip c1">Cool</span>
+        <span class="word-chip c2">Welcoming</span>
+        <span class="word-chip c3">Alive</span>
+      </div>
+      <div class="words-label">In three words</div>
+    </div>
+  </div>
+
+  <div class="bs-right">
+    <div>
+      <div class="eyebrow">What It Is</div>
+      <p class="story-body">Two floors. 3,700 sq ft. A cocktail bar, a working record shop, a speakeasy, and a vintage arcade — all under one roof on Beacon's Main Street. Hudson Valley's most distinctive nightlife destination, built on a simple rule: vinyl only, no Serato, leave everything else at the door.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:14px;">Who Comes Here</div>
+      <div class="occasion-list">
+        <div class="occ-row"><div class="occ-dot d-coral"></div>Date nights &amp; neighborhood regulars</div>
+        <div class="occ-row"><div class="occ-dot d-teal"></div>Friday &amp; Saturday DJ crowds (vinyl only)</div>
+        <div class="occ-row"><div class="occ-dot d-gold"></div>Weekend brunch</div>
+        <div class="occ-row"><div class="occ-dot d-navy"></div>Private events &amp; wedding after-parties</div>
+      </div>
+    </div>
+    <div>
+      <div class="review-pull">"It's like stepping into a pop museum filled with local treasures."</div>
+      <div class="review-meta">4.5 ★ Google · 440 reviews &nbsp;·&nbsp; 5.0 ★ TripAdvisor &nbsp;·&nbsp; 96% recommend</div>
+    </div>
+  </div>
+
+  <div class="pg-num">02</div>
+  <div class="pg-brand">The Vinyl Room — Brand Identity</div>
+</div>
+
+<!-- ████ PAGE 3 — COLOR SYSTEM ████ -->
+<div class="page color-page">
+  <div class="accent-bar"></div>
+  <div class="groove"></div>
+  <div class="eyebrow">Visual Identity</div>
+  <div class="color-page-title">Color System</div>
+  <div class="color-note">All three accent colors — coral, teal, and navy — were extracted directly from the letterforms of the TVR logo. The palette was not invented. It was discovered.</div>
+
+  <div class="swatches">
+    <div class="swatch">
+      <div class="swatch-fill" style="background:#1C1814;border:1px solid #3A3025;border-bottom:none;">
+        <div class="swatch-fill-label" style="color:#3A3025;">Base</div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Charcoal</div>
+        <div class="swatch-hex">#1C1814</div>
+        <div class="swatch-role">Page background. Warm darkness, not cold black.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-fill" style="background:#F2E8D5;border-bottom:none;">
+        <div class="swatch-fill-label" style="color:rgba(28,24,20,0.28);">Text</div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Warm Cream</div>
+        <div class="swatch-hex">#F2E8D5</div>
+        <div class="swatch-role">Primary text. Warm, never clinical white.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-fill" style="background:#E86B47;border-bottom:none;">
+        <div class="swatch-fill-label" style="color:rgba(28,24,20,0.35);">Primary</div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Coral</div>
+        <div class="swatch-hex">#E86B47</div>
+        <div class="swatch-role">CTAs, active states. From the "T" in TVR.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-fill" style="background:#4DB896;border-bottom:none;">
+        <div class="swatch-fill-label" style="color:rgba(28,24,20,0.35);">Accent</div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Teal</div>
+        <div class="swatch-hex">#4DB896</div>
+        <div class="swatch-role">Discovery accents, badges. From the "R".</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-fill" style="background:#1B4D70;border-bottom:none;">
+        <div class="swatch-fill-label" style="color:rgba(242,232,213,0.22);">Depth</div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Navy</div>
+        <div class="swatch-hex">#1B4D70</div>
+        <div class="swatch-role">Borders, depth elements. From the "V".</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-fill" style="background:#C9A84C;border-bottom:none;">
+        <div class="swatch-fill-label" style="color:rgba(28,24,20,0.35);">Warm</div>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gold</div>
+        <div class="swatch-hex">#C9A84C</div>
+        <div class="swatch-role">Premium moments, warmth, special treatment.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-num">03</div>
+  <div class="pg-brand">The Vinyl Room — Brand Identity</div>
+</div>
+
+<!-- ████ PAGE 4 — TYPOGRAPHY ████ -->
+<div class="page type-page">
+  <div class="accent-bar"></div>
+
+  <div class="type-left">
+    <div>
+      <div class="eyebrow">Display Font</div>
+      <div class="display-showcase">
+        <span class="l1">VINYL</span>
+        <span class="l2">ROOM</span>
+      </div>
+      <div style="margin-top:18px;">
+        <div class="font-meta-name">Bebas Neue</div>
+        <div class="font-meta-desc">Record label energy. Condensed, bold, zero ambiguity. Every headline in the TVR universe lives in this face — the menus, the events, the navigation.</div>
+      </div>
+    </div>
+    <div class="type-scale">
+      <div class="ts-row"><span class="ts-sz">96px</span><span class="ts-sample" style="font-size:52px;">Hero Title</span></div>
+      <div class="ts-row"><span class="ts-sz">64px</span><span class="ts-sample" style="font-size:36px;">Section Heading</span></div>
+      <div class="ts-row"><span class="ts-sz">36px</span><span class="ts-sample" style="font-size:24px;">Card Title / Subhead</span></div>
+      <div class="ts-row"><span class="ts-sz">24px</span><span class="ts-sample" style="font-size:18px;">Nav CTA / Button Label</span></div>
+    </div>
+  </div>
+
+  <div class="type-right">
+    <div>
+      <div class="eyebrow">Body Font</div>
+      <div class="body-name">Nunito</div>
+      <p class="body-sample">Warm, rounded, effortlessly readable. Where Bebas Neue commands attention, Nunito earns trust. Together they balance edge with welcome — exactly what TVR is.</p>
+      <div class="wt-rows">
+        <div class="wt-row"><span class="wt-label">400 Reg</span><span class="wt-samp" style="font-weight:400;">Body copy, descriptions, hours</span></div>
+        <div class="wt-row"><span class="wt-label">600 Semi</span><span class="wt-samp" style="font-weight:600;">Labels, nav links, pricing</span></div>
+        <div class="wt-row"><span class="wt-label">700 Bold</span><span class="wt-samp" style="font-weight:700;">Eyebrows, section labels, tags</span></div>
+        <div class="wt-row"><span class="wt-label">800 Extra</span><span class="wt-samp" style="font-weight:800;">Strong emphasis, callouts</span></div>
+      </div>
+    </div>
+    <div class="pairing-box">
+      <div class="pb-label">Pairing in use</div>
+      <div class="pb-head1">DJ Nights</div>
+      <div class="pb-head2">Every Friday &amp; Saturday</div>
+      <div class="pb-body">Vinyl only. Hudson Valley's finest selectors. No laptops, no playlists — just crates, a sound system, and a dance floor.</div>
+    </div>
+  </div>
+
+  <div class="pg-num">04</div>
+  <div class="pg-brand">The Vinyl Room — Brand Identity</div>
+</div>
+
+<!-- ████ PAGE 5 — VOICE & TONE ████ -->
+<div class="page voice-page">
+  <div class="accent-bar"></div>
+
+  <div class="vp-left">
+    <div class="eyebrow">Brand Voice</div>
+    <div class="voice-title">How TVR<br>Speaks</div>
+    <div class="trait"><div class="trait-lbl">Warm</div><div class="trait-txt">Talks like someone who genuinely loves this place. Not a host — an insider.</div></div>
+    <div class="trait"><div class="trait-lbl">Direct</div><div class="trait-txt">No adjective inflation. Never "amazing." Honest and specific always beats enthusiastic and vague.</div></div>
+    <div class="trait"><div class="trait-lbl">Local</div><div class="trait-txt">Beacon, not Brooklyn. Hudson Valley pride. Comfortable being exactly where it is.</div></div>
+    <div class="trait"><div class="trait-lbl">Confident</div><div class="trait-txt">Knows what it is. Doesn't over-explain. Lets the experience speak for itself.</div></div>
+  </div>
+
+  <div class="vp-right">
+    <div>
+      <div class="eyebrow" style="margin-bottom:14px;">Copy Examples</div>
+      <div class="copy-ex">
+        <div class="cx do"><div class="cx-lbl do-lbl">✓ Do — Headline</div><div class="cx-txt">"The needle drops at 9. You should be here."</div></div>
+        <div class="cx dont"><div class="cx-lbl dont-lbl">✗ Don't — Headline</div><div class="cx-txt cross">"Welcome to The Vinyl Room — Beacon's premier cocktail experience!"</div></div>
+        <div class="cx do"><div class="cx-lbl do-lbl">✓ Do — Menu</div><div class="cx-txt">"Korean nachos. Ribeye bulgogi. Bet you didn't expect that."</div></div>
+        <div class="cx dont"><div class="cx-lbl dont-lbl">✗ Don't — Menu</div><div class="cx-txt cross">"Explore our globally-inspired tapas, crafted with locally-sourced ingredients."</div></div>
+      </div>
+    </div>
+    <div class="never-box">
+      <div class="never-label">Never Say</div>
+      <div class="never-tags">
+        <span class="ntag">premier</span>
+        <span class="ntag">curated experience</span>
+        <span class="ntag">globally-inspired</span>
+        <span class="ntag">unparalleled</span>
+        <span class="ntag">NYC vibes</span>
+        <span class="ntag">craft cocktail destination</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-num">05</div>
+  <div class="pg-brand">The Vinyl Room — Brand Identity</div>
+</div>
+
+<!-- ████ PAGE 6 — SIGNATURE MOMENTS ████ -->
+<div class="page sig-page">
+  <div class="accent-bar"></div>
+  <div class="groove"></div>
+  <div class="eyebrow">Interactive Identity</div>
+  <div class="sig-title">Signature Moments</div>
+  <div class="sig-note">Three interactions most users have never seen before — each brand-specific, each fully functional, each built to be remembered.</div>
+
+  <div class="wow-grid">
+    <div class="wow c1">
+      <div class="wow-n">01</div>
+      <div class="wow-cat">Navigation</div>
+      <div class="wow-name">The Needle Drop</div>
+      <div class="wow-desc">The mobile menu trigger is a vinyl record SVG. Tap it — the record spins 720° and a full-screen overlay opens. A coral scan line drops top-to-bottom, like a stylus hitting a groove, before each nav link stagger-reveals in sequence. It's a hamburger menu that became the most memorable thing on the site.</div>
+    </div>
+    <div class="wow c2">
+      <div class="wow-n">02</div>
+      <div class="wow-cat">Atmosphere</div>
+      <div class="wow-name">The Groove Texture</div>
+      <div class="wow-desc">The hero background is a CSS-only concentric record groove — pure repeating-radial-gradient, no images, no JS. Centered off-axis at 68% 50%, it creates depth and motion without loading a single asset. Imperceptible until you look for it. Unforgettable once you do.</div>
+    </div>
+    <div class="wow c3">
+      <div class="wow-n">03</div>
+      <div class="wow-cat">Reveal</div>
+      <div class="wow-name">Ghost Watermark Text</div>
+      <div class="wow-desc">Inner page heroes use giant -webkit-text-stroke outlined text as a background layer — "EVENTS" at 320px, visible only as a coral outline at the bottom of the viewport. Poster design DNA applied to web. The word is decoration and wayfinding at the same time. Something you photograph.</div>
+    </div>
+  </div>
+
+  <div class="pg-num">06</div>
+  <div class="pg-brand">The Vinyl Room — Brand Identity</div>
+</div>
+
+<!-- ████ PAGE 7 — FOUR PILLARS ████ -->
+<div class="page pillars-page">
+  <div class="accent-bar" style="z-index:10;"></div>
+
+  <div class="pillar">
+    <div class="p-strip coral"></div>
+    <div class="p-lbl coral">Pillar 01</div>
+    <div class="p-name">Cocktail<br>Bar</div>
+    <div class="p-desc">The heart of the operation. Full craft cocktail program, a bar that knows what it's doing without making you feel like you should too. Chef Greg DeMichiel's tapas menu turns a drink stop into a dinner.</div>
+    <div class="p-details">
+      <div class="p-detail">Korean Nachos (ribeye bulgogi)</div>
+      <div class="p-detail">Crispy Wings &amp; Chicken Tacos</div>
+      <div class="p-detail">Beef Tallow Fries</div>
+      <div class="p-detail">Craft Cocktail Program</div>
+    </div>
+    <div class="p-num">01</div>
+  </div>
+
+  <div class="pillar">
+    <div class="p-strip gold"></div>
+    <div class="p-lbl gold">Pillar 02</div>
+    <div class="p-name">Record<br>Shop</div>
+    <div class="p-desc">A working record shop inside the bar. Flip through crates while you drink. Every DJ who plays here spins vinyl — no Serato, no playlists, no laptops. The music is not background. It's the point.</div>
+    <div class="p-details">
+      <div class="p-detail">Vinyl-only DJ policy</div>
+      <div class="p-detail">Friday &amp; Saturday nights</div>
+      <div class="p-detail">Hudson Valley's top selectors</div>
+      <div class="p-detail">Records available for purchase</div>
+    </div>
+    <div class="p-num">02</div>
+  </div>
+
+  <div class="pillar">
+    <div class="p-strip teal"></div>
+    <div class="p-lbl teal">Pillar 03</div>
+    <div class="p-name">Speakeasy<br>Below</div>
+    <div class="p-desc">The basement is a different world. Lower ceilings, different energy, the kind of room that feels like a find. Private events, welcome drinks, wedding after-parties — intimate by design.</div>
+    <div class="p-details">
+      <div class="p-detail">Private event bookings</div>
+      <div class="p-detail">Wedding after-parties</div>
+      <div class="p-detail">Welcome drink packages</div>
+      <div class="p-detail">Intimate atmosphere</div>
+    </div>
+    <div class="p-num">03</div>
+  </div>
+
+  <div class="pillar">
+    <div class="p-strip navy"></div>
+    <div class="p-lbl navy">Pillar 04</div>
+    <div class="p-name">Vintage<br>Arcade</div>
+    <div class="p-desc">Original vintage arcade machines, basement level. The kind of detail that makes people text their friends mid-drink. A cocktail bar with an arcade is a reason to come back — and bring someone new.</div>
+    <div class="p-details">
+      <div class="p-detail">Vintage machines, original hardware</div>
+      <div class="p-detail">Basement level alongside speakeasy</div>
+      <div class="p-detail">Discover-worthy, shareable</div>
+      <div class="p-detail">A reason to come back</div>
+    </div>
+    <div class="p-num">04</div>
+  </div>
+
+  <div class="pg-num">07</div>
+  <div class="pg-brand">The Vinyl Room — Brand Identity</div>
+</div>
+
+<!-- ████ PAGE 8 — BACK COVER ████ -->
+<div class="page back">
+  <div class="groove"></div>
+  <div class="top-rule"></div>
+  <div class="back-address">
+    396 Main Street · Beacon, NY 12508<br>
+    (845) 297-3344 · tvrny.com · @tvr_beacon
+  </div>
+  <div class="back-inner">
+    <img class="back-logo" src="/brand_assets/tvr_logo.png" alt="The Vinyl Room">
+    <div class="back-div"></div>
+    <div class="back-title">Brand Identity Guide &nbsp;·&nbsp; 2025</div>
+    <div class="back-info">
+      <div class="bi"><div class="bi-lbl">Website</div><div class="bi-val">tvrny.com</div></div>
+      <div class="bi"><div class="bi-lbl">Instagram</div><div class="bi-val">@tvr_beacon</div></div>
+      <div class="bi"><div class="bi-lbl">Location</div><div class="bi-val">Beacon, New York</div></div>
+    </div>
+  </div>
+  <div class="back-foot">© 2025 The Vinyl Room — All Rights Reserved</div>
+</div>
+
+</body>
+</html>
