@@ -155,3 +155,20 @@ if (menuBtn && overlay) {
     if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeMenu();
   });
 }
+
+// === BFCACHE RESET ===
+// When the browser restores this page from back/forward cache, the nav overlay
+// may still be open (or mid-animation). Hard-reset all nav state immediately.
+window.addEventListener('pageshow', e => {
+  if (!e.persisted) return;
+  document.body.classList.remove('nav-is-open');
+  if (overlay) {
+    overlay.classList.remove('is-open', 'is-scanning');
+    overlay.setAttribute('hidden', '');
+  }
+  if (menuBtn) {
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.classList.remove('is-open', 'is-spinning', 'is-closing');
+  }
+  overlayLinks.forEach(link => link.classList.remove('is-revealed'));
+});
