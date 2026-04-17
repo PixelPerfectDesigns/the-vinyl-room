@@ -1,7 +1,10 @@
 # The Vinyl Room
 
-Website for The Vinyl Room — a cocktail bar, record shop, lounge, and vintage
-arcade on Main Street in Beacon, NY. DJs every Friday and Saturday.
+**[Live Site →](https://thevinylroomny.netlify.app/)**
+
+![The Vinyl Room](images/og-image.png)
+
+Website for The Vinyl Room — a cocktail bar, record shop, lounge, and vintage arcade on Main Street in Beacon, NY. DJs every Friday and Saturday.
 
 ## Stack
 
@@ -29,8 +32,7 @@ Open `index.html` in a browser. No build step.
 Shared tokens, reset, nav, footer, and animations in `styles.css`.
 Page-specific styles in a `<style>` block per page.
 
-Dark background with coral/orange accent color system via CSS custom
-properties. Accent colors: `--c-accent` (coral orange) and `--c-navy`.
+Dark background with coral/orange accent color system via CSS custom properties. Accent colors: `--c-accent` (coral orange) and `--c-navy`.
 
 ## JavaScript (`main.js`)
 
@@ -40,7 +42,4 @@ Shared across all pages:
 - Smooth scrolling for anchor links
 - `IntersectionObserver` reveal for `.reveal` elements
 
-**Needle Drop mobile nav** — the signature interaction: a record-shaped
-button spins up, the screen goes dark, a coral scan line drops from top to
-bottom, and nav links materialize as the line passes each one. Active page
-is auto-detected and highlighted via `window.location.pathname`.
+**Needle Drop mobile nav** — the signature interaction: a record-shaped button spins up, the screen goes dark, a coral scan line drops from top to bottom, and nav links materialize as the line passes each one. Active page is auto-detected and highlighted via `window.location.pathname`.
